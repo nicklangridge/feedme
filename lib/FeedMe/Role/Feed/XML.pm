@@ -11,7 +11,6 @@ requires qw(url);
 
 has '_ua' => (
   is       => 'rw',
-  isa      => 'LWP::UserAgent',
   required => 0,
   default  => sub {
     my $ua = LWP::UserAgent->new;
@@ -22,7 +21,7 @@ has '_ua' => (
 );
 
 method _get ($url) {
-  my $response = $self->ua->get($url);
+  my $response = $self->_ua->get($url);
   return $response->is_success ? $response->decoded_content : undef;
 }
 
@@ -42,3 +41,4 @@ method parse_feed ($url) {
   return @reviews;
 }
 
+1;

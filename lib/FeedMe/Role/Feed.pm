@@ -45,3 +45,5 @@ method valid_review ($r) {
   }
   return 1;
 }
+
+1;
