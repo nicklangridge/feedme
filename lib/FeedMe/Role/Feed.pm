@@ -28,7 +28,7 @@ method parse_review ($r) {
 }
 
 method extract_artist_and_album ($title) {
-  $title =~ /(.+?)\s+(?:\u02013|\u02014|-|–)\s+(.+)/;
+  $title =~ /(.+?)\s+(?:\x{2013}|\x{2014}|-|–)\s+(.+)/;
   return {
     artist => trim $1, 
     album  => trim $2

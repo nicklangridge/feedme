@@ -7,8 +7,6 @@ use XML::Feed;
 
 with 'FeedMe::Role::Feed';
 
-requires qw(url);
-
 has '_ua' => (
   is       => 'rw',
   required => 0,
@@ -31,14 +29,19 @@ method parse_feed ($url) {
   my @reviews;
   
   foreach my $entry ($feed->entries) {
-    push @reviews, {
-      title   => trim $entry->title,
-      url     => trim $entry->link,
-      #content => trim $entry->content->body,
-    }
+    push @reviews, $self->parse_entry($entry);
   }
-
+#use Data::Dumper;
+#warn Dumper(\@reviews);
   return @reviews;
+}
+
+method parse_entry ($entry) {
+  return {
+    title   => trim $entry->title,
+    url     => trim $entry->link,
+    #content => trim $entry->content->body,
+  }
 }
 
 1;
