@@ -10,23 +10,19 @@ with 'FeedMe::Role::Feed::XML';
 sub url { 'https://www.thelineofbestfit.com/feed/albums.rss' };
 
 method parse_entry ($entry) {
-  my $html = $self->_get($entry->link) || die "Failed to fetch page [" . $entry->link . "]: $!\n";
-  my $dom  = Mojo::DOM->new($html)     || die "Failed to parse html: $!\n";
-
-  say $entry->link; 
   
-  my $artist = eval { $dom->at('.album-meta-artist')->all_text };
-  my $album  = eval { $dom->at('.album-meta-title')->all_text };
-  $artist =~ s/[\r\n]//g;
-  $album =~ s/[\r\n]//g;
-
-  my $title = join ' - ', trim $artist, trim $album;
-  say $title;
+  # we only want album reviews
+  return {} unless $entry->link =~ /reviews\/albums/;
+  
+  # pick out the artist and album name from the html of the article
+  my $html   = $self->_get($entry->link) || die "Failed to fetch page [" . $entry->link . "]: $!\n";
+  my $dom    = Mojo::DOM->new($html)     || die "Failed to parse html: $!\n";  
+  my $artist = eval { $dom->at('.album-meta-artist')->all_text =~ s/[\r\n]//gr } || '';
+  my $album  = eval { $dom->at('.album-meta-title' )->all_text =~ s/[\r\n]//gr } || '';
  
   return {
-    title   => $title,
+    title   => join(' - ', trim $artist, trim $album),
     url     => trim $entry->link,
-    #content => trim $entry->content->body,
   }
 }
 

@@ -19,6 +19,8 @@ method fetch {
 }
 
 method parse_review ($r) {
+  return {} unless $r->{title};
+  
   my $aa = $self->extract_artist_and_album($r->{title} =~ s/\s+/ /gr);
   return {
     artist => $aa->{artist},

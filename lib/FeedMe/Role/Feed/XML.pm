@@ -31,8 +31,7 @@ method parse_feed ($url) {
   foreach my $entry ($feed->entries) {
     push @reviews, $self->parse_entry($entry);
   }
-#use Data::Dumper;
-#warn Dumper(\@reviews);
+
   return @reviews;
 }
 
@@ -40,7 +39,6 @@ method parse_entry ($entry) {
   return {
     title   => trim $entry->title,
     url     => trim $entry->link,
-    #content => trim $entry->content->body,
   }
 }
 
