@@ -36,7 +36,6 @@ method _get ($url) {
 method parse_feed ($url) {
   my $response = $self->_get($url)            || die "Failed to fetch feed [$url]: $!\n";
 
-  
   if ($ENV{FEEDME_FEEDCACHE_DIR}) {
     my $key    = ref $self;  
     my $cached = $self->_cache->get($key);
