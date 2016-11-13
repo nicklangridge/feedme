@@ -1,0 +1,17 @@
+# example config file
+# rename this to dev.config (for use in 'dev' environment - the default)
+
+{
+  mysql => {
+    dsn => 'dbi:mysql:database=dbname;host=dbhost;port=3306',
+    user => 'user',
+    pass => 'pass',
+  },
+  lastfm_params => {
+    api_key => '...',
+    api_secret => '...',
+  },
+  echonest_params => {
+    api_key => '...',
+  }
+}
