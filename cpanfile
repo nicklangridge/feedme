@@ -1,3 +1,4 @@
+requires 'CHI';
 requires 'LWP::UserAgent';
 requires 'Module::Loader';
 requires 'Mojo::DOM';
