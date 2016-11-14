@@ -10,7 +10,7 @@ has 'api' => (
 
 method get_album_info ($artist, $album) {
   
-  my $albums     = $self->_do('search', "$album artist:$artist", limit => 10, type => 'album');
+  my $albums     = $self->_fetch('search', "$album artist:$artist", limit => 10, type => 'album');
   
   return {} unless $albums->{albums}->{total} > 0;
   
@@ -20,22 +20,32 @@ method get_album_info ($artist, $album) {
   
   if ($album and $artist_uri) {
     
-    my $artist = $self->_do('artist', $artist_uri);
+    my $artist = $self->_fetch('artist', $artist_uri);
     
-    $output = {
-      artist_uri  => $artist_uri,
-      artist_name => $artist->{name},
-      genres      => $artist->{genres},
-      regions     => $album->{available_markets},
-      album_uri   => $album->{uri},
-      album_name   => $album->{name},
-    };
+    if ($artist) {
+      $output = {
+        uri         => $album->{uri},
+        name        => $album->{name},
+        image       => $self->_get_image($album->{images}, 300),
+        regions     => $album->{available_markets},  
+        artist_uri  => $artist->{uri},
+        artist_name => $artist->{name},
+        genres      => $artist->{genres},
+      };
+    }
   }
   
   return $output;
 }
 
-method _do ($method, @args) {
+method _get_image ($images, $size) {
+  foreach (@$images) {
+    return $_->{url} if $_->{width} == $size;
+  }
+  return undef;
+}
+
+method _fetch ($method, @args) {
   # perform an api request, wait and retry if rate limit hit
   my $max_retry = 10;
   my $result;
