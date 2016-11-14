@@ -28,6 +28,11 @@ has '_cache' => (
   }
 );
 
+has 'cache_lifetime' => (
+  is      => 'rw',
+  default => sub { '12 hours' }
+);
+
 method _get ($url) {
   my $response = $self->_ua->get($url);
   return $response->is_success ? $response->decoded_content : undef;
@@ -44,7 +49,7 @@ method parse_feed ($url) {
       warn "Cache hit for $key; skipping as feed has not changed\n";
       return ();
     } else {
-      $self->_cache->set($key, $response, '1 day');
+      $self->_cache->set($key, $response, $self->cache_lifetime);
     }
   }
   
