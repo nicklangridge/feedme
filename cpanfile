@@ -1,4 +1,6 @@
 requires 'CHI';
+requires 'DBIx::Connector';
+requires 'DBIx::Simple::Inject';
 requires 'LWP::UserAgent';
 requires 'Module::Loader';
 requires 'Mojo::DOM';
