@@ -6,6 +6,7 @@ requires 'Module::Loader';
 requires 'Mojo::DOM';
 requires 'Moo';
 requires 'Method::Signatures';
+requires 'Parallel::ForkManager';
 requires 'Text::Trim';
 requires 'WebService::Spotify';
 requires 'XML::Feed';

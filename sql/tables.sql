@@ -1,5 +1,3 @@
-SET FOREIGN_KEY_CHECKS=0;
-
 -- ----------------------------
 -- Table structure for `feed`
 -- ----------------------------
@@ -12,5 +10,6 @@ CREATE TABLE `feed` (
   `module` varchar(40) NOT NULL,
   `active` tinyint(4) NOT NULL DEFAULT '1',
   `public` tinyint(4) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`feed_id`)
+  PRIMARY KEY (`feed_id`),
+  CONSTRAINT unique_slug UNIQUE (slug)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

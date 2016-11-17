@@ -5,6 +5,8 @@ use Text::Trim;
 
 with 'FeedMe::Role::Feed::XML';
 
-sub url { 'http://dis11.herokuapp.com/feed/index' };
+sub name         { 'Drowned In Sound' };
+sub url          { 'http://dis11.herokuapp.com/feed/index' };
+sub homepage_url { 'http://drownedinsound.com' };
 
 1;

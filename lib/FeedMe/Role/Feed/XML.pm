@@ -6,6 +6,7 @@ use Text::Trim;
 use XML::Feed;
 use CHI;
 use File::Path qw(make_path);
+use Parallel::ForkManager;
 
 with 'FeedMe::Role::Feed';
 
@@ -28,10 +29,9 @@ has '_cache' => (
   }
 );
 
-has 'cache_lifetime' => (
-  is      => 'rw',
-  default => sub { '12 hours' }
-);
+method cache_lifetime { '12 hours' }
+
+method parallel_parsers { 0 }
 
 method _get ($url) {
   my $response = $self->_ua->get($url);
@@ -56,8 +56,25 @@ method parse_feed ($url) {
   my $feed     = XML::Feed->parse(\$response) || die "Failed to parse feed: $!\n";
   my @reviews;
   
-  foreach my $entry ($feed->entries) {
-    push @reviews, $self->parse_entry($entry);
+  if ($self->parallel_parsers) {
+    # parallel
+    my $pm = Parallel::ForkManager->new($self->parallel_parsers);
+    
+    $pm->run_on_finish (sub {
+      my $data = pop @_;
+      push @reviews, @$data;
+    });
+    
+    foreach my $entry ($feed->entries) {
+      $pm->start and next; # fork
+      my @r = $self->parse_entry($entry);
+      $pm->finish(0, \@r);
+    }
+  } else { 
+    # sequential
+    foreach my $entry ($feed->entries) {
+      push @reviews, $self->parse_entry($entry);
+    }
   }
 
   return @reviews;

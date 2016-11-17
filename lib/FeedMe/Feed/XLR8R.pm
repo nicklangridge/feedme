@@ -6,7 +6,11 @@ use Text::Trim;
 
 with 'FeedMe::Role::Feed::XML';
 
-sub url { 'https://www.xlr8r.com/reviews/feed/' };
+sub name         { 'XLR8R' };
+sub url          { 'https://www.xlr8r.com/reviews/feed/' };
+sub homepage_url { 'https://www.xlr8r.com' };
+
+sub parallel_parsers { 10 };
 
 method parse_entry ($entry) {
   # pick out the artist and album name from the html of the article

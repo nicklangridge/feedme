@@ -5,7 +5,14 @@ use Text::Trim;
 
 requires qw(
   url
+  name
+  homepage_url
   parse_feed
+);
+
+has 'slug' => (
+  is => 'ro',
+  default => sub { return lc [split /::/, ref $_[0]]->[-1] }
 );
 
 method fetch {
@@ -25,7 +32,8 @@ method parse_review ($r) {
   return {
     artist => $aa->{artist},
     album  => $aa->{album},
-    url    => $r->{url}
+    url    => $r->{url},
+    source => $self->slug
   }
 }
 

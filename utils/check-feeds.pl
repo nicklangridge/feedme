@@ -8,14 +8,13 @@ use Getopt::Long;
 GetOptions (
   'p|print'   => \my $print,
   'v|verbose' => \my $verbose, 
-  'module=s'  => \my $module_list,
 );
 
+my @modules = @ARGV;
 my $loader = Module::Loader->new;
-my @modules; 
 
-if ($module_list) {
-  @modules = map {"FeedMe::Feed::$_"} split(/,/, $module_list);
+if (@modules) {
+  @modules = map {"FeedMe::Feed::$_"} @modules;
 } else {
   @modules = sort $loader->find_modules('FeedMe::Feed');
 }

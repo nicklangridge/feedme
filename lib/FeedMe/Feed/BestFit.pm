@@ -1,4 +1,4 @@
-package FeedMe::Feed::TLOBF;
+package FeedMe::Feed::BestFit;
 use Moo;
 use Method::Signatures;
 use Mojo::DOM;
@@ -6,7 +6,9 @@ use Text::Trim;
 
 with 'FeedMe::Role::Feed::XML';
 
-sub url { 'https://www.thelineofbestfit.com/feed/albums.rss' };
+sub name         { 'The Line of Best Fit' };
+sub url          { 'https://www.thelineofbestfit.com/feed/albums.rss' };
+sub homepage_url { 'https://www.thelineofbestfit.com' };
 
 method parse_entry ($entry) {
   # we only want album reviews

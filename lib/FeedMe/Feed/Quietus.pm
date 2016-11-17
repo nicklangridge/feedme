@@ -5,7 +5,9 @@ use Text::Trim;
 
 with 'FeedMe::Role::Feed::XML';
 
-sub url { 'http://thequietus.com/reviews.atom' };
+sub name         { 'The Quietus' };
+sub url          { 'http://thequietus.com/reviews.atom' };
+sub homepage_url { 'http://thequietus.com' };
 
 method extract_artist_and_album ($title) {
   $title =~ s/\s+/ /g;
