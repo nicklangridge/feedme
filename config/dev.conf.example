@@ -3,15 +3,8 @@
 
 {
   mysql => {
-    dsn => 'dbi:mysql:database=dbname;host=dbhost;port=3306',
-    user => 'user',
-    pass => 'pass',
-  },
-  lastfm_params => {
-    api_key => '...',
-    api_secret => '...',
-  },
-  echonest_params => {
-    api_key => '...',
+    dsn => 'dbi:mysql:database=my_database;host=my_host;port=my_port',
+    user => 'my_user',
+    pass => 'my_pass',
   }
 }
