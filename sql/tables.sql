@@ -45,8 +45,8 @@ CREATE TABLE `album_region` (
 -- ----------------------------
 -- Table structure for `album_review`
 -- ----------------------------
-DROP TABLE IF EXISTS `album_review`;
-CREATE TABLE `album_review` (
+DROP TABLE IF EXISTS `review`;
+CREATE TABLE `review` (
   `review_id` int(11) NOT NULL AUTO_INCREMENT,
   `album_id` int(11) NOT NULL,
   `feed_id` int(11) NOT NULL,

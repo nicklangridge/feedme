@@ -1,10 +1,12 @@
-use Moo;
+use strict;
+use warnings;
+use feature 'say';
+use lib 'lib';
+
 use Method::Signatures;
 use Data::Dumper;
 use Getopt::Long;
 use Parallel::ForkManager;
-use feature 'say';
-use lib 'lib';
 use FeedMe::Metadata::Spotify;
 use FeedMe::Model 'model';
 
@@ -28,9 +30,10 @@ if (@slugs) {
 }
 
 my $spotify = FeedMe::Metadata::Spotify->new;
-my @reviews = get_all_reviews(@feeds);
 
-process_review($_) for @reviews;
+my @reviews = main->get_all_reviews(@feeds);
+
+main->process_review($_) for @reviews;
 
 say "done";
 
@@ -39,12 +42,13 @@ exit 0;
 #-------------------------------------------------------------------------------
 
 method process_review ($review_info) {
-  say "$review_info->{source}: $review_info->{artist} - $review_info->{album}";
+  say "$review_info->{artist} - $review_info->{album} [$review_info->{source}]";
   
   my $album_info = $spotify->get_album_info($review_info->{artist}, $review_info->{album});
   
   if (!$album_info->{name}) {
     say "  not found in Spotify";
+    warn Dumper $album_info;
     return;
   }
   
@@ -55,7 +59,7 @@ method process_review ($review_info) {
     name => $album_info->{artist_name},
   });
   
-  say "  artist " . $artist->{_created} ? 'created' : ' already exists';
+  say "  artist " . ($artist->{_created} ? '<-- created' : '');
   
   my $album = model->album->fetch_or_create({
     uri       => $album_info->{uri},
@@ -66,7 +70,7 @@ method process_review ($review_info) {
     artist_id => $artist->{artist_id},
   });
   
-  say "  album " . $album->{_created} ? 'created' : ' already exists';
+  say "  album " . ($album->{_created} ? '<-- created' : '');
   
   my $review = model->review->fetch_or_create({
     album_id  => $album->{album_id},
@@ -74,10 +78,10 @@ method process_review ($review_info) {
     url       => $review_info->{url},
   });
   
-  say "  review " . $review->{_created} ? 'created' : ' already exists';
+  say "  review " . ($review->{_created} ? '<-- created' : '');
 }
 
-method get_all_reviews (@feeds) {
+method get_all_reviews (@feeds!) {
   # fetch all reviews, using parallel workers
   my $pm = Parallel::ForkManager->new($workers);
   my @reviews;
