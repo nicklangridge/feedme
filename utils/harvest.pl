@@ -44,7 +44,10 @@ exit 0;
 method process_review ($review_info) {
   say "$review_info->{artist} - $review_info->{album} [$review_info->{source}]";
   
-  my $album_info = $spotify->get_album_info($review_info->{artist}, $review_info->{album});
+  my $album_info = $spotify->get_album_info(
+    $review_info->{artist}, 
+    $review_info->{album}
+  );
   
   if (!$album_info->{name}) {
     say "  not found in Spotify";

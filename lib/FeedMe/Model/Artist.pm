@@ -5,7 +5,7 @@ use FeedMe::MySQL qw(dbh);
 use FeedMe::Utils::Slug qw(slug);
 
 method insert ($artist!) {
-  return dbh->insert('artist', $artist) || die dbh->error;
+  return dbh->insert('artist', {%$artist, created => \"now()"}) || die dbh->error;
 }
 
 method fetch_by_uri ($uri!) {

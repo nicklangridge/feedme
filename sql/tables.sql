@@ -10,7 +10,7 @@ CREATE TABLE `album` (
   `uri` varchar(255) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `created` datetime NOT NULL,
-  `updated` datetime NOT NULL,
+  `checked` datetime NOT NULL,
   PRIMARY KEY (`album_id`, `artist_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -24,7 +24,6 @@ CREATE TABLE `artist` (
   `slug` varchar(255) DEFAULT NULL,
   `uri` varchar(255) NOT NULL,
   `created` datetime DEFAULT NULL,
-  `updated` datetime NOT NULL,
   PRIMARY KEY (`artist_id`),
   CONSTRAINT unique_uri UNIQUE (`uri`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -52,7 +51,6 @@ CREATE TABLE `review` (
   `feed_id` int(11) NOT NULL,
   `url` varchar(255) NOT NULL,
   `created` datetime NOT NULL,
-  `active` datetime NOT NULL,
   PRIMARY KEY (`review_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

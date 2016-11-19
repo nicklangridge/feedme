@@ -5,7 +5,7 @@ use FeedMe::MySQL qw(dbh);
 use FeedMe::Utils::Slug qw(slug);
 
 method insert ($review!) {
-  return dbh->insert('review', $review) || die dbh->error;
+  return dbh->insert('review', {%$review, created => \"now()"}) || die dbh->error;
 }
 
 method fetch_by_album_and_feed ($album_id!, $feed_id!) {
