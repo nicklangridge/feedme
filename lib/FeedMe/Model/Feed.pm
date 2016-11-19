@@ -22,35 +22,31 @@ method fetch_by_slug ($slug!) {
 }
 
 method insert ($feed!) {
-  dbh->insert('feed', $feed) || die dbh->error;
+  return dbh->insert('feed', $feed) || die dbh->error;
 }
 
-method fetch_or_create($feed!) {
-  # using slug as unique key
-  die 'feed slug is required' if !$feed->{slug}; 
+method fetch_or_create($args!) {
+  die 'feed slug is required' if !$args->{slug}; 
   
-  my ($result) = dbh->query("SELECT * FROM feed WHERE slug = ?", $feed->{slug})->hashes;
+  my $feed = $self->fetch_by_slug($args->{slug});
 
-  if (!$result) {
-    $self->insert($feed);
-    $result = $self->fetch_by_slug($feed->{slug});
-    $result->{_created} = 1;
+  if (!$feed) {
+    $self->insert($args);
+    $feed = $self->fetch_by_slug($args->{slug});
+    $feed->{_created} = 1;
   }
 
-  return $result;
+  return $feed;
 }
 
 method fetch_reviews($feed!) {
+  die 'feed has no feed_id'        if !$feed->{feed_id};
   die 'feed has no module defined' if !$feed->{module}; 
-  
   Module::Loader->new->load($feed->{module});
-  
   my @reviews;
-  
   eval { @reviews = $feed->{module}->new->fetch }; 
-  
   warn "Error fetching $feed->{module}: $@" if $@;
-  
+  $_->{feed_id} = $feed->{feed_id} for @reviews;
   return @reviews;
 }
 

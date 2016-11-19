@@ -8,5 +8,7 @@ requires 'Moo';
 requires 'Method::Signatures';
 requires 'Parallel::ForkManager';
 requires 'Text::Trim';
+requires 'Text::Unaccent::PurePerl';
+requires 'utf8::all';
 requires 'WebService::Spotify';
 requires 'XML::Feed';

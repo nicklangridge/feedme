@@ -8,9 +8,9 @@ has 'api' => (
   default => sub {return WebService::Spotify->new}
 );
 
-method get_album_info ($artist, $album) {
+method get_album_info ($artist_name, $album_name) {
   
-  my $albums     = $self->_fetch('search', "$album artist:$artist", limit => 10, type => 'album');
+  my $albums     = $self->_fetch('search', "$album_name artist:$artist_name", limit => 10, type => 'album');
   
   return {} unless $albums->{albums}->{total} > 0;
   
