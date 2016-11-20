@@ -51,7 +51,6 @@ method process_review ($review_info) {
   
   if (!$album_info->{name}) {
     say "  not found in Spotify";
-    warn Dumper $album_info;
     return;
   }
   

@@ -36,7 +36,7 @@ CREATE TABLE `album_region` (
   `album_id` int(11) NOT NULL,
   `region` varchar(9) NOT NULL,
   `created` datetime NOT NULL,
-  `status` varchar(10) NOT NULL,
+  `active` varchar(10) NOT NULL,
   PRIMARY KEY (`album_id`,`region`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
