@@ -4,15 +4,27 @@ use feature 'say';
 use lib 'lib';
 use FeedMe::Model::API;
 use Data::Dumper::Concise;
+use Getopt::Long;
+
+GetOptions(
+  'region=s'   => \my $region,
+  'offset=s'   => \my $offset,
+  'limit=s'    => \my $limit,
+  'keywords=s' => \my $keywords,
+  'genres=s'   => \my $genres,
+  'feeds=s'    => \my $feeds,
+);
 
 my $api = FeedMe::Model::API->new;
 
-my @latest = $api->latest(
-  region => 'US',
-  limit => 10, 
-  #genres => ['rock', 'pop'],
-  feeds  => ['spotinews'], 
-#  keywords => 'dj kicks'
-);
+my @args;
+push(@args, region   => $region)              if $region;
+push(@args, offset   => $offset)              if $offset;
+push(@args, limit    => $limit)               if $limit;
+push(@args, keywords => $keywords)            if $keywords;
+push(@args, genres   => [split /,/, $genres]) if $genres;
+push(@args, feeds    => [split /,/, $feeds])  if $feeds;
+
+my @latest = $api->latest(@args);
 
 say Dumper(\@latest);

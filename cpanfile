@@ -1,4 +1,5 @@
 requires 'CHI';
+requires 'Data::Dumper::Concise';
 requires 'DBIx::Connector';
 requires 'DBIx::Simple::Inject';
 requires 'LWP::UserAgent';
