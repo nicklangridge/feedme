@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use feature 'say';
 use lib 'lib';
+use utf8::all;
 
 use Method::Signatures;
 use Data::Dumper;
@@ -67,6 +68,7 @@ method process_review ($review_info) {
     uri       => $album_info->{uri},
     name      => $album_info->{name},
     image     => $album_info->{image},
+    keywords  => join (' ', $album_info->{artist_name}, $album_info->{name}),
     regions   => $album_info->{regions},
     genres    => $album_info->{genres},
     artist_id => $artist->{artist_id},

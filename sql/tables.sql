@@ -9,10 +9,12 @@ CREATE TABLE `album` (
   `slug` varchar(255) NOT NULL,
   `uri` varchar(255) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
+  `keywords` TEXT, 
   `created` datetime NOT NULL,
   `checked` datetime NOT NULL,
-  PRIMARY KEY (`album_id`, `artist_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`album_id`, `artist_id`),
+  FULLTEXT (keywords)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `artist`

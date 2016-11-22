@@ -32,6 +32,7 @@ method fetch_or_create ($args!) {
       uri       => $args->{uri},
       image     => $args->{image},
       artist_id => $args->{artist_id},
+      keywords  => $args->{keywords},
     });
     $album = $self->fetch_by_uri_and_artist($args->{uri}, $args->{artist_id});
     $album->{_created} = 1;

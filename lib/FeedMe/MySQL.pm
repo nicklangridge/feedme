@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 use parent qw(Exporter);
-our @EXPORT_OK = qw( conn dbh );
+our @EXPORT_OK = qw( conn dbh db_quote );
 
 my $conn;
 
@@ -26,6 +26,11 @@ sub conn {
 
 sub dbh {
   return conn->dbh;
+}
+
+sub db_quote {
+  my $str = shift;
+  return dbh->dbh->quote($str);
 }
 
 1;
