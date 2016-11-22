@@ -42,16 +42,17 @@ method latest (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = [], :$fee
   
   my @latest = dbh->query($sql, $region)->hashes;
   
-  # add in genres and reviews - fetch for all to minimise SQL queries
-  my @album_ids     = map {$_->{album_id}} @latest;
-  my $album_ids_in  = join ',', $self->quote(@album_ids);
-  
-  my $genre_lookup  = $self->_get_genre_lookup($album_ids_in);
-  my $review_lookup = $self->_get_review_lookup($album_ids_in);
-  
-  foreach (@latest) {
-    $_->{genres}  = $genre_lookup->{$_->{album_id}};
-    $_->{reviews} = $review_lookup->{$_->{album_id}};
+  if (@latest) {
+    # add in genres and reviews
+    my @album_ids     = map {$_->{album_id}} @latest;
+    my $album_ids_in  = join ',', $self->quote(@album_ids);
+    my $genre_lookup  = $self->_get_genre_lookup($album_ids_in);
+    my $review_lookup = $self->_get_review_lookup($album_ids_in);
+    
+    foreach (@latest) {
+      $_->{genres}  = $genre_lookup->{$_->{album_id}};
+      $_->{reviews} = $review_lookup->{$_->{album_id}};
+    }
   }
   
   return @latest;
@@ -62,14 +63,16 @@ method quote (@values) {
 }
 
 method _get_genre_lookup ($album_ids_in) {
-  my @genres = dbh->query(qq(
-    SELECT album_id, name, slug FROM album_genre 
-    WHERE album_id IN ($album_ids_in) ORDER BY album_id, name 
+  my @rows = dbh->query(qq(
+    SELECT album_id, name, slug 
+    FROM album_genre 
+    WHERE album_id IN ($album_ids_in) 
+    ORDER BY album_id, name 
   ))->hashes;
   
   my %lookup;
   
-  foreach (@genres) {
+  foreach (@rows) {
     my $key = $_->{album_id};
     $lookup{$key} ||= [];
     delete $_->{album_id};
@@ -80,15 +83,17 @@ method _get_genre_lookup ($album_ids_in) {
 }
 
 method _get_review_lookup ($album_ids_in) {
-  my @reviews = dbh->query(qq(
+  my @rows = dbh->query(qq(
     SELECT f.name, f.slug, r.album_id, r.url  
-    FROM review r JOIN feed f USING(feed_id) 
-    WHERE r.album_id IN ($album_ids_in) ORDER BY r.album_id, f.name 
+    FROM review r 
+    JOIN feed f USING(feed_id) 
+    WHERE r.album_id IN ($album_ids_in) 
+    ORDER BY r.album_id, f.name 
   ))->hashes;
   
   my %lookup;
   
-  foreach (@reviews) {
+  foreach (@rows) {
     my $key = $_->{album_id};
     $lookup{$key} ||= [];
     delete $_->{album_id};

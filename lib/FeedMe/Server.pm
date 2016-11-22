@@ -1,21 +1,23 @@
 package FeedMe::Server;
 use Mojo::Base 'Mojolicious';
-use FeedMe::Config;
-use FeedMe::Model;
+use FeedMe::Config qw(config);
+use FeedMe::Model::API;
 
 sub startup {
   my $self   = shift;
-  my $config = FeedMe::Config->new;
+  my $config = config();
   
   $self->secrets($config->{mojo_secrets});
   
   $self->helper(config => sub { state $cache = $config });
-  $self->helper(model  => sub { state $cache = FeedMe::Model->new });
+  $self->helper(feedme => sub { state $cache = FeedMe::Model::API->new });
   
   my $r = $self->routes;
 
-  $r->any('/' => sub {
+  $r->any('/latest' => sub {
     my $c = shift;
-    $self->render(json => {message => 'hello'});
-  } 
+    $c->render(json => [ $c->feedme->latest(limit => 5) ]);
+  }); 
 }
+
+1;
