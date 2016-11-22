@@ -63,8 +63,9 @@ CREATE TABLE `review` (
 DROP TABLE IF EXISTS `album_genre`;
 CREATE TABLE `album_genre` (
   `album_id` int(11) NOT NULL,
-  `genre` varchar(40) NOT NULL,
-  PRIMARY KEY (`album_id`,`genre`)
+  `name` varchar(50) NOT NULL,
+  `slug` varchar(50) NOT NULL,
+  PRIMARY KEY (`album_id`,`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

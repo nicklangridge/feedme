@@ -47,7 +47,7 @@ method fetch_or_create ($args!) {
 method set_genres ($album_id!, $genres!) {
   dbh->query('DELETE FROM album_genre WHERE album_id = ?', $album_id);
   foreach my $genre (@$genres) {
-    dbh->insert('album_genre', {album_id => $album_id, genre => $genre}) || die dbh->error;
+    dbh->insert('album_genre', {album_id => $album_id, name => $genre, slug => slug($genre)}) || die dbh->error;
   }
 }
 

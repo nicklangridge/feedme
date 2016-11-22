@@ -63,15 +63,17 @@ method quote (@values) {
 
 method _get_genre_lookup ($album_ids_in) {
   my @genres = dbh->query(qq(
-    SELECT album_id, genre FROM album_genre 
-    WHERE album_id IN ($album_ids_in) ORDER BY album_id, genre 
+    SELECT album_id, name, slug FROM album_genre 
+    WHERE album_id IN ($album_ids_in) ORDER BY album_id, name 
   ))->hashes;
   
   my %lookup;
   
   foreach (@genres) {
-    $lookup{$_->{album_id}} ||= [];
-    push @{$lookup{$_->{album_id}}}, $_->{genre};
+    my $key = $_->{album_id};
+    $lookup{$key} ||= [];
+    delete $_->{album_id};
+    push @{$lookup{$key}}, $_;
   }
   
   return \%lookup;
