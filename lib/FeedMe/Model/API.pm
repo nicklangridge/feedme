@@ -4,11 +4,11 @@ use Method::Signatures;
 use FeedMe::MySQL 'dbh';
 use FeedMe::Utils::Slug 'slug';
 
-method latest (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = [], :$feeds = [], :$keywords = '') {
+method latest (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$feeds = undef, :$keywords = undef) {
   
   my $where = '';
-  $where .= @$genres  ? sprintf("AND gen.genre IN (\%s)", join(',', $self->quote(@$genres))) : '';
-  $where .= @$feeds   ? sprintf("AND f.slug    IN (\%s)", join(',', $self->quote(@$feeds)))  : '';
+  $where .= $genres && @$genres ? sprintf("AND gen.name IN (\%s)", join(',', $self->quote(@$genres))) : '';
+  $where .= $feeds  && @$feeds  ? sprintf("AND f.slug   IN (\%s)", join(',', $self->quote(@$feeds)))  : '';
   $where .= $keywords ? sprintf("AND MATCH (keywords) AGAINST (\%s)", $self->quote($keywords)) : '';
   
   my $sql = qq(
@@ -39,7 +39,7 @@ method latest (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = [], :$fee
       reg.created DESC
     LIMIT $offset, $limit
   );
-  
+
   my @latest = dbh->query($sql, $region)->hashes;
   
   if (@latest) {

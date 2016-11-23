@@ -14,9 +14,18 @@ sub startup {
   
   my $r = $self->routes;
 
-  $r->any('/latest' => sub {
+  $r->any('/api/v1/latest' => sub {
     my $c = shift;
-    $c->render(json => [ $c->feedme->latest(limit => 5) ]);
+  
+    my @args;
+    push(@args, region   => $c->param('region'))              if $c->param('region');
+    push(@args, offset   => $c->param('offset'))              if $c->param('offset');
+    push(@args, limit    => $c->param('limit'))               if $c->param('limit');
+    push(@args, genres   => [split /,/, $c->param('genres')]) if $c->param('genres');
+    push(@args, feeds    => [split /,/, $c->param('feeds')])  if $c->param('feeds');
+    push(@args, keywords => $c->param('keywords'))            if $c->param('keywords');
+
+    $c->render(json => [ $c->feedme->latest(@args) ]);
   }); 
 }
 
