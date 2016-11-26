@@ -4,17 +4,15 @@ use FeedMe::Config qw(config);
 use FeedMe::Model::API;
 
 sub startup {
-  my $self   = shift;
-  my $config = config();
+  my $self = shift;
   
-  $self->secrets($config->{mojo_secrets});
-  
-  $self->helper(config => sub { state $cache = $config });
+  $self->secrets(config->{mojo_secrets});
+
   $self->helper(feedme => sub { state $cache = FeedMe::Model::API->new });
   
   my $r = $self->routes;
 
-  $r->any('/api/v1/latest' => sub {
+  $r->get('/api/v1/latest' => sub {
     my $c = shift;
   
     my @args;
