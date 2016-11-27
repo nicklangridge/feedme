@@ -5,17 +5,21 @@ module.exports = {
   entry: {
     main: [
       './scripts/main.js',
-      'webpack-dev-server/client?http://localhost:8080',
+      'webpack-dev-server/client?http://0.0.0.0:8080',
+      'webpack/hot/only-dev-server',
     ],
   },
   output: {
-    publicPath: 'http://localhost:8080/',
+    publicPath: 'http://0.0.0.0:8080/',
     filename: '/js/[name].js',
   },
   module: {
     loaders: [
-      { test: /\.js$/, loaders: ['babel?' + JSON.stringify({presets: ['react', 'es2015', 'stage-0']})], exclude: /node_modules/ },
-      { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass'] },
+      { test: /\.js$/, loaders: ['babel?' + JSON.stringify({presets: ['react', 'es2015', 'stage-0'], plugins:['react-hot-loader/babel']})], exclude: /node_modules/ },
+      { test: /\.scss$/, loaders: ['style', 'css', 'sass'] },
     ],
-  }
+  },
+  devServer: {
+    host: '0.0.0.0',
+  },
 };
