@@ -1,23 +1,14 @@
-import React, { Component, PropTypes } from 'react';
-
-const propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  height: PropTypes.number,
-  isMobile: PropTypes.bool,
-  path: PropTypes.array.isRequired,
-  width: PropTypes.number,
-};
+import React, { Component } from 'react';
+import AlbumCards from '../components/AlbumCards';
 
 class App extends Component {
   render() {
     return (
       <div>
-        hello
+        <AlbumCards albums={this.props.albums} />
       </div>
     );
   }
 }
-
-App.propTypes = propTypes;
 
 export default App;
