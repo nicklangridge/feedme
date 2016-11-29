@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 class AlbumCard extends Component {
+    
   render() {
     const {album} = this.props;  
     
@@ -11,9 +12,15 @@ class AlbumCard extends Component {
           <div className="artist">{album.artist_name}</div>
           <div className="album">{album.album_name}</div>
         </div>
-        <div className="genres">
+        <div className="reviews clearfix">
+          <ul>
+            { album.reviews.map((review, i) => { return (<li>{ review.name  }</li>)} )}
+          </ul>
         </div>
-        <div className="sources">
+        <div className="genres clearfix">
+          <ul>
+            { album.genres.map((genre, i) => { return (<li>{ genre.name  }</li>)} )}
+          </ul>
         </div>
       </div>
     );
