@@ -1,16 +1,22 @@
+.album-cards {
+  width: 1300px;
+  margin: 0 auto;
+}
+
 .album-card {
   width: 300px;
   float: left;
   background-color: #ffffff;
   margin: 10px;
-  border-bottom: #999999 2px solid;
+  /*border-bottom: #999999 2px solid;*/
+  overflow: hidden;
 }
 
 .album-card .image {
   width: 300px;
   height: 300px;
   background-color: #555555;
-  border-bottom: 1px solid #dddddd;
+  /*border-bottom: 1px solid #dddddd;*/
 }
 
 .album-card .header {
@@ -18,52 +24,63 @@
 }
 
 .album-card .header .artist {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
 }
 
 .album-card .header .album {
+  font-size: 14px;
+}
+
+
+/* reviews */
+
+.album-card .reviews {
+  padding: 8px 12px;
   font-size: 12px;
 }
 
-.album-card .genres {
-  padding: 8px 12px;
-}
-
-.album-card .genres ul {
-  font-size: 11px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.album-card .genres ul li {
-  display: block;
-  float: left;
-  margin: 0 5px 5px 0;
-  padding: 2px 7px 4px 7px;
-  background-color: #dddddd;
-  border-radius: 5px;
-}
-
-.album-card .reviews {
-  padding: 12px 12px 8px 12px;
-  /*background-color: #eeeeee;*/
+.album-card .reviews .label {
+  display: inline;
+  color: #777;
 }
 
 .album-card .reviews ul {
-  font-size: 11px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  display: inline;
+  margin-left: 5px;
 }
 
 .album-card .reviews ul li {
+  display: inline;
+}
+
+/* tags */
+
+.album-card .tags {
+  padding: 8px 12px;
+}
+
+.album-card .tags ul {
+  font-size: 11px;
+  list-style: none;
+}
+
+.album-card .tags ul li {
   display: block;
   float: left;
-  margin: 0 5px 5px 0;
+}
+
+.album-card .tags a {
+  display: block;
   padding: 2px 7px 4px 7px;
-  background-color: #cccccc;
-  border-right: #999999 14px solid;
+  border-radius: 5px;
+  margin: 0 5px 5px 0;
+  background-color: #dddddd;
+  text-decoration: none;
+  color: #222;
+}
+
+.album-card .tags a:hover {
+  background-color: #bbbbbb;
 }
 

@@ -13,13 +13,29 @@ class AlbumCard extends Component {
           <div className="album">{album.album_name}</div>
         </div>
         <div className="reviews clearfix">
+          <div className="label">Reviews</div> 
           <ul>
-            { album.reviews.map((review, i) => { return (<li>{ review.name  }</li>)} )}
+            { 
+              album.reviews.map((review, i) => { 
+                return (<li><a href={ review.url } target="_blank">{ review.name }</a></li>) 
+              }) 
+            }
           </ul>
         </div>
-        <div className="genres clearfix">
+        <div className="tags clearfix">
           <ul>
-            { album.genres.map((genre, i) => { return (<li>{ genre.name  }</li>)} )}
+            { 
+              album.reviews.map((tag, i) => { 
+                return (<li className="source"><a href={ '/?source=' + tag.slug }>{ tag.name }</a></li>)
+              })
+            }
+            { 
+              album.genres.map((tag, i) => { 
+                return i > 4 ? 
+                  (i > 5 ? '' : (<li>...</li>)) : 
+                  (<li className="genre"><a href={ '/?genre=' + tag.slug }>{ tag.name }</a></li>)
+              })
+            }
           </ul>
         </div>
       </div>

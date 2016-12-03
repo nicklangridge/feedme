@@ -6,11 +6,11 @@ class AlbumCards extends Component {
     const {albums} = this.props;
     
     const cards = albums.map((album, i) => { return (
-        <AlbumCard album={album} key={i} />
+      <AlbumCard album={album} key={i} />
     )});
 
     return (
-      <div>
+      <div className="album-cards">
         {cards}
       </div>
     );

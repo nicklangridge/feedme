@@ -1,7 +1,17 @@
 body {
   color: #222222;
-  font-family: 'Open Sans', 'sans-serif';
+  font-family: 'Open Sans', sans-serif;
   font-size: 14px;
-  background-color: #cccccc;
+  background-color: #ddd;
   padding: 10px;
 }
+
+a {
+  color: #222;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
