@@ -6,11 +6,17 @@ class AlbumCard extends Component {
     const {album} = this.props;  
     
     return (
-      <div className="album-card" key={album.album_id}>
-        <div className="image"><img src={album.image} /></div>
+      <div className="album-card" key={ album.album_id }>
+        <div className="image">
+          <a href={ album.album_uri }><img src={ album.image } /></a>
+        </div>
         <div className="header">
-          <div className="artist">{album.artist_name}</div>
-          <div className="album">{album.album_name}</div>
+          <div className="artist">
+            <a href={ album.artist_uri }>{ album.artist_name }</a>
+          </div>
+          <div className="album">
+            <a href={ album.album_uri }>{ album.album_name }</a>
+          </div>
         </div>
         <div className="reviews clearfix">
           <div className="label">Reviews</div> 
@@ -25,15 +31,13 @@ class AlbumCard extends Component {
         <div className="tags clearfix">
           <ul>
             { 
-              album.reviews.map((tag, i) => { 
+              album.reviews.filter(short).map((tag, i) => { 
                 return (<li className="source"><a href={ '/?source=' + tag.slug }>{ tag.name }</a></li>)
               })
             }
             { 
-              album.genres.map((tag, i) => { 
-                return i > 4 ? 
-                  (i > 5 ? '' : (<li>...</li>)) : 
-                  (<li className="genre"><a href={ '/?genre=' + tag.slug }>{ tag.name }</a></li>)
+              album.genres.filter(short).map((tag, i) => { 
+                return (<li className="genre"><a href={ '/?genre=' + tag.slug }>{ tag.name }</a></li>)
               })
             }
           </ul>
@@ -41,6 +45,10 @@ class AlbumCard extends Component {
       </div>
     );
   }
+}
+
+function short(tag) {
+  return tag.name.split(" ").length < 3;
 }
 
 export default AlbumCard;

@@ -8,79 +8,72 @@
   float: left;
   background-color: #ffffff;
   margin: 10px;
-  /*border-bottom: #999999 2px solid;*/
   overflow: hidden;
+
+  .image {
+    width: 300px;
+    height: 300px;
+    background-color: #555555;
+    /*border-bottom: 1px solid #dddddd;*/
+  }
+
+  .header {
+    padding: 8px 12px 5px 12px; 
+    
+    .artist {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .album {
+      font-size: 14px;
+    }  
+  }
+  
+  .reviews {
+    padding: 8px 12px;
+    font-size: 12px;
+  
+    .label {
+      display: inline;
+      color: #777;
+    }
+  
+    ul {
+      display: inline;
+      margin-left: 5px;
+    }
+    
+    ul li {
+      display: inline;
+    }
+  }
+  
+  .tags {
+    padding: 8px 12px;
+  
+    ul {
+      font-size: 11px;
+      list-style: none;
+    }
+    
+    ul li {
+      display: block;
+      float: left;
+    }
+    
+    a {
+      display: block;
+      padding: 2px 7px 4px 7px;
+      border-radius: 5px;
+      margin: 0 5px 5px 0;
+      background-color: #dddddd;
+      text-decoration: none;
+      color: #222;
+    }
+    
+    a:hover {
+      background-color: #bbbbbb;
+    }
+  }
 }
-
-.album-card .image {
-  width: 300px;
-  height: 300px;
-  background-color: #555555;
-  /*border-bottom: 1px solid #dddddd;*/
-}
-
-.album-card .header {
-  padding: 8px 12px 5px 12px; 
-}
-
-.album-card .header .artist {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.album-card .header .album {
-  font-size: 14px;
-}
-
-
-/* reviews */
-
-.album-card .reviews {
-  padding: 8px 12px;
-  font-size: 12px;
-}
-
-.album-card .reviews .label {
-  display: inline;
-  color: #777;
-}
-
-.album-card .reviews ul {
-  display: inline;
-  margin-left: 5px;
-}
-
-.album-card .reviews ul li {
-  display: inline;
-}
-
-/* tags */
-
-.album-card .tags {
-  padding: 8px 12px;
-}
-
-.album-card .tags ul {
-  font-size: 11px;
-  list-style: none;
-}
-
-.album-card .tags ul li {
-  display: block;
-  float: left;
-}
-
-.album-card .tags a {
-  display: block;
-  padding: 2px 7px 4px 7px;
-  border-radius: 5px;
-  margin: 0 5px 5px 0;
-  background-color: #dddddd;
-  text-decoration: none;
-  color: #222;
-}
-
-.album-card .tags a:hover {
-  background-color: #bbbbbb;
-}
-
