@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
+import AlbumImage from '../components/AlbumImage';
 
 class AlbumCard extends Component {
-    
+  
   render() {
     const {album} = this.props;  
-    
+        
     return (
       <div className="album-card" key={ album.album_id }>
-        <div className="image">
-          <a href={ album.album_uri }><img src={ album.image } /></a>
-        </div>
+        <AlbumImage album={album} />
         <div className="header">
           <div className="artist">
             <a href={ album.artist_uri }>{ album.artist_name }</a>
