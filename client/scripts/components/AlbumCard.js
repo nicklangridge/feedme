@@ -22,7 +22,7 @@ class AlbumCard extends Component {
           <ul>
             { 
               album.reviews.map((review, i) => { 
-                return (<li><a href={ review.url } target="_blank">{ review.name }</a></li>) 
+                return (<li key={ i }><a href={ review.url } target="_blank">{ review.name }</a></li>) 
               }) 
             }
           </ul>
@@ -30,13 +30,13 @@ class AlbumCard extends Component {
         <div className="tags clearfix">
           <ul>
             { 
-              album.reviews.filter(short).map((tag, i) => { 
-                return (<li className="source"><a href={ '/?source=' + tag.slug }>{ tag.name }</a></li>)
+              album.reviews.map((tag, i) => { 
+                return (<li key={ i } className="source"><a href={ '/source/' + tag.slug }>{ tag.name }</a></li>)
               })
             }
             { 
               album.genres.filter(short).map((tag, i) => { 
-                return (<li className="genre"><a href={ '/?genre=' + tag.slug }>{ tag.name }</a></li>)
+                return (<li key={ i } className="genre"><a href={ '/genre/' + tag.slug }>{ tag.name }</a></li>)
               })
             }
           </ul>

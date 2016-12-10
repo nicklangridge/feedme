@@ -44,7 +44,7 @@ class AlbumImage extends Component {
     
     return (
       <div className={ `player ${this.state.isLoading ? 'loading' : ''}`}>
-        <iframe src={playerUrl} onLoad={this.onPlayerLoad} width="280" height="80" frameborder="0" allowtransparency="true"></iframe>
+        <iframe src={playerUrl} onLoad={this.onPlayerLoad} width="280" height="80" frameBorder="0" allowTransparency="true"></iframe>
         <div className="loader"></div>
       </div>
     );
