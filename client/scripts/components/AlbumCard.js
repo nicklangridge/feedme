@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AlbumImage from '../components/AlbumImage';
+import Link from '../components/Link';
 
 class AlbumCard extends Component {
   
@@ -31,12 +32,12 @@ class AlbumCard extends Component {
           <ul>
             { 
               album.reviews.map((tag, i) => { 
-                return (<li key={ i } className="source"><a href={ '/source/' + tag.slug }>{ tag.name }</a></li>)
+                return (<li key={ i } className="source"><Link href={ '/source/' + tag.slug }>{ tag.name }</Link></li>)
               })
             }
             { 
               album.genres.filter(short).map((tag, i) => { 
-                return (<li key={ i } className="genre"><a href={ '/genre/' + tag.slug }>{ tag.name }</a></li>)
+                return (<li key={ i } className="genre"><Link href={ '/genre/' + tag.slug }>{ tag.name }</Link></li>)
               })
             }
           </ul>

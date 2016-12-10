@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import createHistory from 'history/createBrowserHistory';
+import history from '../utils/History';
 import NavBar from '../components/NavBar';
 import AlbumCards from '../components/AlbumCards';
-
-const history = createHistory()
 
 class App extends Component {
   constructor(props) {
