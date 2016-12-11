@@ -12,11 +12,18 @@
     margin: 0 auto;
     
     .title {
-      color: #cccccc;
       padding: 12px 20px;
       font-size: 18px;
       font-weight: bold;
     
+      a {
+        color: #cccccc;
+      }
+      
+      a:hover {
+        text-decoration: none;
+      }
+        
       .me {
         color: #999999;
       }

@@ -3,8 +3,8 @@ use warnings;
 use feature 'say';
 use lib 'lib';
 use FeedMe::Model::API;
-use Data::Dumper::Concise;
 use Getopt::Long;
+use JSON;
 
 GetOptions(
   'region=s'   => \my $region,
@@ -27,4 +27,4 @@ push(@args, feeds    => [split /,/, $feeds])  if $feeds;
 
 my @latest = $api->latest(@args);
 
-say Dumper(\@latest);
+say to_json(\@latest, {pretty => 1});

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Link from '../components/Link';
 
 class NavBar extends Component {
   render() {
@@ -6,7 +7,7 @@ class NavBar extends Component {
       <div className="nav-bar">
         <div className="content">
           <div className="title">
-            feed<span className="me">me</span>
+            <Link href={'/'}>feed<span className="me">me</span></Link>
           </div>
         </div>
       </div>

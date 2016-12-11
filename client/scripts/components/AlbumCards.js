@@ -9,7 +9,6 @@ const sizes = [
   { mq: '1300px', columns: 4, gutter: 20 },
 ];
 
-
 class AlbumCards extends Component {
   render() {
     const {albums} = this.props;

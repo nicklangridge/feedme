@@ -23,6 +23,7 @@ sub startup {
     push(@args, feeds    => [split /,/, $c->param('feeds')])  if $c->param('feeds');
     push(@args, keywords => $c->param('keywords'))            if $c->param('keywords');
 
+    $c->res->headers->access_control_allow_origin('*');
     $c->render(json => [ $c->feedme->latest(@args) ]);
   }); 
 }
