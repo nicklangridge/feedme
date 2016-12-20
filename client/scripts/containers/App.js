@@ -3,59 +3,13 @@ import history from '../utils/History';
 import NavBar from '../components/NavBar';
 import AlbumCards from '../components/AlbumCards';
 
-const endpoint = 'http://feedme-nicklangridge.c9users.io:8081/api/v1/latest';
-
-class App extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      location: history.location,
-      albums: [],
-      isFetching: false,
-    }
-
-    history.listen(this.handleNavigation.bind(this))
-  }
-
-  componentDidMount() {
-    this.fetchAlbums();
-  }
-
-  handleNavigation(location) {
-    this.setState({
-      location: location,
-    });
-    this.fetchAlbums(); 
-  }
-  
-  fetchAlbums() {
-    /*global fetch*/
-    this.setState({
-      isFetching: 1,
-      albums: [],
-    });    
-    
-    return fetch(endpoint)
-      .then(response => response.json())
-      .then(json => {
-        this.setState({
-          isFetching: 0,
-          albums: json,
-        });
-      })
-      .catch(err => { throw err; });
-  }
-  
+class App extends Component {  
   render() {
-    const {albums, isFetching} = this.state;
-    
+    console.log(this.props.children);
     return (
       <div>
         <NavBar />
-        <div style={{marginTop:'60px'}}>Path { this.state.location.pathname }{ this.state.location.search }</div>
-        { albums.length > 0 ? <AlbumCards albums={this.state.albums} /> : '' }
-        { isFetching ? <div>loading...</div> : '' }
+        { this.props.children }
       </div>
     );
   }
