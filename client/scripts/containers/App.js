@@ -12,6 +12,7 @@ class App extends Component {
     this.state = {
       location: history.location,
       albums: [],
+      isFetching: false,
     }
 
     history.listen(this.handleNavigation.bind(this))
