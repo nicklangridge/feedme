@@ -1,10 +1,11 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory, Redirect } from 'react-router';
 import '../styles/main.scss';
 import App from './containers/App';
 import Albums from './containers/Albums';
+import NotFound from './components/NotFound';
 
 ReactDOM.render(
   <Router history={browserHistory}>
@@ -12,6 +13,7 @@ ReactDOM.render(
       <IndexRoute component={Albums} />
       <Route path="/source/:source" component={Albums} />
       <Route path="/genre/:genre"   component={Albums} />
+      <Route path="*"               component={NotFound} />
     </Route>
   </Router>,
   document.getElementById('main')

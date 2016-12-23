@@ -7,7 +7,7 @@ use FeedMe::Utils::Slug 'slug';
 method latest (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$feeds = undef, :$keywords = undef) {
   
   my $where = '';
-  $where .= $genres && @$genres ? sprintf("AND gen.name IN (\%s)", join(',', $self->quote(@$genres))) : '';
+  $where .= $genres && @$genres ? sprintf("AND gen.slug IN (\%s)", join(',', $self->quote(@$genres))) : '';
   $where .= $feeds  && @$feeds  ? sprintf("AND f.slug   IN (\%s)", join(',', $self->quote(@$feeds)))  : '';
   $where .= $keywords ? sprintf("AND MATCH (keywords) AGAINST (\%s)", $self->quote($keywords)) : '';
   

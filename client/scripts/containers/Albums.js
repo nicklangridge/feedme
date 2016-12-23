@@ -11,26 +11,36 @@ class Albums extends Component {
     this.state = {
       albums: [],
       isFetching: false,
-      ignoreLastFetch: false,
     };
   }
 
   componentDidMount() {
-    this.fetchAlbums();
+    this.fetchAlbums(this.props);
   }
   
-  componentWillReceiveProps() {
-    this.fetchAlbums();
+  componentWillReceiveProps(nextProps) {
+    this.fetchAlbums(nextProps);
   }
   
-  fetchAlbums() {
+  fetchAlbums(props) {
     /*global fetch*/
     this.setState({
       isFetching: 1,
       albums: [],
     });    
     
-    return fetch(endpoint)
+    let url = endpoint;
+    
+    if (props.params.source) {
+      url += `?feed=${props.params.source}`;
+    } else if (props.params.genre) {
+      url += `?genre=${props.params.genre}`;
+    }
+    
+    console.log('params', props.params);
+    console.log('fetch', url);
+    
+    return fetch(url)
       .then(response => response.json())
       .then(json => {
         this.setState({
