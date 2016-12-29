@@ -2,6 +2,7 @@ requires 'CHI';
 requires 'Data::Dumper::Concise';
 requires 'DBIx::Connector';
 requires 'DBIx::Simple::Inject';
+requires 'Geo::IP';
 requires 'LWP::UserAgent';
 requires 'Module::Loader';
 requires 'Mojo::DOM';

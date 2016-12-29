@@ -3,10 +3,8 @@ import update from 'react-addons-update';
 import AlbumCards from '../components/AlbumCards';
 import Spinner from '../components/Spinner';
 import Footer from '../components/Footer';
+import { getClientRegion, getAlbums } from '../utils/API';
 
-const endpoint = 'http://feedme-nicklangridge.c9users.io:8081/api/v1/latest';
-const REPLACE  = 'REPLACE';
-const APPEND   = 'APPEND';
 const PAGESIZE = 30;
 
 class Albums extends Component {
@@ -44,31 +42,23 @@ class Albums extends Component {
       albums: page > 0 ? this.state.albums : [],
       atEnd: false,
     });  
-      
-    let url = endpoint + `?offset=${page * PAGESIZE}`;
-        
-    if (props.params.source) {
-      url += `&feed=${props.params.source}`;
-    } else if (props.params.genre) {
-      url += `&genre=${props.params.genre}`;
-    }
     
-    console.log('params', props.params);
-    console.log('fetch', url);
+    const args = {
+      offset: page * PAGESIZE,
+      limit: PAGESIZE,
+      feed: props.params.source,
+      genre: props.params.genre,
+    };
     
-    /*global fetch*/
-    return fetch(url)
-      .then(response => response.json())
-      .then(json => {
-        this.setState({
-          isFetching: false,
-          albums: update(this.state.albums, {$push: json}),
-          atEnd: (json.length < 1),
-        });
-      })
-      .catch(err => { 
-        throw err; 
+    return getAlbums(args).then(json => {
+      this.setState({
+        isFetching: false,
+        albums: update(this.state.albums, {$push: json}),
+        atEnd: (json.length < 1),
       });
+    }).catch(err => { 
+      throw err; 
+    });
   }
 
   render() {

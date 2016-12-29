@@ -4,7 +4,7 @@ use Method::Signatures;
 use FeedMe::MySQL 'dbh';
 use FeedMe::Utils::Slug 'slug';
 
-method latest (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$feeds = undef, :$keywords = undef) {
+method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$feeds = undef, :$keywords = undef) {
   
   my $where = '';
   $where .= $genres && @$genres ? sprintf("AND gen.slug IN (\%s)", join(',', $self->quote(@$genres))) : '';
@@ -40,22 +40,22 @@ method latest (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$
     LIMIT $offset, $limit
   );
 
-  my @latest = dbh->query($sql, $region)->hashes;
+  my @albums = dbh->query($sql, $region)->hashes;
   
-  if (@latest) {
+  if (@albums) {
     # add in genres and reviews
-    my @album_ids     = map {$_->{album_id}} @latest;
+    my @album_ids     = map {$_->{album_id}} @albums;
     my $album_ids_in  = join ',', $self->quote(@album_ids);
     my $genre_lookup  = $self->_get_genre_lookup($album_ids_in);
     my $review_lookup = $self->_get_review_lookup($album_ids_in);
     
-    foreach (@latest) {
+    foreach (@albums) {
       $_->{genres}  = $genre_lookup->{$_->{album_id}};
       $_->{reviews} = $review_lookup->{$_->{album_id}};
     }
   }
   
-  return @latest;
+  return @albums;
 }
 
 method quote (@values) {
