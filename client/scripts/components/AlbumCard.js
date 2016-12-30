@@ -33,7 +33,7 @@ class AlbumCard extends Component {
           <ul>
             { 
               album.reviews.map((tag, i) => { 
-                return (<li key={ i } className="source"><Link to={ '/source/' + tag.slug }>{ tag.name }</Link></li>)
+                return (<li key={ i } className="feed"><Link to={ '/feed/' + tag.slug }>{ tag.name }</Link></li>)
               })
             }
             { 

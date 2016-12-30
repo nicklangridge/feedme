@@ -19,28 +19,22 @@ sub startup {
   $r->get('/api/v1/albums' => sub {
     my $c = shift;
   
+    my $region = $c->param('region');
+    
+    if (!$region) {
+      $region = $c->geo_ip->country_code_by_addr($c->client_ip) || 'GB';
+    }
+  
     my @args;
-    push(@args, region   => $c->param('region'))              if $c->param('region');
+    push(@args, region   => $region);
     push(@args, offset   => $c->param('offset'))              if $c->param('offset');
     push(@args, limit    => $c->param('limit'))               if $c->param('limit');
-    push(@args, genres   => [split /,/, $c->param('genre')])  if $c->param('genre');
-    push(@args, feeds    => [split /,/, $c->param('feed')])   if $c->param('feed');
+    push(@args, genres   => [split /,/, $c->param('genres')])  if $c->param('genres');
+    push(@args, feeds    => [split /,/, $c->param('feeds')])   if $c->param('feeds');
     push(@args, keywords => $c->param('keywords'))            if $c->param('keywords');
 
     $c->res->headers->access_control_allow_origin('*');
-    $c->render(json => [ $c->feedme->albums(@args) ]);
-  }); 
-  
-  $r->get('/api/v1/client_region' => sub {
-    my $c = shift;
-    my $ip = $c->client_ip;
-    my $region = $c->geo_ip->country_code_by_addr($ip) || 'GB';
-
-    $c->res->headers->access_control_allow_origin('*');
-    $c->render(json => {
-      region => $region,
-      ip => $ip
-    });
+    $c->render(json => $c->feedme->albums(@args));
   }); 
 }
 

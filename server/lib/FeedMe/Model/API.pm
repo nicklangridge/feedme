@@ -6,6 +6,8 @@ use FeedMe::Utils::Slug 'slug';
 
 method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$feeds = undef, :$keywords = undef) {
   
+  my %filters;
+  
   my $where = '';
   $where .= $genres && @$genres ? sprintf("AND gen.slug IN (\%s)", join(',', $self->quote(@$genres))) : '';
   $where .= $feeds  && @$feeds  ? sprintf("AND f.slug   IN (\%s)", join(',', $self->quote(@$feeds)))  : '';
@@ -41,7 +43,7 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$
   );
 
   my @albums = dbh->query($sql, $region)->hashes;
-  
+    
   if (@albums) {
     # add in genres and reviews
     my @album_ids     = map {$_->{album_id}} @albums;
@@ -53,9 +55,29 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$
       $_->{genres}  = $genre_lookup->{$_->{album_id}};
       $_->{reviews} = $review_lookup->{$_->{album_id}};
     }
+    
+    # filters    
+    if ($genres && @$genres) {
+      $filters{genres} = [];
+      foreach (@$genres) {
+        push @{$filters{genres}}, {slug => $_, name => $genre_lookup->{genre_name}->{$_}};
+      }
+    }
+    if ($feeds && @$feeds) {
+      $filters{feeds} = [];
+      foreach (@$feeds) {
+        push @{$filters{feeds}}, {slug => $_, name => $review_lookup->{feed_name}->{$_}};
+      }
+    }
   }
   
-  return @albums;
+  my $result = { 
+    albums => \@albums, 
+    region => $region,
+  };
+  $result->{filters} = \%filters if %filters;
+  
+  return $result;
 }
 
 method quote (@values) {
@@ -77,6 +99,7 @@ method _get_genre_lookup ($album_ids_in) {
     $lookup{$key} ||= [];
     delete $_->{album_id};
     push @{$lookup{$key}}, $_;
+    $lookup{genre_name}->{$_->{slug}} = $_->{name};
   }
   
   return \%lookup;
@@ -98,6 +121,7 @@ method _get_review_lookup ($album_ids_in) {
     $lookup{$key} ||= [];
     delete $_->{album_id};
     push @{$lookup{$key}}, $_;
+    $lookup{feed_name}->{$_->{slug}} = $_->{name};
   }
   
   return \%lookup;

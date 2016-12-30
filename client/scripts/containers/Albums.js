@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import update from 'react-addons-update';
 import AlbumCards from '../components/AlbumCards';
+import FilterBar from '../components/FilterBar';
 import Spinner from '../components/Spinner';
 import Footer from '../components/Footer';
-import { getClientRegion, getAlbums } from '../utils/API';
+import { getClientRegion, getAlbums } from '../helpers/API';
 
 const PAGESIZE = 30;
 
@@ -17,6 +18,7 @@ class Albums extends Component {
       isFetching: false,
       offset: 0,
       atEnd: false, 
+      filters: null,
     };
     
     this.loadMore = this.loadMore.bind(this);
@@ -46,15 +48,16 @@ class Albums extends Component {
     const args = {
       offset: page * PAGESIZE,
       limit: PAGESIZE,
-      feed: props.params.source,
-      genre: props.params.genre,
+      feeds: props.params.feed,
+      genres: props.params.genre,
     };
     
-    return getAlbums(args).then(json => {
+    return getAlbums(args).then(data => {
       this.setState({
         isFetching: false,
-        albums: update(this.state.albums, {$push: json}),
-        atEnd: (json.length < 1),
+        albums: update(this.state.albums, {$push: data.albums}),
+        atEnd: (data.albums.length < PAGESIZE),
+        filters: data.filters
       });
     }).catch(err => { 
       throw err; 
@@ -62,12 +65,14 @@ class Albums extends Component {
   }
 
   render() {
-    const {albums, isFetching, atEnd} = this.state;
+    const { albums, filters, isFetching, atEnd } = this.state;
+    const { source, genre } = this.props.params;
     
     const hasMore = !atEnd && !isFetching;
     
     return (  
       <div> 
+        { !isFetching && filters ? <FilterBar filters={ filters } /> : '' }
         { albums.length > 0 ? <AlbumCards albums={ albums } hasMore={ hasMore } loadMore={ this.loadMore } /> : '' }
         { isFetching ? <Spinner /> : '' }
         { atEnd ? <Footer /> : '' }
