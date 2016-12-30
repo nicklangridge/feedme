@@ -6,7 +6,7 @@ use FeedMe::Utils::Slug 'slug';
 
 method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$feeds = undef, :$keywords = undef) {
   
-  my %filters;
+  my @filters;
   
   my $where = '';
   $where .= $genres && @$genres ? sprintf("AND gen.slug IN (\%s)", join(',', $self->quote(@$genres))) : '';
@@ -58,16 +58,10 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$
     
     # filters    
     if ($genres && @$genres) {
-      $filters{genres} = [];
-      foreach (@$genres) {
-        push @{$filters{genres}}, {slug => $_, name => $genre_lookup->{genre_name}->{$_}};
-      }
+      push @filters, map {{type => 'genre', slug => $_, name => $genre_lookup->{genre_name}->{$_}}} @$genres;
     }
     if ($feeds && @$feeds) {
-      $filters{feeds} = [];
-      foreach (@$feeds) {
-        push @{$filters{feeds}}, {slug => $_, name => $review_lookup->{feed_name}->{$_}};
-      }
+      push @filters, map {{type => 'feed', slug => $_, name => $review_lookup->{feed_name}->{$_}}} @$feeds;
     }
   }
   
@@ -75,7 +69,7 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$
     albums => \@albums, 
     region => $region,
   };
-  $result->{filters} = \%filters if %filters;
+  $result->{filters} = \@filters if @filters;
   
   return $result;
 }

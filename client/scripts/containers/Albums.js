@@ -56,9 +56,10 @@ class Albums extends Component {
       this.setState({
         isFetching: false,
         albums: update(this.state.albums, {$push: data.albums}),
-        atEnd: (data.albums.length < PAGESIZE),
+        atEnd: data.albums.length < PAGESIZE,
         filters: data.filters
       });
+      
     }).catch(err => { 
       throw err; 
     });
@@ -68,12 +69,13 @@ class Albums extends Component {
     const { albums, filters, isFetching, atEnd } = this.state;
     const { source, genre } = this.props.params;
     
+    const hasAlbums = albums.length > 0;
     const hasMore = !atEnd && !isFetching;
     
     return (  
       <div> 
-        { !isFetching && filters ? <FilterBar filters={ filters } /> : '' }
-        { albums.length > 0 ? <AlbumCards albums={ albums } hasMore={ hasMore } loadMore={ this.loadMore } /> : '' }
+        { hasAlbums ? <FilterBar filters={ filters } /> : '' }
+        { hasAlbums ? <AlbumCards albums={ albums } hasMore={ hasMore } loadMore={ this.loadMore } /> : '' }
         { isFetching ? <Spinner /> : '' }
         { atEnd ? <Footer /> : '' }
       </div>
