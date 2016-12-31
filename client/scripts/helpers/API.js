@@ -14,7 +14,7 @@ function getAlbums(args) {
   if (!args.region) args.region = getClientRegion();
   
   return apiFetch('albums', args).then(json => {
-    console.log('got json', json);
+    //console.log('got json', json);
     if (!args.region) setClientRegion(json.region); // save region if not set already 
     return Promise.resolve(json);
   });

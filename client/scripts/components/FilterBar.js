@@ -8,7 +8,7 @@ class FilterBar extends Component {
        
     return (
       <div className="filter-bar">
-        { filters[0].type }: { filters[0].name }
+        <span className="type">{ filters[0].type }</span> <span className="name">{ filters[0].name }</span>
       </div>
     );
   }

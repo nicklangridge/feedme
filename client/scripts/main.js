@@ -11,9 +11,9 @@ ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={Albums} />
-      <Route path="/feed/:feed" component={Albums} />
-      <Route path="/genre/:genre"   component={Albums} />
-      <Route path="*"               component={NotFound} />
+      <Route path="/feed/:feed"   component={Albums} />
+      <Route path="/genre/:genre" component={Albums} />
+      <Route path="*"             component={NotFound} />
     </Route>
   </Router>,
   document.getElementById('main')
