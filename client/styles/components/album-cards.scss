@@ -1,0 +1,17 @@
+.album-cards {
+  padding: 20px;
+    
+  .masonry {
+    margin: 0 auto;
+    width: 300px;
+    @media screen and (min-width : 660px) {
+      width: 620px;
+    }
+    @media screen and (min-width : 980px) {
+      width: 940px;
+    }
+    @media screen and (min-width : 1300px) {
+      width: 1260px;
+    }      
+  }
+}
