@@ -101,7 +101,7 @@ method _get_genre_lookup ($album_ids_in) {
 
 method _get_review_lookup ($album_ids_in) {
   my @rows = dbh->query(qq(
-    SELECT f.name, f.slug, r.album_id, r.url  
+    SELECT f.name, f.slug, r.album_id, r.url, r.snippet 
     FROM review r 
     JOIN feed f USING(feed_id) 
     WHERE r.album_id IN ($album_ids_in) 

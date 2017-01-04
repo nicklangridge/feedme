@@ -20,11 +20,10 @@ class AlbumCard extends Component {
           </div>
         </div>
         <div className="reviews clearfix">
-          <div className="label">Reviews</div> 
           <ul>
             { 
               album.reviews.map((review, i) => { 
-                return (<li key={ i }><a href={ review.url } target="_blank">{ review.name }</a></li>) 
+                return (<li key={ i }><a href={ review.url } target="_blank">{ review.name }</a> &ldquo;{ review.snippet }&rdquo; <a href={ review.url } target="_blank">more</a></li>) 
               }) 
             }
           </ul>

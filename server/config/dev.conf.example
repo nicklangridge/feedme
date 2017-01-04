@@ -7,4 +7,6 @@
     user => 'my_user',
     pass => 'my_pass',
   }
+  mojo_secrets => ['my secrets'],
+  mercury_api_key => 'my api key',
 }

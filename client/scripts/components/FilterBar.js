@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 
+const icons = {
+  genre: 'icon ion-pricetag',
+  feed: 'icon ion-social-rss',
+}
+
 class FilterBar extends Component {
   render() {
     const filters = this.props.filters;
@@ -8,7 +13,7 @@ class FilterBar extends Component {
        
     return (
       <div className="filter-bar">
-        <span className="type">{ filters[0].type }</span> <span className="name">{ filters[0].name }</span>
+       <span className={ icons[filters[0].type] }></span> <span className="name">{ filters[0].name }</span>
       </div>
     );
   }

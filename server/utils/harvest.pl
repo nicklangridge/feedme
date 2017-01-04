@@ -10,6 +10,8 @@ use Getopt::Long;
 use Parallel::ForkManager;
 use FeedMe::Metadata::Spotify;
 use FeedMe::Model 'model';
+use FeedMe::Metadata::Mercury;
+use FeedMe::Config qw(config);
 
 GetOptions (
   'p|print'     => \my $print,
@@ -31,6 +33,12 @@ if (@slugs) {
 }
 
 my $spotify = FeedMe::Metadata::Spotify->new;
+
+my $mercury;
+if (config->{mercury_api_key}) {
+  $mercury = FeedMe::Metadata::Mercury->new(api_key => config->{mercury_api_key});
+}
+
 
 my @reviews = main->get_all_reviews(@feeds);
 
@@ -83,6 +91,14 @@ method process_review ($review_info) {
   });
   
   say "  review " . ($review->{_created} ? '<-- created' : '');
+  
+  if ($mercury) {
+    if (!$review->{snippet}) {
+      $review->{snippet} = $mercury->excerpt($review->{url});
+      say "    snippet '$review->{snippet}'";
+      model->review->save($review) if $review->{snippet};
+    }
+  }
 }
 
 method get_all_reviews (@feeds!) {

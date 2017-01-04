@@ -52,6 +52,7 @@ CREATE TABLE `review` (
   `album_id` int(11) NOT NULL,
   `feed_id` int(11) NOT NULL,
   `url` varchar(255) NOT NULL,
+  `snippet` TEXT DEFAULT NULL,
   `created` datetime NOT NULL,
   PRIMARY KEY (`review_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
