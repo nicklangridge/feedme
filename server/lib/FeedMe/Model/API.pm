@@ -3,6 +3,13 @@ use Moo;
 use Method::Signatures;
 use FeedMe::MySQL 'dbh';
 use FeedMe::Utils::Slug 'slug';
+use Locale::Country 'code2country';
+
+method regions () {
+  my @codes   = dbh->query('SELECT DISTINCT(region) FROM album_region ORDER by region')->flat;
+  my @regions = map {{ code => $_, name => code2country($_) }} @codes;
+  return \@regions;
+}
 
 method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$feeds = undef, :$keywords = undef) {
   
@@ -24,7 +31,7 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$
       ar.name as artist_name,
       ar.slug as artist_slug,
       ar.uri  as artist_uri,
-      reg.created    
+      reg.created
     FROM album al
       JOIN artist ar USING(artist_id)
       JOIN review r USING(album_id)

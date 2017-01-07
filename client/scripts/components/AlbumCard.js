@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import TimeAgo from 'react-timeago';
 import AlbumImage from '../components/AlbumImage';
 
 
@@ -28,6 +29,7 @@ class AlbumCard extends Component {
             }
           </ul>
         </div>
+        <div className="time-ago clearfix">Found <TimeAgo date={ album.created } /></div>
         <div className="tags clearfix">
           <ul>
             { 

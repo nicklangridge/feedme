@@ -9,6 +9,7 @@ method insert ($review!) {
 }
 
 method save ($review) {
+  delete $review->{_created};
   my $id = delete $review->{review_id} || die 'review_id is required';
   return dbh->update('review', $review, {review_id => $id}) || die dbh->error;
 }
@@ -37,6 +38,10 @@ method fetch_or_create ($args!) {
   }
 
   return $review;
+}
+
+method fetch_where ($where) {
+  return dbh->select('review', '*', $where)->hashes;
 }
 
 1;

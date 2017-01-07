@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import MasonryInfiniteScroller from 'react-masonry-infinite';
 import AlbumCard from '../components/AlbumCard';
 
+// 40 + cols x 320 
 const sizes = [
   { columns: 1, gutter: 20 },
-  { mq: '660px',  columns: 2, gutter: 20 },
-  { mq: '980px',  columns: 3, gutter: 20 },
-  { mq: '1300px', columns: 4, gutter: 20 },
+  { mq: '680px',  columns: 2, gutter: 20 },
+  { mq: '1000px', columns: 3, gutter: 20 },
+  { mq: '1320px', columns: 4, gutter: 20 },
+  { mq: '1640px', columns: 5, gutter: 20 },
+  { mq: '1960px', columns: 6, gutter: 20 },
 ];
 
 class AlbumCards extends Component {

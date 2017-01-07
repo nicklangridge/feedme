@@ -5,6 +5,7 @@ import { Router, Route, IndexRoute, browserHistory, Redirect } from 'react-route
 import '../styles/main.scss';
 import App from './containers/App';
 import Albums from './containers/Albums';
+import Regions from './containers/Regions';
 import NotFound from './components/NotFound';
 
 ReactDOM.render(
@@ -13,6 +14,7 @@ ReactDOM.render(
       <IndexRoute component={Albums} />
       <Route path="/feed/:feed"   component={Albums} />
       <Route path="/genre/:genre" component={Albums} />
+      <Route path="/regions"      component={Regions} />
       <Route path="*"             component={NotFound} />
     </Route>
   </Router>,

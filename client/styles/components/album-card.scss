@@ -20,13 +20,19 @@
     }  
   }
   
+  .time-ago {
+    font-size: 11px;
+    color: #888; 
+    padding: 2px 12px 6px 12px;
+  }
+  
   .reviews {
     padding: 6px 12px 0 12px;
     font-size: 12px;
 
     ul li {
       list-style: none;
-      margin-bottom: 8px 
+      margin-bottom: 6px 
     }
     
     a {

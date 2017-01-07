@@ -36,6 +36,12 @@ sub startup {
     $c->res->headers->access_control_allow_origin('*');
     $c->render(json => $c->feedme->albums(@args));
   }); 
+  
+  $r->get('/api/v1/regions' => sub {
+    my $c = shift;
+    $c->res->headers->access_control_allow_origin('*');
+    $c->render(json => $c->feedme->regions);
+  }); 
 }
 
 1;
