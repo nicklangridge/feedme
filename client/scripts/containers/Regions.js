@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import update from 'react-addons-update';
-//import RegionList from '../components/RegionList';
+import RegionSelector from '../components/RegionSelector';
 import Spinner from '../components/Spinner';
-import Footer from '../components/Footer';
-//import { getClientRegion, getAlbums } from '../helpers/API';
+import { getClientRegion, getRegions } from '../helpers/API';
 
 class Regions extends Component {
 
@@ -12,16 +10,40 @@ class Regions extends Component {
 
     this.state = {
       regions: [],
+      clientRegion: getClientRegion(),
       isFetching: false,
     };
   }
+  
+  componentDidMount() {
+    this.fetchRegions();
+  }
+
+  fetchRegions() {
+    
+    this.setState({ isFetching: true });  
+    
+    return getRegions().then(regions => {
+      this.setState({
+        isFetching: false,
+        regions: regions,
+      });
+    }).catch(err => { 
+      throw err; 
+    });
+  }
+
 
   render() {
-    const { regions, isFetching } = this.state;
+    const { regions, clientRegion, isFetching } = this.state;
     
     return (  
       <div> 
-        Regions here
+        { 
+          isFetching     ? <Spinner /> : 
+          regions.length ? <RegionSelector regions={ regions } selected={ clientRegion } /> : 
+          '' 
+        }
       </div>
     );
   }

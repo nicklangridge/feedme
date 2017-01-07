@@ -1,0 +1,21 @@
+.region-selector {
+  width: 300px;
+  margin: 0 auto;
+
+  .section {
+    padding: 20px 0;
+  }
+  
+  .region {  
+    height: 48px;
+    font-size: 20px;
+    margin: 10px 0;
+    
+    .flag {
+      width: 48px;
+      height: 48px;
+      vertical-align: -16px;
+      margin-right: 10px;
+    }
+  }
+}

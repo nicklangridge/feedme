@@ -20,6 +20,10 @@ function getAlbums(args) {
   });
 }
 
+function getRegions(args) {
+  return apiFetch('regions');
+}
+
 function getClientRegion() {
   return _cacheGet('ClientRegion');
 }
@@ -36,4 +40,4 @@ function _cacheGet(key) {
   return window.localStorage.getItem(key);
 }
 
-export { getAlbums, getClientRegion, setClientRegion };
+export { getAlbums, getRegions, getClientRegion, setClientRegion };
