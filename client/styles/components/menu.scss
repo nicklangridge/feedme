@@ -1,0 +1,51 @@
+.menu-button {
+  float: right;
+  box-sizing: border-box;        
+  width: 50px;
+  height: 50px;
+  padding: 11px 0 0 0;
+  text-align: center;
+  cursor: pointer;
+  
+  .icon {
+    color: #888;
+    font-size: 21px;
+    vertical-align: -1px;        
+  }
+  
+  .icon:hover {
+    color: #F52C3F;
+  }
+}
+
+.menu-content {
+  position: absolute;
+  right: 5px;
+  top: 50px;
+  white-space: nowrap;
+
+  a:hover {
+    color: #F52C3F;
+  }
+
+  ul {
+    padding: 5px 0; 
+  }
+  
+  li {
+    list-style: none;
+    box-sizing: border-box;
+    text-align: left;
+    margin: 10px 15px;
+    font-size: 14px;
+    
+    img {
+      vertical-align: middle;
+    }
+    
+    .label {
+      color: #888; 
+      font-size: 12px;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import Popover from '../components/Popover';
+import Menu from '../components/Menu';
 
 class NavBar extends Component {
   render() {
@@ -10,14 +10,7 @@ class NavBar extends Component {
           <div className="title">
             <Link to="/"><span className="icon ion-forward"></span>feed<span className="me">me</span></Link>
           </div>
-          
-          <Popover className="menu-button">
-            <span className="icon ion-navicon-round"></span>
-            <div className="menu-content popover-content">
-              <Link to="/regions">Regions</Link>
-            </div>
-          </Popover>
-          
+          <Menu />
         </div>
       </div>
     );

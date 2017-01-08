@@ -33,7 +33,6 @@ class Regions extends Component {
     });
   }
 
-
   render() {
     const { regions, clientRegion, isFetching } = this.state;
     

@@ -3,17 +3,9 @@ use Moo;
 use Method::Signatures;
 use FeedMe::MySQL 'dbh';
 use FeedMe::Utils::Slug 'slug';
-use Locale::Country 'code2country';
-
-# shorten some country names
-Locale::Country::rename_country('gb' => 'Great Britain');
-Locale::Country::rename_country('tw' => 'Taiwan');
-Locale::Country::rename_country('bo' => 'Bolivia');
 
 method regions () {
-  my @codes   = dbh->query('SELECT DISTINCT(region) FROM album_region ORDER by region')->flat;
-  my @regions = map {{ code => $_, name => code2country($_) }} @codes;
-  return \@regions;
+  return [ dbh->query('SELECT DISTINCT(region) FROM album_region ORDER by region')->flat ];
 }
 
 method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$feeds = undef, :$keywords = undef) {

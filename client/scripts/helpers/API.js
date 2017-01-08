@@ -1,12 +1,12 @@
+import { getCountryName } from './countries';
+
 const apiBase = 'http://feedme-nicklangridge.c9users.io:8081/api/v1';
 /* global fetch */
 
 function apiFetch(method, args = {}) {   
   const query = Object.keys(args).map(key => key + '=' + encodeURIComponent(args[key] || '')).join('&');  
   const url   = apiBase + `/${method}?${query}`;
-  
   console.log('apiFetch', url, method, args); 
-  
   return fetch(url).then(response => response.json());
 }
 
@@ -21,7 +21,11 @@ function getAlbums(args) {
 }
 
 function getRegions(args) {
-  return apiFetch('regions');
+  return apiFetch('regions').then(regions => {
+    return Promise.resolve(
+      regions.sort( (a, b) => getCountryName(a).localeCompare(getCountryName(b)) )
+    );
+  });
 }
 
 function getClientRegion() {
