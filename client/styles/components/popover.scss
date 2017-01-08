@@ -1,0 +1,40 @@
+.popover {
+    position: relative;
+}
+
+.popover-content {
+  display: block;
+  position: absolute;
+  margin-top: 10px;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  border: 1px solid #ccc;
+  background-color: #fff;
+  z-index: 3;
+  cursor: auto;
+}
+
+.popover-content:before, .popover-content:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent;
+  border-top: 0;
+  box-sizing: border-box;
+}
+ 
+.popover-content:before {
+  top: -7px ;
+  right: 13px ;
+  border-width: 7px;
+  border-bottom: 7px solid #999;
+}
+
+.popover-content:after {
+  top: -6px;
+  right: 13px;
+  border-width: 7px;
+  border-bottom: 7px solid #fff;
+}

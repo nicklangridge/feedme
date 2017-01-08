@@ -43,21 +43,27 @@
       }
     }
     
-    .menu {
+    .menu-button {
       float: right;
       box-sizing: border-box;        
       width: 50px;
       height: 50px;
       padding: 11px 0 0 0;
       text-align: center;
-      /*border-left: 1px solid #555555;
-      border-right: 1px solid #555555;*/
       
       .icon {
         color: #888;
         font-size: 21px;
         vertical-align: -1px;        
       }
+    }
+    
+    .menu-content {
+      position: absolute;
+      right: 5px;
+      top: 50px;
+      width: 200px;
+      height: 100px;
     }
   }
 }
