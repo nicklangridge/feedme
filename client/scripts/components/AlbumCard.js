@@ -6,6 +6,20 @@ import AlbumImage from '../components/AlbumImage';
 
 class AlbumCard extends Component {
   
+  renderReview(review, key) {  
+    
+    const text = review.snippet ? 
+      <span> &ldquo;{ review.snippet }&rdquo; <a href={ review.url } target="_blank">more</a></span> : 
+      <span> no preview available <a href={ review.url } target="_blank">more</a></span>;
+    
+    return (
+      <li key={ key }>
+        <a href={ review.url } target="_blank">{ review.name }</a> 
+        { text }
+      </li>
+    );
+  }
+  
   render() {
     const {album} = this.props;  
         
@@ -22,11 +36,7 @@ class AlbumCard extends Component {
         </div>
         <div className="reviews clearfix">
           <ul>
-            { 
-              album.reviews.map((review, i) => { 
-                return (<li key={ i }><a href={ review.url } target="_blank">{ review.name }</a> &ldquo;{ review.snippet }&rdquo; <a href={ review.url } target="_blank">more</a></li>) 
-              }) 
-            }
+            { album.reviews.map(this.renderReview) }
           </ul>
         </div>
         <div className="time-ago clearfix">Found <TimeAgo date={ album.created } /></div>

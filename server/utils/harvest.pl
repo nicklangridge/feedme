@@ -39,7 +39,6 @@ if (config->{mercury_api_key}) {
   $mercury = FeedMe::Metadata::Mercury->new(api_key => config->{mercury_api_key});
 }
 
-
 my @reviews = main->get_all_reviews(@feeds);
 
 main->process_review($_) for @reviews;
@@ -88,16 +87,19 @@ method process_review ($review_info) {
     album_id  => $album->{album_id},
     feed_id   => $review_info->{feed_id},
     url       => $review_info->{url},
+    snippet   => $review_info->{snippet},
   });
   
   say "  review " . ($review->{_created} ? '<-- created' : '');
   
-  if ($mercury) {
-    if (!$review->{snippet}) {
-      $review->{snippet} = $mercury->excerpt($review->{url});
-      say "    snippet '$review->{snippet}'";
-      model->review->save($review) if $review->{snippet};
-    }
+  if ($review->{_created} && $review->{snippet}) {
+    say "    snippet '$review->{snippet}'";
+  }
+  
+  if (!$review->{snippet} && $mercury) {
+    $review->{snippet} = $mercury->excerpt($review->{url});
+    say "    mercury snippet '$review->{snippet}'";
+    model->review->save($review) if $review->{snippet};
   }
 }
 

@@ -30,10 +30,11 @@ method parse_review ($r) {
   
   my $aa = $self->extract_artist_and_album($r->{title} =~ s/\s+/ /gr);
   return {
-    artist => $aa->{artist},
-    album  => $aa->{album},
-    url    => $r->{url},
-    source => $self->slug
+    artist  => $aa->{artist},
+    album   => $aa->{album},
+    url     => $r->{url},
+    snippet => $r->{description},
+    source  => $self->slug
   }
 }
 

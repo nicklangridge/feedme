@@ -82,8 +82,9 @@ method parse_feed ($url) {
 
 method parse_entry ($entry) {
   return {
-    title => trim $entry->title,
-    url   => trim $entry->link,
+    title       => trim $entry->title,
+    url         => trim $entry->link,
+    description => undef, # by default we leave description to be added later
   }
 }
 

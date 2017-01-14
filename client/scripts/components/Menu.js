@@ -22,7 +22,7 @@ class Menu extends Component {
               <Link to="/about">About</Link>
             </li>
             <li>
-              <Link to="/regions">Region: { regionName } <img src={ 'images/flags-iso/shiny/16/' + regionCode + '.png' } width="16" height="16" /></Link>
+              <Link to="/regions">Region: { regionName } <img src={ '/images/flags-iso/shiny/16/' + regionCode + '.png' } width="16" height="16" /></Link>
             </li>
           </ul>
         </div>

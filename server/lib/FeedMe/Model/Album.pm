@@ -10,6 +10,12 @@ method insert ($album!) {
   return dbh->insert('album', {%$album, created => \"now()", checked => \"now()"}) || die dbh->error;
 }
 
+method save ($album!) {
+  delete $album->{_created};
+  my $id = delete $album->{album_id} || die 'album_id is required';
+  return dbh->update('album', $album, {album_id => $id}) || die dbh->error;
+}
+
 method fetch_by_uri_and_artist ($uri!, $artist_id!) {
   my ($row) = dbh->query('SELECT * FROM album WHERE uri = ? AND artist_id = ?', $uri, $artist_id)->hashes;
   return $row;
@@ -82,6 +88,10 @@ method set_regions ($album_id!, $regions!) {
   foreach my $row (values %combined) {
     dbh->insert('album_region', $row) || die dbh->error;
   }
+}
+
+method fetch_where ($where) {
+  return dbh->select('album', '*', $where)->hashes;
 }
 
 1;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 
 const icons = {
   genre: 'icon ion-pricetag',
@@ -13,7 +14,9 @@ class FilterBar extends Component {
        
     return (
       <div className="filter-bar">
-       <span className={ icons[filters[0].type] }></span> <span className="name">{ filters[0].name }</span>
+       <span className={ icons[filters[0].type] }></span>
+       <span className="name">{ filters[0].name }</span>
+       <Link to="/"><span className="close ion-close"></span></Link>
       </div>
     );
   }

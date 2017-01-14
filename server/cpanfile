@@ -3,6 +3,7 @@ requires 'Data::Dumper::Concise';
 requires 'DBIx::Connector';
 requires 'DBIx::Simple::Inject';
 requires 'Geo::IP::PurePerl';
+requires 'HTML::Strip';
 requires 'Locale::Country';
 requires 'LWP::UserAgent';
 requires 'Module::Loader';

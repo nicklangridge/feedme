@@ -26,7 +26,7 @@ foreach my $module (@modules) {
   
   my $feed = $module->new;
 
-  my $data = model->feed->fetch_by_slug_or_create({
+  my $data = model->feed->fetch_or_create({
     slug         => $feed->slug,
     name         => $feed->name,
     homepage_url => $feed->homepage_url,

@@ -11,13 +11,26 @@ has 'api' => (
   default => sub {return WebService::Spotify->new}
 );
 
-method get_album_info ($artist_name, $album_name) {
+method get_album_info (@args) {
+  my $album;
   
-  my $albums     = $self->_fetch('search', "$album_name artist:$artist_name", limit => 10, type => 'album');
+  if (@args == 1) {
   
-  return {} unless $albums->{albums}->{total};
+    my ($album_uri) = @args;
+    my $album = $self->_fetch('album', $album_uri);
   
-  my $album      = $albums->{albums}->{items}->[0];
+  } elsif (@args == 2) {
+  
+    my ($artist_name, $album_name) = @args;
+    my $albums = $self->_fetch('search', "$album_name artist:$artist_name", limit => 1, type => 'album');
+    if ($albums->{albums}->{total}) {
+      $album = $albums->{albums}->{items}->[0];    
+    }
+    
+  } else {
+    die "unexpected number of args";
+  }
+
   my $artist_uri = $album->{artists}->[0]->{uri};
   my $output     = {};
   
@@ -44,6 +57,10 @@ method get_album_info ($artist_name, $album_name) {
 method _get_image ($images, $size) {
   foreach (@$images) {
     return $_->{url} if $_->{width} == $size;
+  }
+  # no exact match, maybe there is something close?
+  foreach (@$images) {
+    return $_->{url} if $_->{width} < $size + 20 and $_->{width} > $size - 20;
   }
   return undef;
 }
