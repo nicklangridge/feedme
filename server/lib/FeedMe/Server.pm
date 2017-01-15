@@ -42,6 +42,12 @@ sub startup {
     $c->res->headers->access_control_allow_origin('*');
     $c->render(json => $c->feedme->regions);
   }); 
+  
+  $r->get('/api/v1/feeds' => sub {
+    my $c = shift;
+    $c->res->headers->access_control_allow_origin('*');
+    $c->render(json => $c->feedme->feeds);
+  }); 
 }
 
 1;

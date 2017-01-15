@@ -8,6 +8,10 @@ method regions () {
   return [ dbh->query('SELECT DISTINCT(region) FROM album_region ORDER by region')->flat ];
 }
 
+method feeds () {
+  return [ dbh->query('SELECT name, slug, homepage_url FROM feed WHERE active = 1 ORDER by name')->hashes ];
+}
+
 method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$feeds = undef, :$keywords = undef) {
   
   my @filters;

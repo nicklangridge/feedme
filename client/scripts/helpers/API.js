@@ -20,12 +20,16 @@ function getAlbums(args) {
   });
 }
 
-function getRegions(args) {
+function getRegions() {
   return apiFetch('regions').then(regions => {
     return Promise.resolve(
       regions.sort( (a, b) => getCountryName(a).localeCompare(getCountryName(b)) )
     );
   });
+}
+
+function getFeeds() {
+  return apiFetch('feeds');
 }
 
 function getClientRegion() {
@@ -44,4 +48,10 @@ function _cacheGet(key) {
   return window.localStorage.getItem(key);
 }
 
-export { getAlbums, getRegions, getClientRegion, setClientRegion };
+export { 
+  getAlbums, 
+  getRegions, 
+  getFeeds, 
+  getClientRegion, 
+  setClientRegion, 
+};

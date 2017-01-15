@@ -6,6 +6,8 @@ import '../styles/main.scss';
 import App from './containers/App';
 import Albums from './containers/Albums';
 import Regions from './containers/Regions';
+import Feeds from './containers/Feeds';
+import About from './components/About';
 import NotFound from './components/NotFound';
 
 ReactDOM.render(
@@ -15,6 +17,8 @@ ReactDOM.render(
       <Route path="/feed/:feed"   component={Albums} />
       <Route path="/genre/:genre" component={Albums} />
       <Route path="/regions"      component={Regions} />
+      <Route path="/feeds"        component={Feeds} />
+      <Route path="/about"        component={About} />
       <Route path="*"             component={NotFound} />
     </Route>
   </Router>,

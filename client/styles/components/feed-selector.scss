@@ -1,0 +1,32 @@
+.feed-selector {
+  margin: 0 auto;
+  padding: 20px 0;
+  width: 100%;
+  @import '_responsive';
+  text-align: center;
+  
+  .feed {
+    text-align: left;
+    width: 220px;
+    display: inline-block;
+    margin: 12px 10px;
+    overflow: hidden;
+    
+    .icon {
+      margin-right: 5px;
+      color: #555;
+    }
+    
+    .name {
+      display: block;
+      font-size: 20px;
+    }
+    
+    .link {
+      display: block;
+      font-size: 14px;
+      padding-left: 20px;
+      color: #888;
+    }
+  }
+}
