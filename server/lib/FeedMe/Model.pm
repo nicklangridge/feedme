@@ -2,6 +2,7 @@ package FeedMe::Model;
 use strict;
 use warnings;
 use feature 'state';
+use utf8::all;
 
 use FeedMe::Model::Feed;
 use FeedMe::Model::Album;

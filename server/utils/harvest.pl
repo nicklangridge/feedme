@@ -41,7 +41,13 @@ if (config->{mercury_api_key}) {
 
 my @reviews = main->get_all_reviews(@feeds);
 
+my $created = { artist => 0, album => 0, review => 0 };
+
 main->process_review($_) for @reviews;
+
+for (keys %$created) {
+  say "created $created->{$_} ${_}s";
+}
 
 say "done";
 
@@ -71,6 +77,8 @@ method process_review ($review_info) {
   
   say "  artist " . ($artist->{_created} ? '<-- created' : '');
   
+  $created->{artist} ++ if $artist->{_created};
+  
   my $album = model->album->fetch_or_create({
     uri       => $album_info->{uri},
     name      => $album_info->{name},
@@ -81,6 +89,8 @@ method process_review ($review_info) {
     artist_id => $artist->{artist_id},
   });
   
+  $created->{album} ++ if $album->{_created};
+  
   say "  album " . ($album->{_created} ? '<-- created' : '');
   
   my $review = model->review->fetch_or_create({
@@ -89,6 +99,8 @@ method process_review ($review_info) {
     url       => $review_info->{url},
     snippet   => $review_info->{snippet},
   });
+  
+  $created->{review} ++ if $review->{_created};
   
   say "  review " . ($review->{_created} ? '<-- created' : '');
   

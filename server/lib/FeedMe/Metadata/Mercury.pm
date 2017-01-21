@@ -4,6 +4,7 @@ use Method::Signatures;
 use LWP::UserAgent;
 use URI::QueryParam;
 use JSON;
+use Encode;
 use utf8::all;
 
 has 'base_uri' => ( is => 'rw', default => 'https://mercury.postlight.com/parser' );
@@ -30,12 +31,17 @@ method get ($document_url!) {
   $self->_log("GET", $uri->as_string);
   $self->_log("RESP", $response->content);
 
-  return $response->content ? from_json($response->content) : undef;
+  return $response->content ? from_json(decode('utf-8', $response->content)) : undef;
 }
 
 method excerpt ($document_url!) {
   my $data = $self->get($document_url);
-  return $data ? $data->{excerpt} : undef;
+  my $excerpt;
+  if ($data) {
+    $excerpt = $data->{excerpt};
+    $excerpt =~ s/&hellip;/.../;
+  }
+  return $excerpt;
 }
 
 method _log (@strings) {

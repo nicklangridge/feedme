@@ -38,9 +38,19 @@ method _get ($url) {
   return $response->is_success ? $response->decoded_content : undef;
 }
 
+method _preprocess_response ($response) {
+  # strip common date stamps to allow cache comparison
+  $response =~ s/<lastBuildDate>[^<>]+<\/lastBuildDate>//m;
+  $response =~ s/<pubDate>[^<>]+<\/pubDate>//m;
+  $response =~ s/<dc:date>[^<>]+<\/dc:date>//m;
+  return $response;
+}
+
 method parse_feed ($url) {
   my $response = $self->_get($url)            || die "Failed to fetch feed [$url]: $!\n";
-
+  
+  $response = $self->_preprocess_response($response);
+  
   if ($ENV{FEEDME_FEEDCACHE_DIR}) {
     my $key    = ref $self;  
     my $cached = $self->_cache->get($key);
