@@ -31,7 +31,14 @@ method get ($document_url!) {
   $self->_log("GET", $uri->as_string);
   $self->_log("RESP", $response->content);
 
-  return $response->content ? from_json(decode('utf-8', $response->content)) : undef;
+  my $content;
+  if ($response->content) {
+    my $decoded = decode('utf-8', $response->content);
+    $content = eval { from_json($decoded) } || undef;
+    warn "Failed to parse Mercury response: $@\n(content = '" . $response->content . "')" if $@;
+  }
+
+  return $content;
 }
 
 method excerpt ($document_url!) {

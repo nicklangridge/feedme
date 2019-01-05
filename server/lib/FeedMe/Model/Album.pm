@@ -21,26 +21,32 @@ method fetch_by_uri_and_artist ($uri!, $artist_id!) {
   return $row;
 }
 
+method fetch_by_slug_and_artist ($slug!, $artist_id!) {
+  my ($row) = dbh->query('SELECT * FROM album WHERE slug = ? AND artist_id = ?', $slug, $artist_id)->hashes;
+  return $row;
+}
+
 method fetch_all_regions ($album_id!) {
   return dbh->query('SELECT * FROM album_region WHERE album_id = ?', $album_id)->hashes;
 }
 
 method fetch_or_create ($args!) {
-  die 'album uri is required' if !$args->{uri}; 
+  die 'album name is required' if !$args->{name}; 
   die 'artist_id is required'  if !$args->{artist_id}; 
   
-  my $album = $self->fetch_by_uri_and_artist($args->{uri}, $args->{artist_id});
+  my $slug = slug($args->{name});
+  my $album = $self->fetch_by_slug_and_artist($slug, $args->{artist_id});
   
   if (!$album) {
     $self->insert({ 
-      slug      => slug($args->{name}),
+      slug      => $slug,
       name      => $args->{name},
       uri       => $args->{uri},
       image     => $args->{image},
       artist_id => $args->{artist_id},
       keywords  => $args->{keywords},
     });
-    $album = $self->fetch_by_uri_and_artist($args->{uri}, $args->{artist_id});
+    $album = $self->fetch_by_slug_and_artist($slug, $args->{artist_id});
     $album->{_created} = 1;
     
     $self->set_genres($album->{album_id}, $args->{genres})   if $args->{genres};

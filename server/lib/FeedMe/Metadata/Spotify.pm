@@ -1,14 +1,23 @@
 package FeedMe::Metadata::Spotify;
 use Moo;
 use Method::Signatures;
-use WebService::Spotify;
+use WWW::Spotify;
+use JSON;
+use Data::Dumper;
 
 my $retry_limit = 10;
-my $retry_wait  = 10; # seconds
+my $retry_wait  = 2; # seconds
+my $rate_limit_exceeded = 429;
 
 has 'api' => (
   is      => 'rw',
-  default => sub {return WebService::Spotify->new}
+  default => sub {
+    my $api = WWW::Spotify->new; 
+    $api->oauth_client_id('c1689cbae928491cbf07d0335124d4b3');  
+    $api->oauth_client_secret('d2b612fbe73c40daa0d3f84b13a94c48');
+    #$api->debug(1);
+    return $api;
+  }
 );
 
 method get_album_info (@args) {
@@ -22,7 +31,7 @@ method get_album_info (@args) {
   } elsif (@args == 2) {
   
     my ($artist_name, $album_name) = @args;
-    my $albums = $self->_fetch('search', "$album_name artist:$artist_name", limit => 1, type => 'album');
+    my $albums = $self->_fetch('search', "$album_name artist:$artist_name", 'album', { limit => 1 });
     if ($albums->{albums}->{total}) {
       $album = $albums->{albums}->{items}->[0];    
     }
@@ -31,12 +40,12 @@ method get_album_info (@args) {
     die "unexpected number of args";
   }
 
-  my $artist_uri = $album->{artists}->[0]->{uri};
+  my $artist_id = $album->{artists}->[0]->{id};
   my $output     = {};
   
-  if ($album and $artist_uri) {
+  if ($album and $artist_id) {
     
-    my $artist = $self->_fetch('artist', $artist_uri);
+    my $artist = $self->_fetch('artist', $artist_id);
     
     if ($artist) {
       $output = {
@@ -71,11 +80,13 @@ method _fetch ($method, @args) {
   
   foreach (1..$retry_limit) {   
     #$self->api->trace(1);
-    $result = eval { $self->api->$method(@args) };
+    $result = from_json( eval { $self->api->$method(@args) } );
+  #warn Dumper($result);  
     
     if ($@ || $result->{error}) {
       warn $@ if $@;
       warn "Error: $result->{error}->{status} $result->{error}->{message}" if $result->{error};
+      last unless $result->{error}->{status} == $rate_limit_exceeded; 
       warn "Waiting $retry_wait seconds before retrying...\n";
       sleep $retry_wait;
       next;

@@ -1,42 +1,13 @@
 package FeedMe::Role::Feed::XML;
 use Moo::Role;
 use Method::Signatures;
-use LWP::UserAgent;
 use Text::Trim;
 use XML::Feed;
-use CHI;
-use File::Path qw(make_path);
 use Parallel::ForkManager;
 
 with 'FeedMe::Role::Feed';
 
-has '_ua' => (
-  is       => 'rw',
-  default  => sub {
-    my $ua = LWP::UserAgent->new;
-    $ua->agent( __PACKAGE__ );
-    $ua->env_proxy;
-    return $ua;
-  }
-);
-
-has '_cache' => (
-  is      => 'rw',
-  default => sub {
-    my $root = $ENV{FEEDME_FEEDCACHE_DIR} || '/tmp/feedme_feedcache';
-    make_path($root) unless -d $root;
-    return CHI->new( driver => 'File', root_dir => $root);
-  }
-);
-
-method cache_lifetime { '12 hours' }
-
 method parallel_parsers { 0 }
-
-method _get ($url) {
-  my $response = $self->_ua->get($url);
-  return $response->is_success ? $response->decoded_content : undef;
-}
 
 method _preprocess_response ($response) {
   # strip common date stamps to allow cache comparison
@@ -80,6 +51,9 @@ method parse_feed ($url) {
       my @r = $self->parse_entry($entry);
       $pm->finish(0, \@r);
     }
+    
+    $pm->wait_all_children;
+  
   } else { 
     # sequential
     foreach my $entry ($feed->entries) {

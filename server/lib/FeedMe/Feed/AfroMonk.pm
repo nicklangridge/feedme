@@ -2,7 +2,7 @@ package FeedMe::Feed::AfroMonk;
 use Moo;
 use Method::Signatures;
 use Text::Trim;
-use HTML::Strip;
+use FeedMe::Utils::Snippet qw(snippet);
 
 my $html_strip = HTML::Strip->new();
   
@@ -25,7 +25,7 @@ method parse_entry ($entry) {
   return {
     title       => trim $entry->title,
     url         => trim $entry->link,
-    description => trim $html_strip->parse($entry->content->body), 
+    description => snippet($entry->content->body, 200), 
   }
 }
 
