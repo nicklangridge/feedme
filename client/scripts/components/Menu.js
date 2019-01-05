@@ -21,8 +21,8 @@ class Menu extends Component {
             <li>
               <Link to="/about">About</Link>
             </li>
-            <li>
-              <Link to="/regions">Region: { regionName } <img src={ '/images/flags-iso/shiny/16/' + regionCode + '.png' } width="16" height="16" /></Link>
+            <li className="region">
+              { regionName } <img src={ '/images/flags-iso/shiny/16/' + regionCode + '.png' } width="16" height="16" /> (<Link to="/regions">change</Link>)
             </li>
           </ul>
         </div>

@@ -9,7 +9,7 @@ class AlbumCard extends Component {
   renderReview(review, key) {  
     
     const text = review.snippet ? 
-      <span> &ldquo;{ review.snippet }&rdquo; <a href={ review.url } target="_blank">more</a></span> : 
+      <span> <span className="quote">&ldquo;</span>{ review.snippet }<span className="quote">&rdquo;</span> <a href={ review.url } target="_blank">more</a></span> : 
       <span> no preview available <a href={ review.url } target="_blank">more</a></span>;
     
     return (

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
 class AlbumImage extends Component {
   
   constructor(props) {
     super(props);
     
-    this.mouseEnter   = this.mouseEnter.bind(this);
-    this.mouseLeave   = this.mouseLeave.bind(this);
-    this.onPlayerLoad = this.onPlayerLoad.bind(this);
+    this.mouseEnter   = null;//this.mouseEnter.bind(this);
+    this.mouseLeave   = null;//this.mouseLeave.bind(this);
+    this.onPlayerLoad = null;//this.onPlayerLoad.bind(this);
   
     this.state = {
       isActive: false,
@@ -35,6 +36,17 @@ class AlbumImage extends Component {
     });
   }
   
+  componentDidUpdate() {
+    var player = ReactDOM.findDOMNode(this.refs.player);
+    if (player) {
+      //console.log('player', player);
+      player.setAttribute('allow', 'encrypted-media');
+        
+    } else {
+      //console.log('no player');
+    }
+  }
+  
   render_player() {
     const {album} = this.props;
 
@@ -44,7 +56,7 @@ class AlbumImage extends Component {
     
     return (
       <div className={ `player ${this.state.isLoading ? 'loading' : ''}`}>
-        <iframe src={playerUrl} onLoad={this.onPlayerLoad} width="280" height="80" frameBorder="0" allowTransparency="true"></iframe>
+        <iframe ref="player" src={playerUrl} onLoad={this.onPlayerLoad} width="280" height="80" frameBorder="0" allowTransparency="true"></iframe>
         <div className="loader"></div>
       </div>
     );
