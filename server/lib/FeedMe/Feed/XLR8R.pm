@@ -26,7 +26,7 @@ method parse_entry ($entry) {
 }
 
 method extract_artist_and_album ($title) {
-  warn $title;
+  #warn $title;
   $title =~ s/\s+/ /g;
   $title =~ /(.+?)\s+'(.+)'/;
   return {

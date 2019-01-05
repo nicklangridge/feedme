@@ -32,7 +32,10 @@ if (@slugs) {
   }
 }
 
-my $spotify = FeedMe::Metadata::Spotify->new;
+my $spotify = FeedMe::Metadata::Spotify->new(
+  client_id     => config->{spotify_client_id},
+  client_secret => config->{spotify_client_secret},
+);
 
 my $mercury;
 if (config->{mercury_api_key}) {
@@ -72,7 +75,7 @@ method process_review ($review_info) {
   
   my $artist = model->artist->fetch_or_create({
     uri  => $album_info->{artist_uri},
-    name => $album_info->{artist_name},
+    name => $album_info->{artist},
   });
   
   say "  artist " . ($artist->{_created} ? '<-- created' : '');

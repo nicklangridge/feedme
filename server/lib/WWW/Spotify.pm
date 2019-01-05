@@ -18,6 +18,7 @@ use Types::Standard qw( Bool InstanceOf Int Str );
 use URI;
 use URI::Escape;
 use WWW::Mechanize;
+use utf8::all;
 
 has 'oauth_authorize_url' => (
     is      => 'rw',

@@ -5,8 +5,9 @@ use Clone qw(clone);
 use DateTime;
 use FeedMe::MySQL qw(dbh);
 use FeedMe::Utils::Slug qw(slug);
+use Data::Dumper;
 
-method insert ($album!) {
+method insert ($album!) {  
   return dbh->insert('album', {%$album, created => \"now()", checked => \"now()"}) || die dbh->error;
 }
 

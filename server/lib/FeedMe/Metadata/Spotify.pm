@@ -4,22 +4,28 @@ use Method::Signatures;
 use WWW::Spotify;
 use JSON;
 use Data::Dumper;
+use utf8::all;
 
 my $retry_limit = 10;
 my $retry_wait  = 2; # seconds
 my $rate_limit_exceeded = 429;
 
+has 'client_id'     => ( is => 'rw', required => 1 );
+has 'client_secret' => ( is => 'rw', required => 1 );
+
 has 'api' => (
   is      => 'rw',
+  builder =>  '_build_api',
+  lazy    => 1,
   default => sub {
-    my $api = WWW::Spotify->new; 
-    $api->oauth_client_id('c1689cbae928491cbf07d0335124d4b3');  
-    $api->oauth_client_secret('d2b612fbe73c40daa0d3f84b13a94c48');
-    #$api->debug(1);
-    return $api;
+    my $self = shift;
+    return WWW::Spotify->new(
+      oauth_client_id     => $self->client_id,
+      oauth_client_secret => $self->client_secret,
+    );
   }
 );
-
+  
 method get_album_info (@args) {
   my $album;
   
