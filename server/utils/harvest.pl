@@ -75,7 +75,7 @@ method process_review ($review_info) {
   
   my $artist = model->artist->fetch_or_create({
     uri  => $album_info->{artist_uri},
-    name => $album_info->{artist},
+    name => $album_info->{artist_name},
   });
   
   say "  artist " . ($artist->{_created} ? '<-- created' : '');

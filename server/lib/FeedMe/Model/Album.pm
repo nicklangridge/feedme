@@ -31,6 +31,18 @@ method fetch_all_regions ($album_id!) {
   return dbh->query('SELECT * FROM album_region WHERE album_id = ?', $album_id)->hashes;
 }
 
+method fetch_all_genres ($album_id!) {
+  return dbh->query('SELECT * FROM album_genre WHERE album_id = ?', $album_id)->hashes;
+}
+
+method fetch_for_update ($limit = 10) {
+  return dbh->query('SELECT * FROM album ORDER BY checked ASC LIMIT ' . int($limit))->hashes;
+}
+
+method fetch_newest ($limit = 10) {
+  return dbh->query('SELECT * FROM album ORDER BY created DESC LIMIT ' . int($limit))->hashes;
+}
+
 method fetch_or_create ($args!) {
   die 'album name is required' if !$args->{name}; 
   die 'artist_id is required'  if !$args->{artist_id}; 
@@ -58,10 +70,20 @@ method fetch_or_create ($args!) {
 }
 
 method set_genres ($album_id!, $genres!) {
-  dbh->query('DELETE FROM album_genre WHERE album_id = ?', $album_id);
-  foreach my $genre (@$genres) {
-    dbh->insert('album_genre', {album_id => $album_id, name => $genre, slug => slug($genre)}) || die dbh->error;
+  my @old = map {$_->{name}} $self->fetch_all_genres($album_id);
+  my $updated = 0;
+  
+  if (!$self->_array_equal(\@old, $genres)) {
+
+    dbh->query('DELETE FROM album_genre WHERE album_id = ?', $album_id);
+    foreach my $genre (@$genres) {
+      dbh->insert('album_genre', {album_id => $album_id, name => $genre, slug => slug($genre)}) || die dbh->error;
+    }
+    
+    $updated = 1;
   }
+  
+  return $updated;
 }
 
 method set_regions ($album_id!, $regions!) {  
@@ -69,36 +91,49 @@ method set_regions ($album_id!, $regions!) {
   my %old = map {$_->{region} => $_} $self->fetch_all_regions($album_id);
   my $now = DateTime->now;
   my %combined;
+  my $updated = 0;
   
-  foreach my $r (keys %new) {
-    if (!exists $combined{$r}) {
-      # new or still active - add or keep
-      $combined{$r} = {
-        album_id => $album_id,
-        region   => $r, 
-        created  => (exists $old{$r}) ? $old{$r}->{created} : $now,
-        active   => 1,
-      };
+  if (!$self->_array_equal([keys %old], [keys %new])) {
+  
+    foreach my $r (keys %new) {
+      if (!exists $combined{$r}) {
+        # new or still active - add or keep
+        $combined{$r} = {
+          album_id => $album_id,
+          region   => $r, 
+          created  => (exists $old{$r}) ? $old{$r}->{created} : $now,
+          active   => 1,
+        };
+      } 
     } 
+    
+    foreach my $r (keys %old) {
+      if (!$combined{$r}) {
+        # no longer active - keep but deactivate
+        $combined{$r} = clone($old{$r});
+        $combined{$r}->{active} = 0;
+      }
+    }
+    
+    dbh->query('DELETE FROM album_region WHERE album_id = ?', $album_id);
+    
+    foreach my $row (values %combined) {
+      dbh->insert('album_region', $row) || die dbh->error;
+    }
+    
+    $updated = 1;
   } 
   
-  foreach my $r (keys %old) {
-    if (!$combined{$r}) {
-      # no longer active - keep but deactivate
-      $combined{$r} = clone($old{$r});
-      $combined{$r}->{active} = 0;
-    }
-  }
-  
-  dbh->query('DELETE FROM album_region WHERE album_id = ?', $album_id);
-  
-  foreach my $row (values %combined) {
-    dbh->insert('album_region', $row) || die dbh->error;
-  }
+  return $updated;
 }
 
 method fetch_where ($where) {
   return dbh->select('album', '*', $where)->hashes;
+}
+
+method _array_equal ($a!, $b!) {
+  #warn '_array_equal: [' . lc(join(':', sort @$a )) . '] eq [' . lc(join(':', sort @$b )) . "]\n";
+  return lc(join(':', sort @$a )) eq lc(join(':', sort @$b )); 
 }
 
 1;

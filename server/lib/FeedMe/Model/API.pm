@@ -3,6 +3,7 @@ use Moo;
 use Method::Signatures;
 use FeedMe::MySQL 'dbh';
 use FeedMe::Utils::Slug 'slug';
+use Data::Dumper;
 
 method regions () {
   return [ dbh->query('SELECT DISTINCT(region) FROM album_region ORDER by region')->flat ];
@@ -15,6 +16,10 @@ method feeds () {
 method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$feeds = undef, :$keywords = undef) {
   
   my @filters;
+  
+  my $join = '';
+  $join  .= $genres && @$genres ? 'JOIN album_genre gen USING(album_id)' : '';
+  $join  .= $feeds  && @$feeds  ? 'JOIN review r USING(album_id) JOIN feed f USING(feed_id)'  : '';
   
   my $where = '';
   $where .= $genres && @$genres ? sprintf("AND gen.slug IN (\%s)", join(',', $self->quote(@$genres))) : '';
@@ -35,10 +40,8 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$
       reg.created
     FROM album al
       JOIN artist ar USING(artist_id)
-      JOIN review r USING(album_id)
       JOIN album_region reg USING(album_id)
-      JOIN album_genre gen USING(album_id)
-      JOIN feed f USING(feed_id)
+      $join
     WHERE 
       reg.region = ? 
       AND reg.active = 1
@@ -50,6 +53,8 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$
     LIMIT $offset, $limit
   );
 
+warn "SQL\n$sql\n[$region]";
+
   my @albums = dbh->query($sql, $region)->hashes;
     
   if (@albums) {
@@ -60,8 +65,8 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$
     my $review_lookup = $self->_get_review_lookup($album_ids_in);
     
     foreach (@albums) {
-      $_->{genres}  = $genre_lookup->{$_->{album_id}};
-      $_->{reviews} = $review_lookup->{$_->{album_id}};
+      $_->{genres}  = $genre_lookup->{$_->{album_id}}  || [];
+      $_->{reviews} = $review_lookup->{$_->{album_id}} || [];
     }
     
     # filters    
@@ -78,6 +83,8 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$
     region => $region,
   };
   $result->{filters} = \@filters if @filters;
+
+warn Dumper $result;
   
   return $result;
 }

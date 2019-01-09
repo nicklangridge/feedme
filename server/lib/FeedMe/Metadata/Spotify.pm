@@ -9,6 +9,7 @@ use utf8::all;
 my $retry_limit = 10;
 my $retry_wait  = 2; # seconds
 my $rate_limit_exceeded = 429;
+my @relink_regions = qw(GB US);
 
 has 'client_id'     => ( is => 'rw', required => 1 );
 has 'client_secret' => ( is => 'rw', required => 1 );
@@ -31,8 +32,9 @@ method get_album_info (@args) {
   
   if (@args == 1) {
   
-    my ($album_uri) = @args;
-    my $album = $self->_fetch('album', $album_uri);
+    my ($id_or_uri) = @args;
+    my $id = $self->_get_id('album', $id_or_uri);
+    $album = $self->_fetch('album', $id);
   
   } elsif (@args == 2) {
   
@@ -45,15 +47,18 @@ method get_album_info (@args) {
   } else {
     die "unexpected number of args";
   }
-
+  
   my $artist_id = $album->{artists}->[0]->{id};
-  my $output     = {};
+  my $output    = {};
   
   if ($album and $artist_id) {
     
     my $artist = $self->_fetch('artist', $artist_id);
     
     if ($artist) {
+      
+      #my $relinks = $self->_get_relinks($album); 
+      
       $output = {
         uri         => $album->{uri},
         name        => $album->{name},
@@ -68,6 +73,10 @@ method get_album_info (@args) {
   
   return $output;
 }
+
+#method _get_relinks($album) {
+#
+#}
 
 method _get_image ($images, $size) {
   foreach (@$images) {
@@ -102,6 +111,22 @@ method _fetch ($method, @args) {
   }
   
   return $result;
+}
+
+method _get_id ($type, $id) {
+  my @fields = split /:/, $id;
+  if (@fields == 3) {
+    warn "expected id of type $type but found type $fields[2] id" if $type ne $fields[1];
+    return $fields[2];
+  }
+ 
+  @fields = split /\//, $id;
+  if (@fields >= 3) {
+    warn "expected id of type $type but found type $fields[-2] id" if $type ne $fields[-2];
+    return $fields[-1];
+  }
+ 
+  return $id;
 }
 
 1;
