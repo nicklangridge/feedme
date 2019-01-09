@@ -7,7 +7,7 @@ class About extends Component {
       <div className="about">
         
         <div className="title">
-            <Link to="/"><span className="icon ion-disc"></span>feed<span className="me">me</span></Link>        
+            <Link to="/">feed<span className="me">me</span></Link>        
         </div>
           
         <p>

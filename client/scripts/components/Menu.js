@@ -16,6 +16,9 @@ class Menu extends Component {
         <div className="menu-content popover-content">
           <ul>
             <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
               <Link to="/feeds">Feeds</Link>
             </li>
             <li>
