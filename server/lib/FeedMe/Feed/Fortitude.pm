@@ -12,7 +12,7 @@ sub homepage_url { 'http://www.fortitudemagazine.co.uk' };
 
 method extract_artist_and_album ($title) {
   $title =~ s/\s+/ /g;
-  $title =~ s/(\x{2018}|\x{2019})//g; # strip quote chars
+    $title =~ s/(\x{2018}|\x{2019})//g; # strip quote chars
   $title =~ /EP Review:\s+(.+?)\s+(?:\x{2013}|\x{2014}|-|–)\s+(.+)/;
   return {
     artist => trim $1, 

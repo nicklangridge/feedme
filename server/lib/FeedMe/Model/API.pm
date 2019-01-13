@@ -53,7 +53,7 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$
     LIMIT $offset, $limit
   );
 
-warn "SQL\n$sql\n[$region]";
+#warn "SQL\n$sql\n[$region]";
 
   my @albums = dbh->query($sql, $region)->hashes;
     
@@ -84,7 +84,7 @@ warn "SQL\n$sql\n[$region]";
   };
   $result->{filters} = \@filters if @filters;
 
-warn Dumper $result;
+#warn Dumper $result;
   
   return $result;
 }

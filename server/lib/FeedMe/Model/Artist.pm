@@ -11,6 +11,11 @@ method insert ($artist!) {
   return dbh->insert('artist', {%$artist, created => \"now()"}) || die dbh->error;
 }
 
+method fetch_by_id ($id!) {
+  my ($row) = dbh->query('SELECT * FROM artist WHERE artist_id = ?', $id)->hashes;
+  return $row;
+}
+
 method fetch_by_uri ($uri!) {
   my ($row) = dbh->query('SELECT * FROM artist WHERE uri = ?', $uri)->hashes;
   return $row;

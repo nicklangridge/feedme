@@ -404,6 +404,7 @@ sub send_get_request {
         }
         $mech->add_header(
             'Authorization' => 'Bearer ' . $self->current_access_token() );
+        #warn $self->current_access_token() . "\n";
     }
 
     $mech->get($url);

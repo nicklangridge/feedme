@@ -32,10 +32,7 @@ if (@slugs) {
   }
 }
 
-my $spotify = FeedMe::Metadata::Spotify->new(
-  client_id     => config->{spotify_client_id},
-  client_secret => config->{spotify_client_secret},
-);
+my $spotify = FeedMe::Metadata::Spotify->new;
 
 my $mercury;
 if (config->{mercury_api_key}) {
@@ -71,12 +68,19 @@ method process_review ($review_info) {
     return;
   }
   
+  if ($album_info->{album_type} eq 'single') {
+    say "  album type is 'single' - skipping";
+    return;
+  }
+  
   say "  found in Spotify";
   
   my $artist = model->artist->fetch_or_create({
     uri  => $album_info->{artist_uri},
     name => $album_info->{artist_name},
   });
+  
+  #warn Dumper $artist;
   
   say "  artist " . ($artist->{_created} ? '<-- created' : '');
   
@@ -91,6 +95,8 @@ method process_review ($review_info) {
     genres    => $album_info->{genres},
     artist_id => $artist->{artist_id},
   });
+  
+  # warn Dumper $album;
   
   $created->{album} ++ if $album->{_created};
   
