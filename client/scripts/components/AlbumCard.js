@@ -9,12 +9,12 @@ class AlbumCard extends Component {
   renderReview(review, key) {  
     
     const text = review.snippet ? 
-      <span> <span className="quote">&ldquo;</span>{ review.snippet }<span className="quote">&rdquo;</span> <a href={ review.url } target="_blank">more</a></span> : 
-      <span> no preview available <a href={ review.url } target="_blank">more</a></span>;
+      <span> <a href={ review.url } target="_blank"><span className="quote">&ldquo;</span>{ review.snippet }<span className="quote">&rdquo;</span></a> </span> : 
+      <span> <a href={ review.url } target="_blank">no preview available</a> </span>;
     
     return (
       <li key={ key }>
-        <a href={ review.url } target="_blank">{ review.name }</a> 
+        <span className="feed-name">{ review.name }</span> 
         { text }
       </li>
     );
@@ -27,11 +27,11 @@ class AlbumCard extends Component {
       <div className="album-card" key={ album.album_id }>
         <AlbumImage album={album} />
         <div className="header">
-          <div className="artist">
-            <a href={ album.artist_uri }>{ album.artist_name }</a>
-          </div>
           <div className="album">
             <a href={ album.album_uri }>{ album.album_name }</a>
+          </div>
+          <div className="artist">
+            <a href={ album.artist_uri }>{ album.artist_name }</a>
           </div>
         </div>
         <div className="reviews clearfix">

@@ -1,16 +1,19 @@
 .feed-selector {
   margin: 0 auto;
-  padding: 20px 0;
+  padding: 12px 0;
   width: 100%;
   @import '_responsive';
   text-align: center;
   
   .feed {
     text-align: left;
-    width: 220px;
+    width: 300px;
     display: inline-block;
-    margin: 12px 10px;
+    margin: 10px;
+    padding: 10px 12px;
     overflow: hidden;
+    background-color: #fff;
+    border: #ddd 1px solid;
     
     .icon {
       margin-right: 5px;
@@ -25,7 +28,7 @@
     .link {
       display: block;
       font-size: 14px;
-      padding-left: 20px;
+      padding-left: 21px;
       color: #888;
     }
   }
