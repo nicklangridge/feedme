@@ -10,6 +10,7 @@ use Getopt::Long;
 use Parallel::ForkManager;
 use FeedMe::Metadata::Spotify;
 use FeedMe::Model 'model';
+use FeedMe::MySQL qw(dbh);
 use FeedMe::Metadata::Mercury;
 use FeedMe::Config qw(config);
 
@@ -36,7 +37,7 @@ my $spotify = FeedMe::Metadata::Spotify->new;
 
 my $mercury;
 if (config->{mercury_api_key}) {
-  $mercury = FeedMe::Metadata::Mercury->new(api_key => config->{mercury_api_key});
+  $mercury = FeedMe::Metadata::Mercury->new;
 }
 
 my @reviews = main->get_all_reviews(@feeds);
@@ -57,6 +58,12 @@ exit 0;
 
 method process_review ($review_info) {
   say "$review_info->{artist} - $review_info->{album} [$review_info->{source}]";
+  
+  dbh->query('SELECT count(*) FROM review WHERE url = ?', $review_info->{url})->into(my $count);
+  if ($count) {
+    say "  already processed - nothing to do";
+    return;
+  }
   
   my $album_info = $spotify->get_album_info(
     $review_info->{artist}, 
@@ -85,6 +92,10 @@ method process_review ($review_info) {
   say "  artist " . ($artist->{_created} ? '<-- created' : '');
   
   $created->{artist} ++ if $artist->{_created};
+
+  #if ($artist->{_created}) {
+  #  push @{ $album_info->{genres} }, model->musicstory->fetch_artist_genres($artist->{name});
+  #}
   
   my $album = model->album->fetch_or_create({
     uri       => $album_info->{uri},
@@ -95,7 +106,7 @@ method process_review ($review_info) {
     genres    => $album_info->{genres},
     artist_id => $artist->{artist_id},
   });
-  
+    
   # warn Dumper $album;
   
   $created->{album} ++ if $album->{_created};

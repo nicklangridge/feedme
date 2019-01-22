@@ -50,20 +50,22 @@ exit 0;
 
 method update_album ($album!) {
   
-  my $album_id = $album->{album_id};
-  my $artist   = model->artist->fetch_by_id($album->{artist_id});
-  my $new      = $spotify->get_album_info( $artist->{name}, $album->{name} ) ;
+  my $album_id  = $album->{album_id};
+  my $artist    = model->artist->fetch_by_id($album->{artist_id});
+  my $new       = $spotify->get_album_info( $artist->{name}, $album->{name} ) ;
   
   if (!$new or !keys %$new) {
     say "  no result from spotify for $artist->{name} - $album->{name}";
     return;
   }  
-  
+
+  #push @{ $new->{genres} }, model->musicstory->fetch_artist_genres($artist->{name});  
+
   my $genres_updated = model->album->set_genres($album_id, $new->{genres});
   say '  genres updated'  if $genres_updated;
     
   my $regions_updated = model->album->set_regions($album_id, $new->{regions});
-  say '  regions updated' if $regions_updated;
+  say '  regions updated' if $regions_updated; 
   
   #say '  no updates' unless ($genres_updated or $regions_updated);
   

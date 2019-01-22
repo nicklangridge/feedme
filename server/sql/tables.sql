@@ -44,7 +44,7 @@ CREATE TABLE `album_region` (
 
 
 -- ----------------------------
--- Table structure for `album_review`
+-- Table structure for `review`
 -- ----------------------------
 DROP TABLE IF EXISTS `review`;
 CREATE TABLE `review` (
@@ -69,6 +69,18 @@ CREATE TABLE `album_genre` (
   PRIMARY KEY (`album_id`,`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- ----------------------------
+-- Table structure for `musicstory_genre`
+-- ----------------------------
+DROP TABLE IF EXISTS `musicstory_genres`;
+CREATE TABLE `musicstory_genres` (
+  `musicstory_genre_id` int(11) NOT NULL AUTO_INCREMENT,
+  `artist_name` varchar(255) NOT NULL,
+  `genres` TEXT DEFAULT NULL,
+  `updated` datetime NOT NULL,
+  PRIMARY KEY (`musicstory_genre_id`),
+  CONSTRAINT unique_artist_name UNIQUE (`artist_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- -- ----------------------------
 -- -- Table structure for `feed`

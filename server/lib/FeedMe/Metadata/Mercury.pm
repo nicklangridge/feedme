@@ -6,9 +6,10 @@ use URI::QueryParam;
 use JSON;
 use Encode;
 use utf8::all;
+use FeedMe::Config qw(config);
 
 has 'base_uri' => ( is => 'rw', default => 'https://mercury.postlight.com/parser' );
-has 'api_key'  => ( is => 'rw', required => 1 );
+has 'api_key'  => ( is => 'rw', default => config->{mercury_api_key});
 has 'trace'    => ( is => 'rw', default => 0 );
 
 has 'user_agent' => (

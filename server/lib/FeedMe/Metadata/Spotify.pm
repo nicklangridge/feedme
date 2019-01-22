@@ -4,8 +4,9 @@ use Method::Signatures;
 use WWW::Spotify;
 use JSON;
 use Data::Dumper;
-use utf8::all;
+use Encode qw(decode);
 use FeedMe::Config qw(config);
+use utf8::all;
 use feature 'say';
 
 my $retry_limit = 10;
@@ -117,7 +118,9 @@ method _fetch ($method, @args) {
   
   foreach (1..$retry_limit) {   
     #$self->api->trace(1);
-    $result = from_json( eval { $self->api->$method(@args) } );
+    my $response = eval { $self->api->$method(@args) };
+    
+    $result = from_json( decode('UTF-8', $response) );
   #warn Dumper($result);  
     
     if ($@ || $result->{error}) {

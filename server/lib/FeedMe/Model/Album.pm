@@ -3,6 +3,7 @@ use Moo;
 use Method::Signatures;
 use Clone qw(clone);
 use DateTime;
+use List::MoreUtils qw(uniq);
 use FeedMe::MySQL qw(dbh);
 use FeedMe::Utils::Slug qw(slug);
 use Data::Dumper;
@@ -70,6 +71,10 @@ method fetch_or_create ($args!) {
 }
 
 method set_genres ($album_id!, $genres!) {
+  
+  my %unique = map{ slug($_) => $_ } @$genres;
+  $genres = [values %unique];
+  
   my @old = map {$_->{name}} $self->fetch_all_genres($album_id);
   my $updated = 0;
   
