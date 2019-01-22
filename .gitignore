@@ -22,7 +22,7 @@ nytprof.out
 
 # dev
 .c9
-config/dev.conf
+server/config/dev.conf
 
 # node
 logs
