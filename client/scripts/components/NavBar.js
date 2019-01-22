@@ -8,7 +8,7 @@ class NavBar extends Component {
       <div className="nav-bar">
         <div className="content">
           <div className="title">
-            <Link to="/">Feed<span className="me">Me</span></Link>        
+            <Link to="/">feed<span className="me">me</span></Link>        
           </div>
           <Menu />
         </div>
