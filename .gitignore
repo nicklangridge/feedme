@@ -23,6 +23,8 @@ nytprof.out
 # dev
 .c9
 server/config/dev.conf
+server/logs
+server/*.pid
 
 # node
 logs
