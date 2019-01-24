@@ -3,8 +3,8 @@
 use strict;
 use warnings;
 
-use FindBin;
-BEGIN { unshift @INC, "$FindBin::Bin/lib" }
+use FindBin qw($Bin);
+BEGIN { unshift @INC, "$Bin/../lib" }
 use Mojolicious::Commands;
 
 # Start command line interface for application
