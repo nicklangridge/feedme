@@ -36,6 +36,8 @@ Daemon::Control->new(
     pid_file     => $pid_file,
     program      => 'starman',
     program_args => [ 
+      '--error-log',   "$log_root/error.log",
+      '--access-log',  "$log_root/access.log",
       '--backlog',     $backlog,
       '--listen',      ":$port", 
       '--workers',     $workers, 
