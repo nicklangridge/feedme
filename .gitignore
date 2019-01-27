@@ -27,6 +27,7 @@ server/logs
 server/*.pid
 
 # node
+client/build
 logs
 *.log
 npm-debug.log*
