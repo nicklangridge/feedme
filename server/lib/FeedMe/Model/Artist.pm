@@ -6,8 +6,8 @@ use FeedMe::Utils::Slug qw(slug);
 use Data::Dumper;
 
 method insert ($artist!) {
-  warn "INSERT ARTIST\n";
-  warn $artist->{name};
+#  warn "INSERT ARTIST\n";
+#  warn $artist->{name};
   return dbh->insert('artist', {%$artist, created => \"now()"}) || die dbh->error;
 }
 

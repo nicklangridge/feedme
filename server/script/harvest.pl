@@ -1,8 +1,8 @@
 use strict;
 use warnings;
-use feature 'say';
 use lib 'lib';
 use utf8::all;
+use feature 'say';
 
 use Method::Signatures;
 use Data::Dumper;
@@ -13,12 +13,13 @@ use FeedMe::Model 'model';
 use FeedMe::MySQL qw(dbh);
 use FeedMe::Metadata::Mercury;
 use FeedMe::Config qw(config);
+use FeedMe::Utils::Log qw(yay info warning);
 
 GetOptions (
-  'p|print'     => \my $print,
   'v|verbose'   => \my $verbose, 
   'w|workers=n' => \(my $workers = 5),
 );
+$verbose ||= 0; # ensure defined
 
 my @slugs = @ARGV;
 my @feeds = model->feed->fetch_active;
@@ -28,7 +29,7 @@ if (@slugs) {
   @feeds = grep {my $feed = $_; grep {$feed->{slug} eq $_} @slugs} @feeds;
   
   if (!@feeds) {
-    say 'No active feeds match your input';
+    info 'No active feeds match your input';
     exit;
   }
 }
@@ -40,28 +41,32 @@ if (config->{mercury_api_key}) {
   $mercury = FeedMe::Metadata::Mercury->new;
 }
 
+info "Processing " . scalar(@feeds) . " feeds...";
+
 my @reviews = main->get_all_reviews(@feeds);
 
 my $created = { artist => 0, album => 0, review => 0 };
 
+info "Processing " . scalar(@reviews) . " reviews...";
+
 main->process_review($_) for @reviews;
 
-for (keys %$created) {
-  say "created $created->{$_} ${_}s";
+for (qw(artist album review)) {
+  info "created $created->{$_} ${_}s";
 }
 
-say "done";
+info "done";
 
 exit 0;
 
 #-------------------------------------------------------------------------------
 
 method process_review ($review_info) {
-  say "$review_info->{artist} - $review_info->{album} [$review_info->{source}]";
   
-  dbh->query('SELECT count(*) FROM review WHERE url = ?', $review_info->{url})->into(my $count);
-  if ($count) {
-    say "  already processed - nothing to do";
+  my $title = "[$review_info->{source}] $review_info->{artist} - $review_info->{album}";
+
+  if (model->review->fetch_by_url($review_info->{url})) {
+    info "$title ====> review exists", $verbose;
     return;
   }
   
@@ -71,32 +76,29 @@ method process_review ($review_info) {
   );
   
   if (!$album_info->{name}) {
-    say "  not found in Spotify";
+    warning "$title ====> not found in Spotify", $verbose;
     return;
   }
   
   if ($album_info->{album_type} eq 'single') {
-    say "  album type is 'single' - skipping";
+    warning "$title ====> is a single, skipping", $verbose;
     return;
   }
   
-  say "  found in Spotify";
+  yay "$title ====> found in Spotify";
   
   my $artist = model->artist->fetch_or_create({
     uri  => $album_info->{artist_uri},
     name => $album_info->{artist_name},
   });
   
-  #warn Dumper $artist;
-  
-  say "  artist " . ($artist->{_created} ? '<-- created' : '');
-  
-  $created->{artist} ++ if $artist->{_created};
-
-  #if ($artist->{_created}) {
-  #  push @{ $album_info->{genres} }, model->musicstory->fetch_artist_genres($artist->{name});
-  #}
-  
+  if ($artist->{_created}) {
+    yay "  >>> artist created";
+    $created->{artist} ++ ;
+    
+    #push @{ $album_info->{genres} }, model->musicstory->fetch_artist_genres($artist->{name});
+  }
+    
   my $album = model->album->fetch_or_create({
     uri       => $album_info->{uri},
     name      => $album_info->{name},
@@ -106,12 +108,11 @@ method process_review ($review_info) {
     genres    => $album_info->{genres},
     artist_id => $artist->{artist_id},
   });
-    
-  # warn Dumper $album;
   
-  $created->{album} ++ if $album->{_created};
-  
-  say "  album " . ($album->{_created} ? '<-- created' : '');
+  if ($album->{_created}) {
+    yay "  >>> album created";
+    $created->{album} ++ 
+  }
   
   my $review = model->review->fetch_or_create({
     album_id  => $album->{album_id},
@@ -119,19 +120,20 @@ method process_review ($review_info) {
     url       => $review_info->{url},
     snippet   => $review_info->{snippet},
   });
-  
-  $created->{review} ++ if $review->{_created};
-  
-  say "  review " . ($review->{_created} ? '<-- created' : '');
-  
-  if ($review->{_created} && $review->{snippet}) {
-    say "    snippet '$review->{snippet}'";
-  }
-  
-  if (!$review->{snippet} && $mercury) {
-    $review->{snippet} = $mercury->excerpt($review->{url});
-    say "    mercury snippet '$review->{snippet}'";
-    model->review->save($review) if $review->{snippet};
+
+  if ($review->{_created}) {
+    yay "  >>> review created";
+    $created->{review} ++; 
+    
+    if ($review->{snippet}) {
+      yay "    >>> snippet '$review->{snippet}'";
+    } elsif ($mercury) {
+      $review->{snippet} = $mercury->excerpt($review->{url});
+      yay "    >>> mercury snippet '$review->{snippet}'";
+      model->review->save($review) if $review->{snippet};
+    }
+  } else {
+    warning "  >>> review is duplicate, skipping";
   }
 }
 
@@ -148,7 +150,7 @@ method get_all_reviews (@feeds!) {
   foreach my $feed (@feeds) {
     $pm->start and next; # fork
     my @r = model->feed->fetch_reviews($feed);
-    say "$feed->{slug}:" . scalar(@r);  
+    info "$feed->{slug} " . scalar(@r);  
     $pm->finish(0, \@r);
   }
   

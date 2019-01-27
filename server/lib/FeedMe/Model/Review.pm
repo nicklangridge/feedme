@@ -19,13 +19,18 @@ method fetch_by_album_and_feed ($album_id!, $feed_id!) {
   return $row;
 }
 
+method fetch_by_url ($url!) {
+  my ($row) = dbh->query('SELECT * FROM review WHERE url = ?', $url)->hashes;
+  return $row;
+}
+
 method fetch_or_create ($args!) {
   die 'album id is required' if !$args->{album_id};
   die 'feed id is required' if !$args->{feed_id};
   die 'url is required' if !$args->{url};
   
   my $review = $self->fetch_by_album_and_feed($args->{album_id}, $args->{feed_id});
-  
+
   if (!$review) {
     $self->insert({ 
       album_id => $args->{album_id},
