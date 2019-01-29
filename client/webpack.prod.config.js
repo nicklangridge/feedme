@@ -20,12 +20,8 @@ module.exports = {
       { test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader'] },
     ],
   },
-  devServer: {
-    host: '0.0.0.0',
-    historyApiFallback: {
-      index: 'index.html'
-    },
-    disableHostCheck: true
+  externals: {
+    config: JSON.stringify(require('./config/dev.json'))
   },
   plugins: [
     //new webpack.optimize.CommonsChunkPlugin('common.js'),
@@ -40,5 +36,3 @@ module.exports = {
     new CopyWebpackPlugin([{from:'public', to:'./'}]), 
   ]  
 };
-
-// https://medium.com/a-beginners-guide-for-webpack-2/copy-all-images-files-to-a-folder-using-copy-webpack-plugin-7c8cf2de7676
