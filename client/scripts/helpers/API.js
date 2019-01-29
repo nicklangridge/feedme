@@ -1,6 +1,7 @@
 import { getCountryName } from './countries';
+var config = require('config');
 
-const apiBase = 'http://feedme-nicklangridge.c9users.io:8081/api/v1';
+const apiBase = config.api_base_uri;
 /* global fetch */
 
 function apiFetch(method, args = {}) {   

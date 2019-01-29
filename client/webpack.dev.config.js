@@ -20,6 +20,9 @@ module.exports = {
       { test: /\.scss$/, loaders: ['style', 'css', 'sass'] },
     ],
   },
+  externals: {
+    config: JSON.stringify(require('./config/dev.json'))
+  },
   devServer: {
     host: '0.0.0.0',
     historyApiFallback: {
@@ -27,5 +30,4 @@ module.exports = {
     },
     disableHostCheck: true
   },
-
 };
