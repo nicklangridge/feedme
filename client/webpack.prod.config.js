@@ -21,7 +21,7 @@ module.exports = {
     ],
   },
   externals: {
-    config: JSON.stringify(require('./config/dev.json'))
+    config: JSON.stringify(require('./config/prod.json'))
   },
   plugins: [
     //new webpack.optimize.CommonsChunkPlugin('common.js'),
