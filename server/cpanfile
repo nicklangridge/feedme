@@ -11,7 +11,7 @@ requires 'Locale::Country';
 requires 'LWP::UserAgent';
 requires 'Module::Loader';
 requires 'Mojolicious';
-requires 'Mojolicious::Plugin::ClientIP;
+requires 'Mojolicious::Plugin::ClientIP';
 requires 'Moo';
 requires 'Method::Signatures';
 requires 'Parallel::ForkManager';
