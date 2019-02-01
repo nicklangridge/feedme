@@ -1,0 +1,2 @@
+0 * * * * source ~/.bashrc; cd /www/feedme/server/; ./script/harvest.pl >> logs/harvest.log 2>&1
+30 */4 * * * source ~/.bashrc; cd /www/feedme/server/; ./script/update_albums.pl >> logs/update.log 2>&1

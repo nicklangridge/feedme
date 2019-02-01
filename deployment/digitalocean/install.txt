@@ -1,0 +1,52 @@
+# Create mysql droplet
+# create a feedme user
+# create db from files in server/sql/
+
+# Create Ubuntu 18.10 droplet
+
+# update
+apt-get update && apt-get upgrade && sudo apt-get dist-upgrade
+
+# create a feedme user
+adduser feedme && usermod -aG sudo feedme
+su feedme
+
+# install some libs
+sudo apt install -y nodejs && sudo apt install -y npm
+sudo apt install -y cpanminus
+sudo apt install -y libmysqlclient-dev
+
+# create www path and www-data user group
+sudo mkdir /www
+sudo gpasswd -a "$USER" www-data
+sudo chown -R "$USER":www-data /var/www
+sudo chown -R "$USER":www-data /www
+find /www -type f -exec chmod 0660 {} \;
+sudo find /www -type d -exec chmod 2770 {} \;
+
+# checkout
+cd /www
+git clone https://github.com/nicklangridge/feedme.git
+
+# client
+cd /www/feedme/client
+cp config/prod.json.example config/prod.json # edit as needed
+npm install
+npm run prod
+
+# server
+cd /www/feedme/server
+sudo cpanm --installdeps .
+cp config/dev.conf.example config/prod.conf # edit as needed
+./scripts/server_control.pl start
+
+# nginx
+sudo apt install -y nginx
+sudo ufw allow 'Nginx HTTP'
+sudo cp /www/feedme/deployment/digitalocean/nginx/feedmemusic.io /etc/nginx/sites-available/feedmemusic.io
+sudo ln -s /etc/nginx/sites-available/feedmemusic.io /etc/nginx/sites-enabled/
+
+# install cron from deployment/digitalcoean/cron.txt
+
+# enjoy!
+
