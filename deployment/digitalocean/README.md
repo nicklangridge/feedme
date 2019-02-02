@@ -21,7 +21,7 @@ apt-get update && apt-get upgrade && sudo apt-get dist-upgrade
 adduser feedme && usermod -aG sudo feedme
 su feedme
 ```
-### Istall some dependencies
+### Install some dependencies
 ```
 sudo apt install -y nodejs npm
 sudo apt install -y cpanminus
