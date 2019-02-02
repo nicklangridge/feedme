@@ -31,6 +31,10 @@ Create from SQL in `server/sql` then initialise the review feeds
 ```
 ./server/script/db/add_feeds.pl
 ```
+## Production deployment
+
+There are lots of possible deployment options. A basic example can be found [here](deployment/digitalocean/README.md)
+
 ## External dependencies
 API keys from these services are required
 - [Spotify metadata API](https://developer.spotify.com/documentation/web-api/)
