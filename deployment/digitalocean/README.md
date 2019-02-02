@@ -5,7 +5,9 @@
 - create db from SQL files in `server/sql/`
 - load feeds with `./server/script/db/add_feeds.pl`
  
-## Ubuntu 18.10 droplet
+## Ubuntu droplet
+
+Create an Ubuntu droplet using latest version
 
 ### update the OS
 ```
@@ -18,7 +20,7 @@ su feedme
 ```
 ### install some dependencies
 ```
-sudo apt install -y nodejs && sudo apt install -y npm
+sudo apt install -y nodejs npm
 sudo apt install -y cpanminus
 sudo apt install -y libmysqlclient-dev
 ```
