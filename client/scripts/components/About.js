@@ -7,11 +7,13 @@ class About extends Component {
       <div className="about">
         
         <div className="title">
-            <Link to="/">feed<span className="me">me</span>music</Link>        
+            feed<span className="me">me</span>music        
         </div>
-          
         <p>
-          This website is a non-commercial hobby project born out of a passion for discovering new music online. 
+          The latest music album reviews for Spotify listeners, gathered together from the best review sites on the web.
+        </p>
+        <p>
+          This website is a non-commercial hobby project born out of a passion for discovering new music online.
         </p>
         
         <p>

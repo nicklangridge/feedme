@@ -24,15 +24,17 @@ module.exports = {
     config: JSON.stringify(require('./config/prod.json'))
   },
   plugins: [
-    //new webpack.optimize.CommonsChunkPlugin('common.js'),
-    //new webpack.optimize.DedupePlugin(),
-    /*new webpack.optimize.UglifyJsPlugin({
+    new webpack.DefinePlugin({
+      'process.env':{
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
       parallel: {
         cache: true,
         workers: 2,
       },
-    }),*/
-    //new webpack.optimize.AggressiveMergingPlugin(),
-    new CopyWebpackPlugin([{from:'public', to:'./'}]), 
-  ]  
+    }),
+    new CopyWebpackPlugin([{from:'public', to:'./'}]),
+  ]
 };
