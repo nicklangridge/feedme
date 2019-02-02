@@ -13,7 +13,7 @@ class About extends Component {
           The latest music album reviews for Spotify listeners, gathered together from the best review sites on the web.
         </p>
         <p>
-          This website is a non-commercial hobby project born out of a passion for discovering new music online.
+          This website is a non-commercial hobby project.
         </p>
         
         <p>
