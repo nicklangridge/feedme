@@ -8,6 +8,7 @@ use feature 'say';
 
 use Method::Signatures;
 use Data::Dumper;
+use DateTime;
 use Getopt::Long;
 use Parallel::ForkManager;
 use FeedMe::Metadata::Spotify;
@@ -42,6 +43,8 @@ my $mercury;
 if (config->{mercury_api_key}) {
   $mercury = FeedMe::Metadata::Mercury->new;
 }
+
+info '===== Harvesting new reviews [' . DateTime->now . '] =====';
 
 info "Processing " . scalar(@feeds) . " feeds...";
 

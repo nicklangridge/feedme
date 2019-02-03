@@ -22,6 +22,8 @@ $verbose ||= 0; # ensure defined
 
 my $spotify = FeedMe::Metadata::Spotify->new;
 
+info '===== Updating albums [' . DateTime->now . '] =====';
+
 if ($new_limit) {
   my @albums = model->album->fetch_newest($new_limit);
 
