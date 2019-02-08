@@ -17,7 +17,7 @@ class FilterBar extends Component {
     
     if (!filters) return (
       <div className="filter-bar">
-        <span className="name">Recent Spotify albums and reviews</span>
+        <span className="icon"></span><span className="name">Recent Spotify albums and reviews</span>
       </div>
     );
        

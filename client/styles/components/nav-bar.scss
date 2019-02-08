@@ -24,7 +24,7 @@
     }
 
     .title {
-      font-family: 'Oleo Script', serif;
+      font-family: $logo-font;
       float: left;
       height: 50px;
       padding: 8px 0 0 0;
@@ -32,11 +32,11 @@
       font-weight: normal;
         
       .me {
-        color: #F52C3F;
+        color: $primary-col;
       }
       
       .icon {
-        color: #F52C3F;
+        color: $primary-col;
         font-size: 19px;
         vertical-align: 0px;
         margin-right: 3px;

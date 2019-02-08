@@ -14,7 +14,7 @@
   }
   
   .icon:hover {
-    color: #F52C3F;
+    color: $primary-col;
   }
 }
 
@@ -25,7 +25,7 @@
   white-space: nowrap;
 
   a:hover {
-    color: #F52C3F;
+    color: $primary-col;
   }
 
   ul {

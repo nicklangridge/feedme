@@ -15,16 +15,16 @@
   
   .title {
     color: #555;
-    font-family: 'Oleo Script', serif;
+    font-family: $logo-font;
     font-size: 40px;
     font-weight: normal;
       
     .me {
-      color: #F52C3F;
+      color: $primary-col;
     }
     
     .icon {
-      color: #F52C3F;
+      color: $primary-col;
       font-size: 25px;
       margin-right: 5px;
       font-weight: normal;
