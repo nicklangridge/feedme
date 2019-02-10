@@ -7,6 +7,7 @@ class FeedSelector extends Component {
     
     return (
       <div className="feed-selector">
+        <div className="caption">Select a feed...</div>
         { 
           feeds.map((feed, i) => { return (
             <div className="feed" key={ i }>
