@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 
 const icons = {
+  category: 'icon ion-pricetags',
   genre: 'icon ion-pricetag',
   feed: 'icon ion-social-rss',
 }
 
 const crumb = {
-  genre: { name: 'genre', path: null },
-  feed:  { name: 'feed', path: '/feeds' },
+  category: { name: 'category', path: null },
+  genre:    { name: 'genre', path: null },
+  feed:     { name: 'feed', path: '/feeds' },
 }
 
 class FilterBar extends Component {

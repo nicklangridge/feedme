@@ -13,17 +13,19 @@ method feeds () {
   return [ dbh->query('SELECT name, slug, homepage_url FROM feed WHERE active = 1 ORDER by name')->hashes ];
 }
 
-method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$feeds = undef, :$keywords = undef) {
+method albums (:$region = 'GB', :$offset = 0, :$limit = 30, 
+               :$genres = undef, :$feeds = undef, :$keywords = undef, :$category = undef) {
   
   my @filters;
   
   my $join = '';
-  $join  .= $genres && @$genres ? 'JOIN album_genre gen USING(album_id)' : '';
-  $join  .= $feeds  && @$feeds  ? 'JOIN review r USING(album_id) JOIN feed f USING(feed_id)'  : '';
+  $join  .= (($genres && @$genres) || $category) ? 'JOIN album_genre gen USING(album_id)' : '';
+  $join  .= $feeds && @$feeds ? 'JOIN review r USING(album_id) JOIN feed f USING(feed_id)'  : '';
   
   my $where = '';
+  $where .= $category ? sprintf("AND gen.parent = \%s", join(',', $self->quote($category))) : '';
   $where .= $genres && @$genres ? sprintf("AND gen.slug IN (\%s)", join(',', $self->quote(@$genres))) : '';
-  $where .= $feeds  && @$feeds  ? sprintf("AND f.slug   IN (\%s)", join(',', $self->quote(@$feeds)))  : '';
+  $where .= $feeds && @$feeds  ? sprintf("AND f.slug   IN (\%s)", join(',', $self->quote(@$feeds)))  : '';
   $where .= $keywords ? sprintf("AND MATCH (keywords) AGAINST (\%s)", $self->quote($keywords)) : '';
   
   my $sql = qq(
@@ -69,7 +71,10 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30, :$genres = undef, :$
       $_->{reviews} = $review_lookup->{$_->{album_id}} || [];
     }
     
-    # filters    
+    # filters 
+    if ($category) {
+      push @filters, {type => 'category', slug => $category, name => $category};
+    }
     if ($genres && @$genres) {
       push @filters, map {{type => 'genre', slug => $_, name => $genre_lookup->{genre_name}->{$_}}} @$genres;
     }

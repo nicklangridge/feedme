@@ -6,6 +6,7 @@ use DateTime;
 use List::MoreUtils qw(uniq);
 use FeedMe::MySQL qw(dbh);
 use FeedMe::Utils::Slug qw(slug);
+use FeedMe::Model::Genres;
 use Data::Dumper;
 
 method insert ($album!) {  
@@ -79,10 +80,14 @@ method set_genres ($album_id!, $genres!) {
   my $updated = 0;
   
   if (!$self->_array_equal(\@old, $genres)) {
-
+    
+    my $genres_model = FeedMe::Model::Genres->new;
+    
     dbh->query('DELETE FROM album_genre WHERE album_id = ?', $album_id);
     foreach my $genre (@$genres) {
-      dbh->insert('album_genre', {album_id => $album_id, name => $genre, slug => slug($genre)}) || die dbh->error;
+      my $slug = slug($genre);
+      my $parent = $genres_model->parent_genre($slug);
+      dbh->insert('album_genre', {album_id => $album_id, name => $genre, slug => $slug, parent => $parent}) || die dbh->error;
     }
     
     $updated = 1;

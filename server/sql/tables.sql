@@ -66,7 +66,9 @@ CREATE TABLE `album_genre` (
   `album_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `slug` varchar(50) NOT NULL,
-  PRIMARY KEY (`album_id`,`slug`)
+  `parent` varchar(50) NOT NULL,
+  PRIMARY KEY (`album_id`,`slug`),
+  INDEX parent_idx (`parent`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

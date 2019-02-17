@@ -12,6 +12,7 @@ use Getopt::Long;
 use FeedMe::Metadata::Spotify;
 use FeedMe::Model 'model';
 use FeedMe::Utils::Log qw(yay info warning);
+use Date::Time;
 
 GetOptions (
   'v|verbose'   => \my $verbose, 
@@ -30,7 +31,7 @@ if ($new_limit) {
   info sprintf 'Checking %s newest albums...', scalar @albums;
 
   foreach my $album (@albums) { 
-    info "  NEW: $album->{slug}";
+    info "  NEW: $album->{slug} [$album->{album_id}]";
     main->update_album($album);
   }
 }
@@ -60,6 +61,16 @@ method update_album ($album!) {
   
   if (!$new or !keys %$new) {
     warning "    no result from spotify for $artist->{name} - $album->{name}";
+    warning "    artist $artist->{name} [$artist->{artist_id}]";
+    warning "    $album->{uri}" . ' -- ' . $spotify->_get_id('album', $album->{uri});
+    warning "    $artist->{uri}";
+    
+    my $al = $spotify->_fetch('album', $spotify->_get_id('album', $album->{uri}));
+    warning  "    new al $al->{name}"; 
+    my $ar = $spotify->_fetch('artist', $spotify->_get_id('artist', $artist->{uri}));
+    warning  "    new ar $ar->{name}"; 
+
+
     return;
   }  
 

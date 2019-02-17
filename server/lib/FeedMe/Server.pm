@@ -29,9 +29,10 @@ sub startup {
     push(@args, region   => $region);
     push(@args, offset   => $c->param('offset'))              if $c->param('offset');
     push(@args, limit    => $c->param('limit'))               if $c->param('limit');
-    push(@args, genres   => [split /,/, $c->param('genres')])  if $c->param('genres');
-    push(@args, feeds    => [split /,/, $c->param('feeds')])   if $c->param('feeds');
+    push(@args, genres   => [split /,/, $c->param('genres')]) if $c->param('genres');
+    push(@args, feeds    => [split /,/, $c->param('feeds')])  if $c->param('feeds');
     push(@args, keywords => $c->param('keywords'))            if $c->param('keywords');
+    push(@args, category => $c->param('category'))            if $c->param('category');
 
     $c->res->headers->access_control_allow_origin('*');
     $c->render(json => $c->feedme->albums(@args));

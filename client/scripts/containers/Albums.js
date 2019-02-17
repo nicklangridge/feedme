@@ -50,6 +50,7 @@ class Albums extends Component {
       limit: PAGESIZE,
       feeds: props.params.feed,
       genres: props.params.genre,
+      category: props.params.category,
     };
     
     return getAlbums(args).then(data => {
