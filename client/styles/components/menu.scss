@@ -22,30 +22,63 @@
   position: absolute;
   right: 5px;
   top: 35px;
-  white-space: nowrap;
-
+  width: 250px;
+  text-align: left;
+  font-size: 16px;
+  
+  h2 {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0;
+    margin: 0 0 10px 0;
+  }
+  
   a:hover {
     color: $primary-col;
   }
-
-  ul {
-    padding: 5px 0; 
-  }
   
   li {
+    display: block;
     list-style: none;
     box-sizing: border-box;
     text-align: left;
-    margin: 10px 15px;
-    font-size: 16px;
+    margin: 0 7px 7px 0;
+    padding: 0;
+  }
+  li:last-child {
+    margin-bottom: 15px;
+  }
+      
+  .categories {
+    padding: 15px 15px 0 15px;
+    border-top: #ddd 1px solid;
+    li {
+      width: 140px;
+      float: left;
+    }
+  }
+  
+  .links {
+    padding: 15px 15px 0 15px;
     
-    img {
-      vertical-align: middle;
+    li {
+      width: 60px;
+      float: left;
+    }
+    li.region {
+      width: 120px;
     }
   }
   
   .region {
+    padding: 15px 15px 0 15px;
     border-top: #ddd 1px solid;
-    padding-top: 10px;
+    li {
+      float: left;
+      
+      img {
+        vertical-align: middle;
+      }
+    }
   }
 }
