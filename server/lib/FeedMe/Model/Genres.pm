@@ -4,8 +4,8 @@ use Method::Signatures;
 use Data::Dumper;
 
 my $GENRES = {
+  # Electronic
   'electronic' => [qw(
-    indietronica
     fluxwork         
     microhouse 
     minimal-techno   
@@ -46,6 +46,7 @@ my $GENRES = {
     deep-house             
     electro
     uk-funky
+    minimal-dub
   )],
   'hip-hop-rap' => [qw(
     rap
@@ -69,19 +70,18 @@ my $GENRES = {
     dirty-south-rap        
     chicago-rap  
     miami-hip-hop
+    pop-rap
   )],
+  # Pop
   'pop' => [qw(
     pop
     art-pop
     chamber-pop
     indie-pop
-    pop-rap
     noise-pop
     electropop
     dream-pop
-    experimental-pop         
-    pop-rock     
-    pop-punk                
+    experimental-pop                       
     post-teen-pop           
     new-wave-pop     
     shimmer-pop            
@@ -98,9 +98,9 @@ my $GENRES = {
     synthpop                        
     alternative-pop   
     canadian-pop           
-    mande-pop              
-    afropop  
+    mande-pop                
   )],
+  # Rock / indie
   'rock-indie' => [qw(
     modern-rock
     indie-rock
@@ -130,8 +130,7 @@ my $GENRES = {
     modern-alternative-rock 
     new-wave
     mellow-gold
-    alternative-metal       
-    post-rock               
+    alternative-metal                   
     emo                     
     post-hardcore           
     indie-psych-rock                      
@@ -183,8 +182,13 @@ my $GENRES = {
     groove-metal           
     australian-indie       
     space-rock                            
-    grunge                 
+    grunge
+    pop-rock     
+    pop-punk  
+    freak-folk
+    anti-folk
   )],
+  # Avant garde
   'avant-garde' => [qw(
     avant-garde            
     experimental
@@ -194,15 +198,17 @@ my $GENRES = {
     abstractro
     acousmatic
     free-improvisation     
+    post-rock   
   )],
+  # Reggae / dub
   'reggae-dub' => [qw(
-    minimal-dub
     reggae
     dub
     dancehall
     roots-reggae
     traditional-reggae
   )],
+  # Country / roots
   'country' => [qw(
     roots-rock
     new-americana
@@ -212,18 +218,18 @@ my $GENRES = {
     roots-americana        
     outlaw-country         
   )],
+  # Folk
   'folk' => [qw(
     folk
-    freak-folk
     folk-pop
     indie-folk
-    anti-folk
     drone-folk             
     traditional-folk       
     folk-rock              
     british-folk           
     canadian-folk          
   )],
+  # R & B
   'randb' => [qw(
     indie-randb
     randb                    
@@ -232,6 +238,7 @@ my $GENRES = {
     neo-soul
     deep-pop-randb         
   )],
+  # Soul / Funk / Jazz
   'soul-funk-jazz' => [qw(
     indie-jazz
     funk
@@ -242,6 +249,7 @@ my $GENRES = {
     contemporary-post-bop
     british-jazz           
   )],
+  # Ambient
   'ambient' => [qw(
     dark-jazz
     focus                  
@@ -250,6 +258,12 @@ my $GENRES = {
     warm-drone
     hauntology
     drift
+  )],
+  # Do nothing with these
+  # Either beacuse they don't fit any category or because they cross too many
+  '_ignore' => [qw(
+    indietronica
+    afropop
   )],
 };
 
