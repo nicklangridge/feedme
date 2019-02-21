@@ -1,5 +1,8 @@
 $primary-col: #14A3C0;
-$logo-font: 'Oleo Script', serif;
+$bg-dark: #333;
+$fg-dark: #888;
+$fg-mid-dark: #666;
+$logo-font: 'Oleo Script', sans-serif;
 
 @import 'components/reset';
 @import 'components/body';
