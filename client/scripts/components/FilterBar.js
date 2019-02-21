@@ -30,7 +30,7 @@ class FilterBar extends Component {
       <div className="filter-bar">
         <span className={ icons[type] }></span>
         {
-          crumb[type] ? (<span><Link to={ crumb[type].path }>{ crumb[type].name }</Link> / </span>) : ''
+          crumb[type] ? (<span><Link to={ crumb[type].path }>{ crumb[type].name }</Link> - </span>) : ''
         }
         <span className="name">{ name }</span>
         <Link to="/"><span className="close ion-close"></span></Link>

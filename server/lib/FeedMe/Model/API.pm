@@ -3,7 +3,9 @@ use Moo;
 use Method::Signatures;
 use FeedMe::MySQL 'dbh';
 use FeedMe::Utils::Slug 'slug';
+use FeedMe::Model::Genres;
 use Data::Dumper;
+
 
 method regions () {
   return [ dbh->query('SELECT DISTINCT(region) FROM album_region ORDER by region')->flat ];
@@ -73,7 +75,8 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30,
     
     # filters 
     if ($category) {
-      push @filters, {type => 'category', slug => $category, name => $category};
+      my $genres_model = FeedMe::Model::Genres->new;
+      push @filters, {type => 'category', slug => $category, name => $genres_model->parent_name($category)};
     }
     if ($genres && @$genres) {
       push @filters, map {{type => 'genre', slug => $_, name => $genre_lookup->{genre_name}->{$_}}} @$genres;
@@ -100,7 +103,7 @@ method quote (@values) {
 
 method _get_genre_lookup ($album_ids_in) {
   my @rows = dbh->query(qq(
-    SELECT album_id, name, slug 
+    SELECT album_id, name, slug, parent 
     FROM album_genre 
     WHERE album_id IN ($album_ids_in) 
     ORDER BY album_id, name 

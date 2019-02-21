@@ -1,7 +1,6 @@
 package FeedMe::Model::Genres;
 use Moo;
 use Method::Signatures;
-use Data::Dumper;
 
 my $GENRES = {
   # Electronic
@@ -267,6 +266,20 @@ my $GENRES = {
   )],
 };
 
+my $PARENT_NAMES = {
+  'rock-indie'     => 'Rock / indie',
+  'pop'            => 'Pop',
+  'electronic'     => 'Electronic',
+  'hip-hop-rap'    => 'Hip-hop / rap',
+  'folk'           => 'Folk',
+  'avant-garde'    => 'Avant garde',
+  'randb'          => 'R & B',
+  'country'        => 'Country',
+  'ambient'        => 'Ambient',
+  'soul-funk-jazz' => 'Soul / funk / jazz',
+  'reggae-dub'     => 'Reggae / dub',
+};
+
 my $PARENT_LOOKUP;
 method parent_lookup () {
   if (!$PARENT_LOOKUP) {
@@ -295,9 +308,14 @@ method parent_genre ($sub_genre) {
   return $self->parent_lookup()->{$sub_genre};
 }
 
+method parent_name ($parent) {
+  return $PARENT_NAMES->{$parent};
+}
+
 method all_genres () {
   return keys %{ $self->parent_lookup() };
 }
+
 
 
 
