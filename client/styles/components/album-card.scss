@@ -48,14 +48,6 @@
     ul li .feed-name {
       font-weight: bold;
     }
-    
-    .quote {
-      display: inline-block;
-      font-size: 16px;
-      height: 14px;
-      overflow: hidden;
-      vertical-align: 1px;
-    }
   }
   
   .tags {
@@ -76,14 +68,14 @@
       padding: 2px 7px 4px 7px;
       border-radius: 2px;
       margin: 0 5px 5px 0;
-      background-color: #dddddd;
+      background-color: #eee;
       text-decoration: none;
       color: #222;
-      border: 1px solid #bbbbbb;
+      //border: 1px solid #cccccc;
     }
     
     a:hover {
-      background-color: #bbbbbb;
+      background-color: #ddd;
     }
     
     ul li.feed a{

@@ -14,72 +14,14 @@ class AlbumCard extends Component {
     
     return (
       <li key={ key }>
-        <span className="feed-name">{ review.name }</span> 
+        <span className="feed-name">{ review.name }</span>&nbsp; 
         { text }
       </li>
     );
   }
   
-  renderCategories(categories) {
-    if (!categories.length) return null;
-    
-    return (
-      <div className="tags clearfix">
-        <ul>
-          { 
-            categories.map((tag, i) => { 
-              return (<li key={ i } className="genre"><Link to={ '/category/' + tag }>{ tag }</Link></li>)
-            })
-          }
-        </ul>
-      </div>
-    );
-  }
-  
-  renderFeeds(reviews) {
-    if (!reviews.length) return null;
-    
-    return (
-       <div className="tags clearfix">
-        <ul>
-          { 
-            reviews.map((tag, i) => { 
-              return (<li key={ i } className="feed"><Link to={ '/feed/' + tag.slug }>{ tag.name }</Link></li>)
-            })
-          }
-        </ul>
-      </div>
-    );
-  }
-  
-  renderGenres(genres) {
-    if (!genres.length) return null;
-    
-    return (
-      <div className="tags clearfix">
-        <ul>
-          { 
-            genres.map((tag, i) => { 
-              return (<li key={ i } className="genre"><Link to={ '/genre/' + tag.slug }>{ tag.name }</Link></li>)
-            })
-          }
-        </ul>
-      </div>
-    );
-  }
-  
   render() {
     const {album} = this.props;  
-        
-    let categoryDict = {};
-    let genres = [];
-    
-    album.genres.filter(short).forEach((genre, i) => { 
-      genres.push(genre)
-      if (genre.parent) categoryDict[genre.parent] = 1;
-    })
-    
-    let categories = Object.keys(categoryDict);  
               
     return (
       <div className="album-card" key={ album.album_id }>
@@ -98,9 +40,20 @@ class AlbumCard extends Component {
           </ul>
         </div>
         <div className="time-ago clearfix">Found <TimeAgo date={ album.created } /></div>
-        { this.renderFeeds(album.reviews) }
-        { this.renderCategories(categories) }
-        { this.renderGenres(genres) }
+        <div className="tags clearfix">
+          <ul>
+            { 
+              album.reviews.map((tag, i) => { 
+                return (<li key={ i } className="genre"><Link to={ '/feed/' + tag.slug }>{ tag.name }</Link></li>)
+              })
+            }
+            { 
+              album.genres.filter(short).map((tag, i) => { 
+                return (<li key={ i } className="genre"><Link to={ '/genre/' + tag.slug }>{ tag.name }</Link></li>)
+              })
+            }
+          </ul>
+        </div>
       </div>
     );
   }
