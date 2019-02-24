@@ -1,4 +1,4 @@
-# feedmemusic
+![Feed Me Music](feedmemusic.png)
 
 The latest music album reviews for Spotify listeners, gathered together from the best review sites on the web.
 http://feedmemusic.io
