@@ -51,6 +51,7 @@ class Albums extends Component {
       feeds: props.params.feed,
       genres: props.params.genre,
       category: props.params.category,
+      keywords: props.params.keywords,
     };
     
     return getAlbums(args).then(data => {
@@ -75,7 +76,7 @@ class Albums extends Component {
     
     return (  
       <div> 
-        { hasAlbums ? <FilterBar filters={ filters } /> : '' }
+        { isFetching && !hasAlbums ? '' : <FilterBar filters={ filters } /> }
         { hasAlbums ? <AlbumCards albums={ albums } hasMore={ hasMore } loadMore={ this.loadMore } /> : '' }
         { isFetching ? <Spinner /> : '' }
         { atEnd ? <Footer /> : '' }

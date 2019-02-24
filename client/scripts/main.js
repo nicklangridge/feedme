@@ -17,6 +17,7 @@ ReactDOM.render(
       <Route path="/feed/:feed"         component={Albums} />
       <Route path="/genre/:genre"       component={Albums} />
       <Route path="/category/:category" component={Albums} />
+      <Route path="/search/:keywords"   component={Albums} />
       <Route path="/regions"            component={Regions} />
       <Route path="/feeds"              component={Feeds} />
       <Route path="/about"              component={About} />

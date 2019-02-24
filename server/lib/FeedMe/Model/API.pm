@@ -28,7 +28,7 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30,
   $where .= $category ? sprintf("AND gen.parent = \%s", join(',', $self->quote($category))) : '';
   $where .= $genres && @$genres ? sprintf("AND gen.slug IN (\%s)", join(',', $self->quote(@$genres))) : '';
   $where .= $feeds && @$feeds  ? sprintf("AND f.slug   IN (\%s)", join(',', $self->quote(@$feeds)))  : '';
-  $where .= $keywords ? sprintf("AND MATCH (keywords) AGAINST (\%s)", $self->quote($keywords)) : '';
+  $where .= $keywords ? sprintf("AND MATCH (keywords) AGAINST (\%s IN BOOLEAN MODE)", $self->quote($keywords)) : '';
   
   my $sql = qq(
     SELECT 
@@ -83,7 +83,11 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30,
     }
     if ($feeds && @$feeds) {
       push @filters, map {{type => 'feed', slug => $_, name => $review_lookup->{feed_name}->{$_}}} @$feeds;
-    }
+    }  
+  }
+
+  if ($keywords) {
+    push @filters, {type => 'search', slug => $keywords, name => $keywords};
   }
   
   my $result = { 

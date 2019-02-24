@@ -3,6 +3,7 @@ $bg-dark: #333;
 $fg-dark: #888;
 $fg-mid-dark: #666;
 $logo-font: 'Oleo Script', sans-serif;
+$logo-shadow: 1px 2px 1px rgba(0,0,0,.7);
 
 @import 'components/reset';
 @import 'components/body';

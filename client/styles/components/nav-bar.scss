@@ -30,7 +30,8 @@
       padding: 8px 0 0 0;
       font-size: 22px;
       font-weight: normal;
-        
+      text-shadow: $logo-shadow;
+      
       .me {
         color: $primary-col;
       }
@@ -43,6 +44,16 @@
         font-weight: normal;
       }
     }
+    
+    .title::before {
+      color: $fg-dark;
+      content: "~ ";
+    }
+    .title::after {
+      color: $fg-dark;
+      content: " ~";
+    }
+    
     // .favicon { 
     //   margin: 4px 4px 0 0;
     //   float:left;

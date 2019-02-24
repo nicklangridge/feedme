@@ -5,12 +5,14 @@ const icons = {
   category: 'icon ion-pricetags',
   genre: 'icon ion-pricetag',
   feed: 'icon ion-social-rss',
+  search: 'icon ion-search',
 }
 
 const crumb = {
   category: { name: 'category', path: null },
   genre:    { name: 'genre', path: null },
   feed:     { name: 'feed', path: '/feeds' },
+  search:   { name: 'search', path: null },
 }
 
 class FilterBar extends Component {
