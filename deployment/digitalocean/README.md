@@ -7,7 +7,8 @@ This is a basic example of how to deploy on DigitalOcean. This example uses two 
 - create a feedme db user
 - create db from SQL files in `server/sql/`
 - load feeds with `./server/script/db/add_feeds.pl`
- 
+- copy config file `deployment/digitalocean/mysql/feedme.cnf` to `/etc/mysql/mysql.conf.d/`
+
 ## Ubuntu droplet
 
 Create an Ubuntu droplet using latest version
