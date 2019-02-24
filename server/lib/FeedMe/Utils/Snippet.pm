@@ -39,7 +39,7 @@ sub strip_html {
   utf8::downgrade($octets);
   my $stripped = $hs->parse($octets);
   $hs->eof;
-  $stripped = decode_utf8($stripped);
+  $stripped = eval{ decode_utf8($stripped) } || $stripped;
   $stripped =~ s/\s+([,"'\.\?])/$1/gm;
   return $stripped;
 }
