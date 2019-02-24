@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 
 const icons = {
-  category: 'icon ion-pricetags',
+  category: 'icon ion-music-note',
   genre: 'icon ion-pricetag',
   feed: 'icon ion-social-rss',
   search: 'icon ion-search',
 }
 
 const crumb = {
-  category: { name: 'category', path: null },
-  genre:    { name: 'genre', path: null },
-  feed:     { name: 'feed', path: '/feeds' },
-  search:   { name: 'search', path: null },
+  category: { name: 'Category', path: null },
+  genre:    { name: 'Genre', path: null },
+  feed:     { name: 'Feed', path: '/feeds' },
+  search:   { name: 'Search', path: null },
 }
 
 class FilterBar extends Component {
@@ -32,7 +32,7 @@ class FilterBar extends Component {
       <div className="filter-bar">
         <span className={ icons[type] }></span>
         {
-          crumb[type] ? (<span><Link to={ crumb[type].path }>{ crumb[type].name }</Link> - </span>) : ''
+          crumb[type] ? (<span><Link to={ crumb[type].path }>{ crumb[type].name }</Link> ~ </span>) : ''
         }
         <span className="name">{ name }</span>
         <Link to="/"><span className="close ion-close"></span></Link>
