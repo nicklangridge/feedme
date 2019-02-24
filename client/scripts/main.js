@@ -9,6 +9,14 @@ import Regions from './containers/Regions';
 import Feeds from './containers/Feeds';
 import About from './components/About';
 import NotFound from './components/NotFound';
+import ReactGA from 'react-ga';
+
+var config = require('config');
+if (config.google_analytics_ua) {
+  ReactGA.initialize(config.google_analytics_ua);
+  ReactGA.pageview('/');
+  browserHistory.listen(location => ReactGA.pageview(location.pathname));
+}
 
 ReactDOM.render(
   <Router history={browserHistory}>
