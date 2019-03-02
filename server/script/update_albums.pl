@@ -74,8 +74,6 @@ method update_album ($album!) {
     return;
   }  
 
-  #push @{ $new->{genres} }, model->musicstory->fetch_artist_genres($artist->{name});  
-
   my $genres_updated = model->album->set_genres($album_id, $new->{genres});
   yay '    genres updated'  if $genres_updated;
     

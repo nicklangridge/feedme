@@ -100,8 +100,6 @@ method process_review ($review_info) {
   if ($artist->{_created}) {
     yay "  >>> artist created";
     $created->{artist} ++ ;
-    
-    #push @{ $album_info->{genres} }, model->musicstory->fetch_artist_genres($artist->{name});
   }
     
   my $album = model->album->fetch_or_create({
