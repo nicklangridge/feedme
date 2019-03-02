@@ -4,7 +4,7 @@ class Footer extends Component {
   render() {
     return (
       <div className="footer">
-        You've hit the bottom
+        ~ the end ~
       </div>
     );
   }

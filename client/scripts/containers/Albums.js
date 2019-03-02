@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import update from 'react-addons-update';
 import AlbumCards from '../components/AlbumCards';
+import GenreList from '../components/GenreList';
 import FilterBar from '../components/FilterBar';
 import Spinner from '../components/Spinner';
 import Footer from '../components/Footer';
@@ -15,6 +16,7 @@ class Albums extends Component {
 
     this.state = {
       albums: [],
+      genres: [],
       isFetching: false,
       offset: 0,
       atEnd: false, 
@@ -42,6 +44,7 @@ class Albums extends Component {
     this.setState({
       isFetching: true,
       albums: page > 0 ? this.state.albums : [],
+      genres: [],
       atEnd: false,
     });  
     
@@ -58,6 +61,7 @@ class Albums extends Component {
       this.setState({
         isFetching: false,
         albums: update(this.state.albums, {$push: data.albums}),
+        genres: data.genres,
         atEnd: data.albums.length < PAGESIZE,
         filters: data.filters
       });
@@ -68,15 +72,17 @@ class Albums extends Component {
   }
 
   render() {
-    const { albums, filters, isFetching, atEnd } = this.state;
+    const { albums, genres, filters, isFetching, atEnd } = this.state;
     const { source, genre } = this.props.params;
     
     const hasAlbums = albums.length > 0;
+    const hasGenres = genres.length > 0;
     const hasMore = !atEnd && !isFetching;
     
     return (  
       <div> 
         { isFetching && !hasAlbums ? '' : <FilterBar filters={ filters } /> }
+        { hasGenres ? <GenreList genres={ genres } /> : '' }
         { hasAlbums ? <AlbumCards albums={ albums } hasMore={ hasMore } loadMore={ this.loadMore } /> : '' }
         { isFetching ? <Spinner /> : '' }
         { atEnd ? <Footer /> : '' }

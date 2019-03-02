@@ -1,0 +1,45 @@
+.genre-list {
+  padding: 0;
+  background-color: #e0e0e0;
+  
+  .content {
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+    @import '_responsive';
+    
+    .genres {
+      padding: 10px 20px 13px 20px;
+      overflow: hidden;
+      text-align: center;
+       
+      ul {
+        font-size: 11px;
+        list-style: none;
+      }
+      
+      ul li {
+        display: inline-block;
+      }
+      
+      a {
+        display: block;
+        padding: 2px 7px 4px 7px;
+        border-radius: 2px;
+        margin: 0 5px 5px 0;
+        background-color: #ccc;
+        text-decoration: none;
+        color: #222;
+        //border: 1px solid #cccccc;
+      }
+      
+      a:hover {
+        background-color: #bbb;
+      }
+      
+      ul li.feed a{
+        color: #003333 !important; 
+      }
+    }
+  }
+}
