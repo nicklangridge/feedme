@@ -86,17 +86,21 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30,
     }  
   }
 
+  my $genre_hits;
   if ($keywords) {
     push @filters, {type => 'search', slug => $keywords, name => $keywords};
+    $genre_hits = $self->_search_genres($keywords);
   }
   
   my $result = { 
     albums => \@albums, 
     region => $region,
+    genres => $genre_hits || [],
   };
   $result->{filters} = \@filters if @filters;
 
-#warn Dumper $result;
+ #warn Dumper $result;
+  warn Dumper $genre_hits;
   
   return $result;
 }
@@ -146,6 +150,26 @@ method _get_review_lookup ($album_ids_in) {
   }
   
   return \%lookup;
+}
+
+method _search_genres ($keywords, :$limit = 20) {
+  $limit = int($limit) || 20;
+
+  my @words = $self->quote(map {"$_%"} split /\s+/, $keywords);
+  my @where;  
+  foreach my $word (@words) {
+    push @where, "(word1 like $word or word2 like $word or word3 like $word)";
+  }
+  my $where_str = join ' AND ', @where;
+  
+  my $sql = qq(
+    SELECT name, slug, occurances FROM genre_index 
+    WHERE $where_str
+    ORDER BY occurances DESC
+    LIMIT $limit;
+  );
+
+  return [ dbh->query($sql)->hashes ];
 }
 
 1;

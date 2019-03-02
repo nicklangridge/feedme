@@ -72,6 +72,23 @@ CREATE TABLE `album_genre` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for `genre_index`
+-- ----------------------------
+DROP TABLE IF EXISTS `genre_index`;
+CREATE TABLE `genre_index` (
+  `name` varchar(50) NOT NULL,
+  `slug` varchar(50) NOT NULL,
+  `occurances` SMALLINT NOT NULL,
+  `word1` varchar(50) NOT NULL,
+  `word2` varchar(50) DEFAULT NULL,
+  `word3` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`slug`),
+  INDEX word1_index (`word1`),
+  INDEX word2_index (`word2`),
+  INDEX word3_index (`word3`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for `musicstory_genre`
 -- ----------------------------
 DROP TABLE IF EXISTS `musicstory_genres`;
@@ -84,18 +101,34 @@ CREATE TABLE `musicstory_genres` (
   CONSTRAINT unique_artist_name UNIQUE (`artist_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- -- ----------------------------
--- -- Table structure for `feed`
--- -- ----------------------------
--- DROP TABLE IF EXISTS `feed`;
--- CREATE TABLE `feed` (
---   `feed_id` int(11) NOT NULL AUTO_INCREMENT,
---   `name` varchar(255) NOT NULL,
---   `slug` varchar(255) NOT NULL,
---   `homepage_url` varchar(255) NOT NULL,
---   `module` varchar(40) NOT NULL,
---   `active` tinyint(4) NOT NULL DEFAULT '1',
---   `public` tinyint(4) NOT NULL DEFAULT '1',
---   PRIMARY KEY (`feed_id`),
---   CONSTRAINT unique_slug UNIQUE (`slug`)
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Table structure for `feed`
+-- ----------------------------
+DROP TABLE IF EXISTS `feed`;
+CREATE TABLE `feed` (
+  `feed_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `homepage_url` varchar(255) NOT NULL,
+  `module` varchar(40) NOT NULL,
+  `active` tinyint(4) NOT NULL DEFAULT '1',
+  `public` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`feed_id`),
+  CONSTRAINT unique_slug UNIQUE (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `genre_index`
+-- ----------------------------
+DROP TABLE IF EXISTS `feed`;
+CREATE TABLE `feed` (
+  `feed_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `homepage_url` varchar(255) NOT NULL,
+  `module` varchar(40) NOT NULL,
+  `active` tinyint(4) NOT NULL DEFAULT '1',
+  `public` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`feed_id`),
+  CONSTRAINT unique_slug UNIQUE (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
