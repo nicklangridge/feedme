@@ -10,7 +10,7 @@ sub name         { 'Reggae Vibes' };
 sub url          { 'https://www.reggae-vibes.com/category/reviews' };
 sub homepage_url { 'https://www.reggae-vibes.com' };
 
-method parallel_parsers { 10 }
+method parallel_parsers { 3 }
 
 method extract_entry_urls ($dom) {
   my @urls = @{ $dom->find('*')->map(attr => 'href')->compact };

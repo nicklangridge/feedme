@@ -9,7 +9,7 @@ sub name         { 'Consequence of Sound' };
 sub url          { 'https://consequenceofsound.net/category/reviews/album-reviews/' };
 sub homepage_url { 'https://consequenceofsound.net/' };
 
-method parallel_parsers { 10 }
+method parallel_parsers { 3 }
 
 method extract_entry_urls ($dom) {
   my @urls = @{ $dom->find('*')->map(attr => 'href')->compact };

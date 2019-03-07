@@ -11,7 +11,7 @@ sub name         { 'XLR8R' };
 sub url          { 'https://www.xlr8r.com/.rss/full/reviews' };
 sub homepage_url { 'https://www.xlr8r.com' };
 
-sub parallel_parsers { 10 };
+sub parallel_parsers { 3 };
 
 method parse_entry ($entry) {
   #warn $entry->link;
