@@ -9,7 +9,7 @@ matrix:
       install:
         - npm install
       script: 
-        - npm run dev
+        - npm test
     - language: perl  
       perl: 
         - 5.26
@@ -22,5 +22,5 @@ matrix:
       install:
         - cpanm --installdeps --notest .
       script: 
-        - prove -v -I lib t/
+        - prove -v -I lib t/feeds-live.t t/model.t t/utils.t
     
