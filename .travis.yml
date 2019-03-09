@@ -3,6 +3,11 @@ language: perl
 perl: 
   - 5.26
 
+addons:
+  apt:
+    packages:
+    - libmysqlclient-dev
+
 before_install:
   - cd server
 
