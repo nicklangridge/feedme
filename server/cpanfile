@@ -8,6 +8,7 @@ requires 'DBIx::Simple::Inject';
 requires 'Geo::IP::PurePerl';
 requires 'Geo::IP';
 requires 'HTML::Strip';
+requires 'IO::CaptureOutput';
 requires 'JSON::Path';
 requires 'Locale::Country';
 requires 'LWP::UserAgent';
