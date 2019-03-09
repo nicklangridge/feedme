@@ -7,12 +7,12 @@ addons:
   apt:
     packages:
       - libdbd-mysql-perl
+      - libmysqlclient-dev
 
 before_install:
   - cd server
 
 install:
-  - 
   - cpanm --installdeps --notest .
   
 script: 
