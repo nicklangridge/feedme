@@ -37,7 +37,7 @@ method parse_feed ($url) {
   
   if ($self->parallel_parsers) {
     # parallel
-    my $pm = Parallel::ForkManager->new($self->parallel_parsers, '/tmp/pfm');
+    my $pm = Parallel::ForkManager->new($self->parallel_parsers, $ENV{FEEDME_PFM_TMPDIR} || undef);
     
     $pm->run_on_finish (sub {
       my $data = pop @_;
