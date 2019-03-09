@@ -21,6 +21,7 @@ requires 'Parallel::ForkManager';
 requires 'Starman';
 requires 'Text::Trim';
 requires 'Text::Unaccent::PurePerl';
+requires 'Types::Standard';
 requires 'WWW::Mechanize';
 requires 'utf8::all';
 requires 'XML::Feed';
