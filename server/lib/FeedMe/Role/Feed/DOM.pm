@@ -5,6 +5,7 @@ use Text::Trim;
 use Mojo::DOM;
 use Parallel::ForkManager;
 use Data::Dumper;
+use File::Temp;
 
 with 'FeedMe::Role::Feed';
 
@@ -37,7 +38,7 @@ method parse_feed ($url) {
   
   if ($self->parallel_parsers) {
     # parallel
-    my $pm = Parallel::ForkManager->new($self->parallel_parsers, $ENV{FEEDME_PFM_TMPDIR} || undef);
+    my $pm = Parallel::ForkManager->new($self->parallel_parsers, $ENV{FEEDME_PFM_TMPDIR} || File::Temp::tempdir());
     
     $pm->run_on_finish (sub {
       my $data = pop @_;
