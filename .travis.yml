@@ -6,12 +6,13 @@ perl:
 addons:
   apt:
     packages:
-    - libmysqlclient-dev
+      - libdbd-mysql-perl
 
 before_install:
   - cd server
 
 install:
+  - 
   - cpanm --installdeps --notest .
   
 script: 
