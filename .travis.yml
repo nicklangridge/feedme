@@ -1,0 +1,13 @@
+language: perl
+
+perl: 
+  - 5.26
+
+before_install:
+  - cd server
+  
+install:
+  - cpanm --installdeps .
+  
+script: 
+  - prove -v -I lib t/
