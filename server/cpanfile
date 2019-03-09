@@ -1,5 +1,5 @@
 requires 'CHI';
-requires 'DBD::MySQL';
+requires 'DBD::mysql';
 requires 'Daemon::Control';
 requires 'DateTime';
 requires 'Data::Dumper::Concise';
