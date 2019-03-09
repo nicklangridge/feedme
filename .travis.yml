@@ -5,9 +5,9 @@ perl:
 
 before_install:
   - cd server
-  
+
 install:
-  - cpanm --installdeps .
+  - cpanm --installdeps --notest .
   
 script: 
   - prove -v -I lib t/
