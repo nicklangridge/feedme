@@ -19,6 +19,8 @@ GetOptions (
 
 say '*** DRY RUN ***' if $dry;
 
+say "feed $feed_id";
+
 if ($artist_id) {
   main->delete_artist($artist_id);
 } elsif ($album_id) {
