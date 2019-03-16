@@ -2,6 +2,7 @@ package FeedMe::Feed::UnderTheRadar;
 use Moo;
 use Method::Signatures;
 use Text::Trim;
+use FeedMe::Utils::Snippet qw(snippet);
 
 with 'FeedMe::Role::Feed::DOM';
 
@@ -25,9 +26,13 @@ method parse_entry ($url) {
   my $artist = eval { $dom->at('.headline h3')->all_text } || '';
   my $album = eval { $dom->at('.headline h4')->all_text } || '';
   
+  my $snippet = snippet($dom->find('#main p')->[1]->all_text, 200);
+  
+  
   return {
-    title   => trim($artist) . ' - ' . trim($album),
-    url     => trim $url,
+    title       => trim($artist) . ' - ' . trim($album),
+    url         => trim $url,
+    description => $snippet,
   }
 }
 
