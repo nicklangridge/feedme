@@ -1,0 +1,43 @@
+To do
+- Restrict api access (https://metacpan.org/pod/Mojolicious::Plugin::AccessControl)
+- Search UI
+- FE tests
+- More BE tests
+- Catch loading errors - no endless spinner
+- Cache busting
+- Log rotate
+- Region init bug
+- Intermittent broken layout bug
+- Add completeion timestamps to logs
+
+Maybe
+- Update webpack
+- Update react
+- Admin / stats
+
+New feeds maybe?
+- http://diymag.com/reviews/album
+
+--------------------------------------------------------------------------------
+
+NOTES...
+
+select name, slug, occurances from genre_index where (word1 like 'psych' or word2 like 'psych%' or word3 like 'psych%') order by occurances desc;
+
+ALTER TABLE album_genre ADD COLUMN `parent` VARCHAR(50);
+ALTER TABLE album_genre ADD INDEX parent_idx (`parent`);
+
+select feed.name, count(*) as num from review join feed using(feed_id) group by feed_id order by num;
+
+select name, count(*) as num from album_genre group by name order by num;
+
+mysqldump -u nicklangridge feedme --single-transaction --quick --lock-tables=false > feedme.sql
+
+CREATE USER 'feedme'@'139.59.181.174' IDENTIFIED WITH mysql_native_password AS '***';GRANT SELECT, INSERT, UPDATE, DELETE, SHOW DATABASES, LOCK TABLES ON *.* TO 'feedme'@'139.59.181.174' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
+https://stackoverflow.com/questions/23921117/disable-only-full-group-by
+
+
+# Currently unused...
+# python for musicstory
+sudo apt install python-pip
+sudo pip install music_story

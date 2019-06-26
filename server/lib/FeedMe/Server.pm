@@ -38,11 +38,17 @@ sub startup {
     $c->render(json => $c->feedme->albums(@args));
   }); 
   
+  $r->get('/api/v1/client_region' => sub {
+    my $c = shift;
+    $c->req->headers->access_control_allow_origin('*');
+    $c->render(json => {region => $c->geo_ip->country_code_by_addr($c->client_ip) || 'GB'});
+  }); 
+
   $r->get('/api/v1/regions' => sub {
     my $c = shift;
     $c->res->headers->access_control_allow_origin('*');
     $c->render(json => $c->feedme->regions);
-  }); 
+  });
   
   $r->get('/api/v1/feeds' => sub {
     my $c = shift;

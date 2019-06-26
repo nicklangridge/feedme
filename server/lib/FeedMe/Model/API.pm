@@ -100,7 +100,7 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30,
   $result->{filters} = \@filters if @filters;
 
  #warn Dumper $result;
-  warn Dumper $genre_hits;
+ #warn Dumper $genre_hits;
   
   return $result;
 }

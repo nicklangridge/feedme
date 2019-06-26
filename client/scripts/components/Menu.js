@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Popover from '../components/Popover';
-import { getClientRegion } from '../helpers/API';
-import { getCountryName } from '../helpers/countries';
+import MenuRegion from '../components/MenuRegion';
 
 class Menu extends Component {
   render() {
     
-    const regionCode = getClientRegion(); 
-    const regionName = getCountryName(regionCode);
     const categories = [
       ['rock-indie', 'Rock / indie'],
       ['pop', 'Pop'],
@@ -50,13 +47,7 @@ class Menu extends Component {
               }
             </ul>
           </div>
-          <div className="region clearfix">
-            <ul>
-              <li>
-                { regionName } <img src={ '/images/flags-iso/shiny/16/' + regionCode + '.png' } width="16" height="16" /> (<Link to="/regions">change</Link>)
-              </li>
-            </ul>
-          </div>
+          <MenuRegion />
         </div>
       </Popover>
     );
