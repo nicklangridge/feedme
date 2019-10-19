@@ -9,7 +9,8 @@ use utf8::all;
 use FeedMe::Config qw(config);
 
 has 'base_uri' => ( is => 'rw', default => 'https://mercury.postlight.com/parser' );
-has 'api_key'  => ( is => 'rw', default => config->{mercury_api_key});
+has 'api_key'  => ( is => 'rw', default => config->{mercury_api_key} );
+has 'command'  => ( is => 'rw', default => config->{mercury_command} );
 has 'trace'    => ( is => 'rw', default => 0 );
 
 has 'user_agent' => (
@@ -42,8 +43,28 @@ method get ($document_url!) {
   return $content;
 }
 
+method get_local ($document_url!) {
+  my $command = $self->command . ' ' . $document_url;
+  
+  $self->_log($command);
+
+  my $result = `$command`;
+ 
+  $self->_log($result);
+
+  my $content;
+  if ($result) {
+	  #my $decoded = decode('utf-8', $result);
+    $content = eval { from_json($result) } || undef;
+    warn "Failed to parse Mercury result: $@\n(content = '" . $result . "')" if $@;
+  }
+
+  return $content;
+}
+
+
 method excerpt ($document_url!) {
-  my $data = $self->get($document_url);
+  my $data = $self->get_local($document_url);
   my $excerpt;
   if ($data) {
     $excerpt = $data->{excerpt};
