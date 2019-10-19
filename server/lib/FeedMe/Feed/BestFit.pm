@@ -14,7 +14,7 @@ method parallel_parsers { 3 }
 
 method extract_entry_urls ($dom) {
   my @urls = @{ $dom->find('*')->map(attr => 'href')->compact };
-  @urls = map { "https:$_" } grep {$_ =~ /.*www\..*\/reviews\/albums\/[^\/]+review/} @urls;
+  @urls = map { "$_" } grep {$_ =~ /.*www\..*\/reviews\/albums\/[^\/]+review/} @urls;
   return @urls;
 }
 
