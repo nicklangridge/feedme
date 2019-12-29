@@ -44,7 +44,7 @@ method get_album_info ($artist_name!, $album_name!) {
       $output = {
         uri         => $album->{uri},
         name        => $album->{name},
-        image       => $self->_get_image($album->{images}, 300),
+        image       => $self->_get_image($album->{images}, 640) || $self->_get_image($album->{images}, 300),
         regions     => $regions,  
         artist_uri  => $artist->{uri},
         artist_name => $artist->{name},
