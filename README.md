@@ -7,11 +7,13 @@ http://feedmemusic.io
 
 ### Web client
 
-This is a React app.
+The client is now in a separate repo: https://github.com/nicklangridge/feedme
+
+This is a React app (it is based on Create React App)
 ```
 cd client
 npm install . 
-npm run dev
+npm start
 ```
 
 ### API server
