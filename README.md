@@ -11,7 +11,7 @@ The client is now in a separate repo: https://github.com/nicklangridge/feedme-cl
 
 This is a React app (it is based on Create React App)
 ```
-cd client
+cd feedme-client
 npm install . 
 npm start
 ```
