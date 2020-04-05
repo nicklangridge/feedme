@@ -42,14 +42,14 @@ sudo find /www -type d -exec chmod 2770 {} \;
 ```
 cd /www
 git clone https://github.com/nicklangridge/feedme.git
+git clone https://github.com/nicklangridge/feedme-client.git
 ```
 
 ### Set up the client
 ```
 cd /www/feedme/client
-cp config/prod.json.example config/prod.json # edit as needed
 npm install
-npm run prod
+npm run build
 ```
 
 ### Set up the server

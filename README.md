@@ -7,7 +7,7 @@ http://feedmemusic.io
 
 ### Web client
 
-The client is now in a separate repo: https://github.com/nicklangridge/feedme
+The client is now in a separate repo: https://github.com/nicklangridge/feedme-client
 
 This is a React app (it is based on Create React App)
 ```

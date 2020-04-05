@@ -2,7 +2,7 @@ server {
   listen 80;
   listen [::]:80;
 
-  root /www/feedme/client/build;
+  root /www/feedme-client/build;
   index index.html;
 
   server_name feedmemusic.io www.feedmemusic.io;
