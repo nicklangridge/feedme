@@ -34,8 +34,9 @@ foreach my $module (@modules) {
   $loader->load($module);
   
   my $feed    = $module->new;
-  my @reviews = $feed->fetch; 
-  
+  my @reviews = eval { $feed->fetch }; 
+  say $@ if $@;
+
   say "got " . scalar(@reviews);
   
   if ($mercury) {
