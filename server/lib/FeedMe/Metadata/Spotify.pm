@@ -118,10 +118,12 @@ method _fetch ($method, @args) {
   
   foreach (1..$retry_limit) {   
     #$self->api->trace(1);
-    my $response = eval { $self->api->$method(@args) };
+    my $response;
     
-    $result = from_json( decode('UTF-8', $response) );
-  #warn Dumper($result);  
+    eval {
+      $response = $self->api->$method(@args);
+      $result   = from_json( decode('UTF-8', $response) );
+    };
     
     if ($@ || $result->{error}) {
       warn $@ if $@;

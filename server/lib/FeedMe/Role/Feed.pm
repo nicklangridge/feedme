@@ -24,6 +24,7 @@ has '_ua' => (
     my $ua = LWP::UserAgent->new;
     $ua->agent( __PACKAGE__ );
     $ua->env_proxy;
+    $ua->ssl_opts( verify_hostname => 0, SSL_verify_mode => 0x00 );
     return $ua;
   }
 );
@@ -87,3 +88,4 @@ method valid_review ($r) {
 }
 
 1;
+
