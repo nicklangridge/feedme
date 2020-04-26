@@ -15,6 +15,6 @@ my @reviews = model->review->fetch_where({ snippet => undef });
 
 foreach my $review (@reviews) {
   $review->{snippet} = $mercury->excerpt($review->{url});
-  say "$review->{snippet}";
+  say "$review->{url}: $review->{snippet}";
   model->review->save($review) if $review->{snippet};
 }
