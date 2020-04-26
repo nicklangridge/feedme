@@ -7,6 +7,7 @@ use JSON;
 use Encode;
 use utf8::all;
 use FeedMe::Config qw(config);
+use FeedMe::Utils::Snippet qw(snippet);
 
 has 'base_uri' => ( is => 'rw', default => 'https://mercury.postlight.com/parser' );
 has 'api_key'  => ( is => 'rw', default => config->{mercury_api_key} );
@@ -68,7 +69,7 @@ method excerpt ($document_url!) {
   my $excerpt;
   if ($data) {
     $excerpt = $data->{excerpt};
-    $excerpt =~ s/&hellip;/.../;
+    $excerpt = snippet($data->{excerpt}, 200);
   }
   return $excerpt;
 }
