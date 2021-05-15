@@ -68,8 +68,11 @@ method excerpt ($document_url!) {
   my $data = $self->get_local($document_url);
   my $excerpt;
   if ($data) {
-    $excerpt = $data->{excerpt};
     $excerpt = snippet($data->{excerpt}, 200);
+    if ( $data->{dek} ) {
+      my $dek = snippet($data->{dek}, 200);
+      $excerpt = $dek if length $dek > length $excerpt;
+    }
   }
   return $excerpt;
 }
