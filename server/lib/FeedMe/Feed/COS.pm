@@ -6,14 +6,14 @@ use Text::Trim;
 with 'FeedMe::Role::Feed::DOM';
 
 sub name         { 'Consequence of Sound' };
-sub url          { 'https://consequenceofsound.net/category/reviews/album-reviews/' };
-sub homepage_url { 'https://consequenceofsound.net/' };
+sub url          { 'https://consequence.net/category/reviews/album-reviews/' };
+sub homepage_url { 'https://consequence.net/' };
 
 method parallel_parsers { 3 }
 
 method extract_entry_urls ($dom) {
   my @urls = @{ $dom->find('*')->map(attr => 'href')->compact };
-  my %urls = map { $_ => 1 } grep {$_ =~ /.*consequenceofsound.net\/.+\/.+\/album-review.+/} @urls;
+  my %urls = map { $_ => 1 } grep {$_ =~ /.*consequence.net\/.+\/.+\/album-review.+/} @urls;
   
   return keys %urls;
 }
