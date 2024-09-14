@@ -7,8 +7,8 @@ use FeedMe::Utils::Snippet qw(snippet);
 with 'FeedMe::Role::Feed::DOM';
 
 sub name         { 'Under the Radar' };
-sub url          { 'http://www.undertheradarmag.com/reviews/category/music' };
-sub homepage_url { 'http://www.undertheradarmag.com' };
+sub url          { 'https://www.undertheradarmag.com/reviews/category/music' };
+sub homepage_url { 'https://www.undertheradarmag.com' };
 
 method parallel_parsers { 3 }
 
