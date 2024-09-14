@@ -13,7 +13,7 @@ sub name         { 'Pitchfork' };
 sub url          { 'https://pitchfork.com/reviews/albums/' };
 sub homepage_url { 'https://pitchfork.com' };
 
-method parallel_parsers { 0 }
+method parallel_parsers { 3 }
 
 method extract_entry_urls ($dom) {
   my @urls = uniq @{ $dom->find('*')->map(attr => 'href')->compact };
