@@ -48,7 +48,7 @@ method get_local ($document_url!) {
   my $command = $self->command . ' ' . $document_url;
   
   $self->_log($command);
-
+print $command . "\n";
   my $result = `$command`;
  
   $self->_log($result);

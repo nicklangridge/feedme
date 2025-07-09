@@ -22,7 +22,7 @@ has '_ua' => (
   is       => 'rw',
   default  => sub {
     my $ua = LWP::UserAgent->new;
-    $ua->agent( __PACKAGE__ );
+    $ua->agent( 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.79 Safari/537.36' );
     $ua->env_proxy;
     $ua->ssl_opts( verify_hostname => 0, SSL_verify_mode => 0x00 );
     return $ua;

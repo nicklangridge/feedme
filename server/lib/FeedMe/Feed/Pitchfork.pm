@@ -4,7 +4,6 @@ use Method::Signatures;
 use Mojo::DOM;
 use Text::Trim;
 use List::Util qw(uniq);
-use Data::Dumper;
 use FeedMe::Utils::Snippet qw(snippet);
 
 with 'FeedMe::Role::Feed::DOM';
@@ -17,9 +16,7 @@ method parallel_parsers { 3 }
 
 method extract_entry_urls ($dom) {
   my @urls = uniq @{ $dom->find('*')->map(attr => 'href')->compact };
-  print Dumper \@urls;
   @urls = map { $self->homepage_url . $_ } grep {$_ =~ /^\/reviews\/albums\//} @urls;
-  print Dumper \@urls;
   return @urls;
 }
 

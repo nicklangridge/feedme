@@ -3,7 +3,6 @@ use Moo;
 use Method::Signatures;
 use Mojo::DOM;
 use Text::Trim;
-use Data::Dumper;
 
 with 'FeedMe::Role::Feed::XML';
 
