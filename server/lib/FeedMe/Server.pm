@@ -22,7 +22,8 @@ sub startup {
     my $region = $c->param('region');
     
     if (!$region) {
-      $region = $c->geo_ip->country_code_by_addr($c->client_ip) || 'GB';
+      #$region = $c->geo_ip->country_code_by_addr($c->client_ip) || 'GB';
+      $region = 'GB';
     }
   
     my @args;
@@ -36,6 +37,13 @@ sub startup {
 
     $c->res->headers->access_control_allow_origin('*');
     $c->render(json => $c->feedme->albums(@args));
+  }); 
+
+  $r->get('/api/v1/album/:album_id' => sub {
+      my $c = shift;
+      my $album_id = $c->param('album_id');
+      $c->res->headers->access_control_allow_origin('*');
+      $c->render(json => $c->feedme->album($album_id));
   }); 
   
   $r->get('/api/v1/regions' => sub {

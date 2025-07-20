@@ -105,6 +105,37 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30,
   return $result;
 }
 
+method album ($album_id) {
+  my $sql = qq(
+    SELECT 
+      al.album_id,
+      al.name as album_name,
+      al.slug as album_slug,
+      al.uri  as album_uri,
+      al.image,
+      ar.artist_id,
+      ar.name as artist_name,
+      ar.slug as artist_slug,
+      ar.uri  as artist_uri
+    FROM album al
+      JOIN artist ar USING(artist_id)
+    WHERE 
+      album_id = ?
+  );
+  my ($album) = dbh->query($sql, $album_id)->hashes;
+
+  if ($album) {
+    # add in genres and reviews 
+    my $genre_lookup  = $self->_get_genre_lookup($album->{album_id});
+    $album->{genres}  = $genre_lookup->{$album_id}  || [];
+
+    my $review_lookup = $self->_get_review_lookup($album->{album_id});
+    $album->{reviews} = $review_lookup->{$album_id} || [];
+  }
+  
+  return $album;
+}
+
 method quote (@values) {
   return map {dbh->quote($_)} @values;
 }
