@@ -68,9 +68,15 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30,
     my $genre_lookup  = $self->_get_genre_lookup($album_ids_in);
     my $review_lookup = $self->_get_review_lookup($album_ids_in);
     
+    my $primary_feed = ($feeds && @$feeds) ? $feeds->[0] : undef;
+    
     foreach (@albums) {
       $_->{genres}  = $genre_lookup->{$_->{album_id}}  || [];
       $_->{reviews} = $review_lookup->{$_->{album_id}} || [];
+      # TODO: move this sorting to SQL
+      if ($primary_feed) {
+        $_->{reviews} = [ sort { $a->{slug} eq $primary_feed ? -1 : 1 } @{ $_->{reviews} } ]
+      }      
     }
     
     # filters 
@@ -100,7 +106,7 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30,
   $result->{filters} = \@filters if @filters;
 
  #warn Dumper $result;
-  warn Dumper $genre_hits;
+ #warn Dumper $genre_hits;
   
   return $result;
 }
