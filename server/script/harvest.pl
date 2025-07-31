@@ -85,7 +85,7 @@ method process_review ($review_info) {
     return;
   }
   
-  if ($album_info->{album_type} eq 'single') {
+  if ($album_info->{album_type} eq 'single' and $album_info->{total_tracks} <= 3) {
     warning "$title ====> is a single, skipping", $verbose;
     return;
   }

@@ -42,14 +42,15 @@ method get_album_info ($artist_name!, $album_name!) {
     
     if ($artist) {    
       $output = {
-        uri         => $album->{uri},
-        name        => $album->{name},
-        image       => $self->_get_image($album->{images}, 640) || $self->_get_image($album->{images}, 300),
-        regions     => $regions,  
-        artist_uri  => $artist->{uri},
-        artist_name => $artist->{name},
-        genres      => $artist->{genres},
-        album_type  => $album->{album_type},
+        uri          => $album->{uri},
+        name         => $album->{name},
+        image        => $self->_get_image($album->{images}, 640) || $self->_get_image($album->{images}, 300),
+        regions      => $regions,  
+        artist_uri   => $artist->{uri},
+        artist_name  => $artist->{name},
+        genres       => $artist->{genres},
+        album_type   => $album->{album_type},
+        total_tracks => $album->{total_tracks},
       };
     }
   }
@@ -97,7 +98,7 @@ method get_album ($artist_name!, $album_name!, $region!) {
   if ($results->{albums}->{total}) {
     $album = $results->{albums}->{items}->[0];    
   }
-  
+
   return $album;
 }
 
