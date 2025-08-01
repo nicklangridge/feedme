@@ -142,6 +142,19 @@ method album ($album_id) {
   return $album;
 }
 
+method top_genres ($limit? = 50) {
+  $limit = int($limit);
+  
+  my $sql = qq(
+    SELECT name, slug, occurances as count
+    FROM genre_index 
+    ORDER BY occurances DESC 
+    LIMIT $limit
+  );
+  
+  return [ dbh->query($sql)->hashes ];
+}
+
 method quote (@values) {
   return map {dbh->quote($_)} @values;
 }
