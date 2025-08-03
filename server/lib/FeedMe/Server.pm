@@ -2,6 +2,7 @@ package FeedMe::Server;
 use Mojo::Base 'Mojolicious';
 use FeedMe::Config qw(config);
 use FeedMe::Model::API;
+use FeedMe::Metadata::LastFM;
 use Geo::IP;
 
 sub startup {
@@ -12,6 +13,7 @@ sub startup {
   $self->plugin('ClientIP');
   
   $self->helper(feedme => sub { state $cache = FeedMe::Model::API->new });
+  $self->helper(lastfm => sub { state $cache = FeedMe::Metadata::LastFM->new });
   $self->helper(geo_ip => sub { state $cache = Geo::IP->new });
   
   my $r = $self->routes;
@@ -63,6 +65,12 @@ sub startup {
     $c->res->headers->access_control_allow_origin('*');
     $c->render(json => $c->feedme->feeds);
   }); 
+  
+  $r->get('/api/v1/artist-info/:artist_name' => sub {
+    my $c = shift;
+    $c->res->headers->access_control_allow_origin('*');
+    $c->render(json => $c->lastfm->get_artist_info($c->param('artist_name')));
+  });
 }
 
 1;

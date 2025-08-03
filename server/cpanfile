@@ -18,6 +18,7 @@ requires 'Mojolicious';
 requires 'Mojolicious::Plugin::ClientIP';
 requires 'Moo';
 requires 'Method::Signatures';
+requires 'Net::LastFM';
 requires 'Parallel::ForkManager';
 requires 'Starman';
 requires 'Text::Trim';
