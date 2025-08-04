@@ -10,7 +10,7 @@ http://feedmemusic.app
 
 The UI is in a separate repo: https://github.com/nicklangridge/feedme-ui
 
-### API server
+### API server and management scripts
 
 This is a Mojolicious (Perl) web server and management scripts - it requires a MySQL database (more below).
 ```
