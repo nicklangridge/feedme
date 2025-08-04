@@ -49,6 +49,7 @@ method albums (:$region = 'GB', :$offset = 0, :$limit = 30,
     WHERE 
       reg.region = ? 
       AND reg.active = 1
+      AND al.active = 1
       $where
     GROUP BY 
       al.album_id
