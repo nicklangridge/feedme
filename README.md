@@ -5,16 +5,9 @@ http://feedmemusic.app
 
 ## Quick-start
 
-### Web client
+### Web UI
 
-The client is now in a separate repo: https://github.com/nicklangridge/feedme-client
-
-This is a React app (it is based on Create React App)
-```
-cd feedme-client
-npm install . 
-npm start
-```
+The UI is in a separate repo: https://github.com/nicklangridge/feedme-ui
 
 ### API server
 
