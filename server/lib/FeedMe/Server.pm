@@ -71,6 +71,12 @@ sub startup {
     $c->res->headers->access_control_allow_origin('*');
     $c->render(json => $c->lastfm->get_artist_info($c->param('artist_name')));
   });
+  
+  $r->get('/api/v1/related-genres/:genre' => sub {
+    my $c = shift;
+    $c->res->headers->access_control_allow_origin('*');
+    $c->render(json => $c->feedme->related_genres($c->param('genre')));
+  });
 }
 
 1;
