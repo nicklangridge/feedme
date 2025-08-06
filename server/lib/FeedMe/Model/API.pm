@@ -157,19 +157,25 @@ method top_genres ($limit? = 50) {
 }
 
 method related_genres ($genre!, $limit? = 20) {
-  $limit = int($limit) + 1; # include the genre itself
+  $limit = int($limit);
+  
+  my ($main_genre) = dbh->query(
+    qq( SELECT name, slug, count(*) as count FROM album_genre WHERE slug = ? GROUP BY slug ),
+    $genre
+  )->hashes;
+  
   my $sql = qq(
     SELECT name, slug, count(*) as count 
     FROM album_genre 
     WHERE 
       album_id IN (SELECT album_id FROM album_genre WHERE slug = ?) 
-    GROUP BY HAVING count > 3
-    ORDER BY IF(slug = ?, 0, 1), count DESC
+    GROUP BY slug HAVING count > 3
+    ORDER BY count DESC
     LIMIT $limit;
   );
-  my @rows = dbh->query($sql, $genre)->hashes;
-  my $main_genre = shift @rows;
-  return { genre => $main_genre, related => \@rows };
+  my @related = dbh->query($sql, $genre)->hashes;
+
+  return { genre => $main_genre, related => \@related };
 }
 
 method quote (@values) {
