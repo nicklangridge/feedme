@@ -163,8 +163,8 @@ method related_genres ($genre!, $limit? = 20) {
     FROM album_genre 
     WHERE 
       album_id IN (SELECT album_id FROM album_genre WHERE slug = ?) 
-    GROUP BY slug HAVING count > 3
-    ORDER BY count DESC
+    GROUP BY HAVING count > 3
+    ORDER BY IF(slug = ?, 0, 1), count DESC
     LIMIT $limit;
   );
   my @rows = dbh->query($sql, $genre)->hashes;
