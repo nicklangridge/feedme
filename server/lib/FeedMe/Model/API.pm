@@ -168,12 +168,13 @@ method related_genres ($genre!, $limit? = 20) {
     SELECT name, slug, count(*) as count 
     FROM album_genre 
     WHERE 
-      album_id IN (SELECT album_id FROM album_genre WHERE slug = ?) 
+      album_id IN (SELECT album_id FROM album_genre WHERE slug = ?)
+      AND slug != ?
     GROUP BY slug HAVING count > 3
     ORDER BY count DESC
     LIMIT $limit;
   );
-  my @related = dbh->query($sql, $genre)->hashes;
+  my @related = dbh->query($sql, $genre, $genre)->hashes;
 
   return { genre => $main_genre, related => \@related };
 }
