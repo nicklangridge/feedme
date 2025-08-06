@@ -12,7 +12,7 @@ sub homepage_url { 'https://igloomag.com/' };
 
 method extract_artist_and_album ($title) {
   $title =~ s/\s+/ /g;
-  $title =~ /(.+?)\s*\:\:\s+(.+?)\s+(EP\s+)?(\(.+)?/i;  
+  $title =~ /(.+?)\s*\:\:\s+([^\(\)]+)(\s+\(.+\))?/i;  
   return {
     artist => trim $1, 
     album  => trim $2
